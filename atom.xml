@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-06-27T16:08:28+00:00</updated>
+  <updated>2014-06-29T16:34:08+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -14,11 +14,26 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Hello Worldrake Preview]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/06/27/hello-worldrake-preview/"/>
-    <updated>2014-06-27T15:38:00+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/06/27/hello-worldrake-preview</id>
-    <content type="html"><![CDATA[
+    <title type="html"><![CDATA[测试文章]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/06/28/ce-shi-wen-zhang/"/>
+    <updated>2014-06-28T15:57:06+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/06/28/ce-shi-wen-zhang</id>
+    <content type="html"><![CDATA[<p><img src="http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg" alt="girl" /></p>
+
+<h2>archlinux安装</h2>
+
+<h3>输入法fcitx</h3>
+
+<pre><code>  按照例子安装fcitx后，还要安装pacman -S fcitx-googlepinyin。  
+  配置输入法，在Input Method -&gt; 去掉Only Show Currentt Language勾 -&gt; 搜索Chinese 选择
+</code></pre>
+
+<h3>声音</h3>
+
+<pre><code># pacman -S alsa-utils
+# alsamixer
+注意要[M] 取消静音
+</code></pre>
 ]]></content>
   </entry>
   
