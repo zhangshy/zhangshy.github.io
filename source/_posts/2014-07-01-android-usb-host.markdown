@@ -3,7 +3,7 @@ layout: post
 title: "android usb host"
 date: 2014-07-01 14:18:15 +0000
 comments: true
-categories: 
+categories: android
 ---
 
 ###1. 检查系统是否开启了usb host功能
