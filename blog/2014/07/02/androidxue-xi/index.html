@@ -5,14 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - 张帅依的博客</title>
+  <title>Android学习 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Blog Archive 2014 Android学习
-Jul 02 2014 posted in android Android Usb Host
-Jul 01 2014 posted in android 测试文章
-Jun 28 2014 文章分类 android (2) Recent &hellip;">
+  <meta name="description" content="Button 使用Button的时候可以这么用： public class MainActivity extends Activity implements View.OnClickListener { ... Button btn_ok = (Button) findViewById(R.id. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +18,7 @@ Jun 28 2014 文章分类 android (2) Recent &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/archives">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/02/androidxue-xi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -64,59 +61,120 @@ Jun 28 2014 文章分类 android (2) Recent &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Android学习</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T14:35:05+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><h2>Button</h2>
 
-  
-  <h2>2014</h2>
+<p>使用Button的时候可以这么用：</p>
 
-<article>
-  
-<h1><a href="/blog/2014/07/02/androidxue-xi/">Android学习</a></h1>
-<time datetime="2014-07-02T14:35:05+00:00" pubdate><span class='month'>Jul</span> <span class='day'>02</span> <span class='year'>2014</span></time>
+<pre><code>public class MainActivity extends Activity implements View.OnClickListener {
+    ...
+    Button btn_ok = (Button) findViewById(R.id.btn_ok);
+    btn_ok.setOnClickListener(this);
+}
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
+<p>实现onClick(View v)方法，而且费时的按键响应操作使用Handler做</p>
 
+<pre><code>public void onClick(View v) {
+    switch(v.getId()) {
+    case R.id.btn_ok:
+        Message m = new Message();
+        m.what = XXXX;
+        Bundle data = new Bundle();
+        data.putString(XXX, XXXXX);
+        m.setData(data);
+        mHandler.sendMessage(m);
+        break;
+    }
+}
+</code></pre>
 
-</article>
+<p>mHandler的写法</p>
 
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a></h1>
-<time datetime="2014-07-01T14:18:15+00:00" pubdate><span class='month'>Jul</span> <span class='day'>01</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/06/28/ce-shi-wen-zhang/">测试文章</a></h1>
-<time datetime="2014-06-28T15:57:06+00:00" pubdate><span class='month'>Jun</span> <span class='day'>28</span> <span class='year'>2014</span></time>
-
-
-</article>
-
+<pre><code>private Hander mHandler = new Hander() {
+    public void handleMessage(Message msg) {
+        switch(msg.what) {
+        case XXX:
+            String str = msg.getData().getString(XXX);
+            break;
+        }
+    }
+}
+</code></pre>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T14:35:05+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/01/android-usb-host/" title="Previous Post: android usb host">&laquo; android usb host</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
