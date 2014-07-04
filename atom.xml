@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-02T17:39:19+00:00</updated>
+  <updated>2014-07-04T10:43:02+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[智能卡]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/04/zhi-neng-qia/"/>
+    <updated>2014-07-04T10:43:41+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/04/zhi-neng-qia</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux 学习]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi/"/>
+    <updated>2014-07-02T23:00:20+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi</id>
+    <content type="html"><![CDATA[<h4>vim</h4>
+
+<p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
+:edit 打开文件<br/>
+:%!xxd -g 1 ：切换成十六进制的一个字节的模式  <br/>
+u 撤销上一步的操作<br/>
+ctrl+r 恢复上一步被撤销的操作 <br/>
+shift+8 查找当前单词  <br/>
+ggVG 全选 <br/>
+vim xxx +N  打开文件并跳到第N行  <br/>
+vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
+:set noro   取消只读，在git difftool时很有用  <br/>
+dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
+
+<h4>pkg-config</h4>
+
+<pre><code>查找库文件：pkg-config --libs opencv
+查看版本： pkg-config --modversion opencv
+</code></pre>
+
+<h4>cp</h4>
+
+<p>连带目录一起复制： cp &ndash;parents -r xx/xx/xx/ xx/</p>
+
+<h3>sed</h3>
+
+<p>&lsquo;-i&#8217;使修改生效<br/>
+a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
+b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
+c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
+d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android学习]]></title>
@@ -168,6 +216,33 @@ if (connection.requestWait()==mUsbRequest)
     <content type="html"><![CDATA[<p><img src="http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg" alt="girl" /></p>
 
 <h2>archlinux安装</h2>
+
+<h3>pacman</h3>
+
+<pre><code>pacman -Sy abc                    和源同步后安装名为abc的包
+pacman -S abc                     从本地数据库中得到abc的信息，下载安装abc包
+pacman -Sf abc                    强制安装包abc
+pacman -Ss abc                   搜索有关abc信息的包
+pacman -Si abc                    从数据库中搜索包abc的信息
+pacman -Syu                        同步源，并更新系统
+pacman -Sy                          仅同步源
+pacman -R abc                     删除abc包
+pacman -Rc abc                   删除abc包和依赖abc的包
+pacman -Rsn abc                 移除包所有不需要的依赖包并删除其配置文件
+pacman -Sc                          清理/var/cache/pacman/pkg目录下的旧包
+pacman -Scc                        清除所有下载的包和数据库
+pacman -Sd abc                   忽略依赖性问题，安装包abc
+pacman -Su --ignore foo       升级时不升级包foo
+pacman -Sg abc                   查询abc这个包组包含的软件包
+pacman -Q                           列出系统中所有的包
+pacman -Q package             在本地包数据库搜索(查询)指定软件包
+pacman -Qi package            在本地包数据库搜索(查询)指定软件包并列出相关信息
+pacman -Q | wc -l                  统计当前系统中的包数量
+pacman -Qdt                         找出孤立包
+pacman -Rs $(pacman -Qtdq) 删除孤立软件包（递归的,小心用)
+pacman -U   abc.pkg.tar.gz      安装下载的abs包，或新编译的本地abc包
+pacman-optimize &amp;&amp; sync        提高数据库访问速度
+</code></pre>
 
 <h3>输入法fcitx</h3>
 
