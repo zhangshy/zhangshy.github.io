@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-04T16:04:31+00:00</updated>
+  <updated>2014-07-09T09:46:29+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -58,9 +58,17 @@ vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
 :set noro   取消只读，在git difftool时很有用  <br/>
 dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
 
+<h4>tar</h4>
+
+<p>查看内容不解压：tar tvf xxx.tar.gz<br/>
+解压：tar -xzvf xxx.tar.gz<br/>
+压缩：tar -czvf xxx.tar.gz xxx/
+解压：tar -xjvf xxx.tar.bz2</p>
+
 <h4>pkg-config</h4>
 
-<pre><code>查找库文件：pkg-config --libs opencv
+<pre><code>查看头文件：pkg-config --cflags opencv
+查找库文件：pkg-config --libs opencv
 查看版本： pkg-config --modversion opencv
 </code></pre>
 
@@ -75,6 +83,10 @@ a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
 b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
 c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
 d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
+
+<h3>find和grep</h3>
+
+<p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
 ]]></content>
   </entry>
   
@@ -273,6 +285,25 @@ pacman-optimize &amp;&amp; sync        提高数据库访问速度
 # alsamixer
 注意要[M] 取消静音
 </code></pre>
+
+<h3>安装adb</h3>
+
+<p>64为系统安装32位程序需要安装库，对/etc/pacman.conf做如下修改</p>
+
+<pre><code>-#[multilib]
+-#Include = /etc/pacman.d/mirrorlist
++[multilib]
++Include = /etc/pacman.d/mirrorlist
+</code></pre>
+
+<p>运行pacman -Sy同步包数据库，安装pacman -S lib32-glibc和pacman -S lib32-libstdc++5; pacman -S lib32-ncurses ：lib32-ncurses也安装了，不知是否必须。</p>
+
+<h3>串口工具</h3>
+
+<p>安装minicom: pacman -S minicom<br/>
+打开usb转串口：minicom -D /dev/ttyUSB0<br/>
+设置界面：ctrl+a 后点击o，打开设置界面; ctrl+a后点击l设置保存文件;
+ctrl+a后z帮助界面</p>
 ]]></content>
   </entry>
   
