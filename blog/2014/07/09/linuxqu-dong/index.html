@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Android - 张帅依的博客</title>
+  <title>Linux驱动 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Category: android">
+  <meta name="description" content="创建设备 class_create和device_create函数，在/dev下创建设备节点 int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
+struct class* &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/categories/android">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -61,49 +62,139 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Android</h1>
+    
+      <h1 class="entry-title">Linux驱动</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T16:08:06+00:00" pubdate data-updated="true">Jul 9<sup>th</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h3>创建设备</h3>
 
-  
-  <h2>2014</h2>
+<p>class_create和device_create函数，在/dev下创建设备节点</p>
 
-<article>
-  
-<h1><a href="/blog/2014/07/02/androidxue-xi/">Android学习</a></h1>
-<time datetime="2014-07-02T14:35:05+00:00" pubdate><span class='month'>Jul</span> <span class='day'>02</span> <span class='year'>2014</span></time>
+<pre><code>int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
+struct class* my_device_class = class_create(THIS_MODULE, "myDevice");
+//在/sys/class下创建了myDevice目录
+if (IS_ERR(my_device_class))
+    return -1;
+device_create(my_device_class, NULL, MKDEV(my_device_major, 0), NULL, "myDevice");
+//在/dev下创建myDevice设备
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
+<h3>自旋锁spinlock_t</h3>
 
+<p>spin_lock_irqsave会关闭中断</p>
 
-</article>
+<pre><code>spinlock_t rx_slock;
+spin_lock_init(&amp;rx_slock);  //初始化
+/* 使用 */
+unsigned long flags;
+spin_lock_irqsave(&amp;rx_slock, flags);
+...
+//处理
+...
+spin_unlock_irqrestpre(&amp;rx_slock, flags);
+</code></pre>
 
+<h3>poll</h3>
 
+<h4>驱动poll_wait</h4>
 
-<article>
-  
-<h1><a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a></h1>
-<time datetime="2014-07-01T14:18:15+00:00" pubdate><span class='month'>Jul</span> <span class='day'>01</span> <span class='year'>2014</span></time>
+<pre><code>wait_queue_head_t rd_wq;
+init_waitqueue_head(&amp;rd_wq);
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
+unsigned int test_poll(struct file *filp, struct poll_table_struct *wait){
+    unsigned int ret = 0;
+    poll_wait(filp, &amp;rd_wq, wait);
+    ...//处理
+    if (hasData) ret |= POLLIN|POLLRDNORM;
+    return ret;
+}
 
+当收到数后：wake_up_interruptible(&amp;rd_wq);
+</code></pre>
 
-</article>
+<h4>应用poll</h4>
 
+<pre><code>int fd = open("/dev/xxx", O_RDWR);
+uint32_t timeout = xxxxx;
+struct pollfd pfd;
+pfd.fd = fd;
+pfd.events = POLLIN;
+ret = poll(&amp;pfd, 1, timeout);
+if (ret!=1)
+    return -1;
+ret = read(fd, (void*)data, *size);
+</code></pre>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-09T16:08:06+00:00" pubdate data-updated="true">Jul 9<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/04/zhi-neng-qia/" title="Previous Post: 智能卡">&laquo; 智能卡</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

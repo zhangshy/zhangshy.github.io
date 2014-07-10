@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | 张帅依的博客]]></title>
+  <link href="http://zhangshy.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://zhangshy.github.io/"/>
+  <updated>2014-07-10T10:19:20+00:00</updated>
+  <id>http://zhangshy.github.io/</id>
+  <author>
+    <name><![CDATA[张帅依]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux驱动]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong/"/>
+    <updated>2014-07-09T16:08:06+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong</id>
+    <content type="html"><![CDATA[<h3>创建设备</h3>
+
+<p>class_create和device_create函数，在/dev下创建设备节点</p>
+
+<pre><code>int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
+struct class* my_device_class = class_create(THIS_MODULE, "myDevice");
+//在/sys/class下创建了myDevice目录
+if (IS_ERR(my_device_class))
+    return -1;
+device_create(my_device_class, NULL, MKDEV(my_device_major, 0), NULL, "myDevice");
+//在/dev下创建myDevice设备
+</code></pre>
+
+<h3>自旋锁spinlock_t</h3>
+
+<p>spin_lock_irqsave会关闭中断</p>
+
+<pre><code>spinlock_t rx_slock;
+spin_lock_init(&amp;rx_slock);  //初始化
+/* 使用 */
+unsigned long flags;
+spin_lock_irqsave(&amp;rx_slock, flags);
+...
+//处理
+...
+spin_unlock_irqrestpre(&amp;rx_slock, flags);
+</code></pre>
+
+<h3>poll</h3>
+
+<h4>驱动poll_wait</h4>
+
+<pre><code>wait_queue_head_t rd_wq;
+init_waitqueue_head(&amp;rd_wq);
+
+unsigned int test_poll(struct file *filp, struct poll_table_struct *wait){
+    unsigned int ret = 0;
+    poll_wait(filp, &amp;rd_wq, wait);
+    ...//处理
+    if (hasData) ret |= POLLIN|POLLRDNORM;
+    return ret;
+}
+
+当收到数后：wake_up_interruptible(&amp;rd_wq);
+</code></pre>
+
+<h4>应用poll</h4>
+
+<pre><code>int fd = open("/dev/xxx", O_RDWR);
+uint32_t timeout = xxxxx;
+struct pollfd pfd;
+pfd.fd = fd;
+pfd.events = POLLIN;
+ret = poll(&amp;pfd, 1, timeout);
+if (ret!=1)
+    return -1;
+ret = read(fd, (void*)data, *size);
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux 学习]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi/"/>
+    <updated>2014-07-02T23:00:20+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi</id>
+    <content type="html"><![CDATA[<h4>vim</h4>
+
+<p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
+:edit 打开文件<br/>
+:%!xxd -g 1 ：切换成十六进制的一个字节的模式  <br/>
+u 撤销上一步的操作<br/>
+ctrl+r 恢复上一步被撤销的操作 <br/>
+shift+8 查找当前单词  <br/>
+ggVG 全选 <br/>
+q: 进入命令历史编辑   <br/>
+vim xxx +N  打开文件并跳到第N行  <br/>
+vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
+:set noro   取消只读，在git difftool时很有用  <br/>
+dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
+
+<h4>tar</h4>
+
+<p>查看内容不解压：tar tvf xxx.tar.gz<br/>
+解压：tar -xzvf xxx.tar.gz<br/>
+压缩：tar -czvf xxx.tar.gz xxx/
+解压：tar -xjvf xxx.tar.bz2</p>
+
+<h4>pkg-config</h4>
+
+<pre><code>查看头文件：pkg-config --cflags opencv
+查找库文件：pkg-config --libs opencv
+查看版本： pkg-config --modversion opencv
+</code></pre>
+
+<h4>cp</h4>
+
+<p>连带目录一起复制： cp &ndash;parents -r xx/xx/xx/ xx/</p>
+
+<h3>sed</h3>
+
+<p>&lsquo;-i'使修改生效<br/>
+a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
+b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
+c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
+d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
+
+<h3>find和grep</h3>
+
+<p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
+]]></content>
+  </entry>
+  
+</feed>

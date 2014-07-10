@@ -12,7 +12,7 @@
   <meta name="description" content="vim :vsplit 将窗口分成两个，ctrl+w切换
 :edit 打开文件
 :%!xxd -g 1 ：切换成十六进制的一个字节的模式 u 撤销上一步的操作
-ctrl+r 恢复上一步被撤销的操作 shift+8 查找当前单词 ggVG 全选 vim xxx +N 打开文件并跳到第N行 vim - &hellip;">
+ctrl+r 恢复上一步被撤销的操作 shift+8 查找当前单词 ggVG 全选 q: 进入命令历史编辑 vim xxx +N &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -100,6 +100,7 @@ u 撤销上一步的操作<br/>
 ctrl+r 恢复上一步被撤销的操作 <br/>
 shift+8 查找当前单词  <br/>
 ggVG 全选 <br/>
+q: 进入命令历史编辑   <br/>
 vim xxx +N  打开文件并跳到第N行  <br/>
 vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
 :set noro   取消只读，在git difftool时很有用  <br/>
@@ -159,6 +160,12 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
 <time datetime="2014-07-02T23:00:20+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
 
     </p>
     
@@ -188,11 +195,16 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (2)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/09/linuxqu-dong/">Linux驱动</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/04/zhi-neng-qia/">智能卡</a>
@@ -208,10 +220,6 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
     
       <li class="post">
         <a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/28/ce-shi-wen-zhang/">测试文章</a>
       </li>
     
   </ul>
