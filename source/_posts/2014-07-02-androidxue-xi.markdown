@@ -41,3 +41,14 @@ mHandler的写法
             }
         }
     }
+
+##像素
+[px、dp和sp，这些单位有什么区别？](http://www.cnblogs.com/bjzhanghao/archive/2012/11/06/2757300.html)  
+px指屏幕上物理像素点，不建议使用;
+   因为100px的图片在不同手机上显示的实际大小可能不同
+   
+    You would use:    
+        sp for font sizes
+        dip for everything else.    
+        dip==dp
+

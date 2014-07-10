@@ -40,3 +40,19 @@ categories:
     # pacman -S alsa-utils
     # alsamixer
     注意要[M] 取消静音
+
+###安装adb
+64为系统安装32位程序需要安装库，对/etc/pacman.conf做如下修改
+
+    -#[multilib]
+    -#Include = /etc/pacman.d/mirrorlist
+    +[multilib]
+    +Include = /etc/pacman.d/mirrorlist
+
+运行pacman -Sy同步包数据库，安装pacman -S lib32-glibc和pacman -S lib32-libstdc++5; pacman -S lib32-ncurses ：lib32-ncurses也安装了，不知是否必须。
+
+###串口工具
+安装minicom: pacman -S minicom  
+打开usb转串口：minicom -D /dev/ttyUSB0  
+设置界面：ctrl+a 后点击o，打开设置界面; ctrl+a后点击l设置保存文件;
+ctrl+a后z帮助界面
