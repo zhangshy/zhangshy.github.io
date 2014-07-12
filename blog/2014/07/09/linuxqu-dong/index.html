@@ -9,8 +9,10 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="创建设备 class_create和device_create函数，在/dev下创建设备节点 int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
-struct class* &hellip;">
+  <meta name="description" content="交叉编译 编译ko文件 Makefile:
+PWD=$(shell pwd)
+KDIR=/xx/xx/linux-3.4 obj-m+=scr.o
+scr-objs := file1.o file2.o test-scr.o build: $(MAKE) -C $(KDIR) M=$(PWD) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,7 +91,30 @@ struct class* &hellip;">
   </header>
 
 
-<div class="entry-content"><h3>创建设备</h3>
+<div class="entry-content"><h3>交叉编译</h3>
+
+<p>编译ko文件</p>
+
+<pre><code>Makefile:
+PWD=$(shell pwd)
+KDIR=/xx/xx/linux-3.4
+
+obj-m+=scr.o
+scr-objs := file1.o file2.o test-scr.o
+
+build:
+    $(MAKE) -C $(KDIR) M=$(PWD)
+
+clean:
+    @rm -rf *.o *.ko *.cmd *.mod.c *.order *.symvers *.tmp_versions *~
+</code></pre>
+
+<p>执行编译：</p>
+
+<pre><code>make ARCH=arm CROSS_COMPILE=/xx/xx/arm-linux-gnueabi-
+</code></pre>
+
+<h3>创建设备</h3>
 
 <p>class_create和device_create函数，在/dev下创建设备节点</p>
 

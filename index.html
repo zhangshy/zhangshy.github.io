@@ -9,8 +9,10 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="创建设备 class_create和device_create函数，在/dev下创建设备节点 int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
-struct class* &hellip;">
+  <meta name="description" content="交叉编译 编译ko文件 Makefile:
+PWD=$(shell pwd)
+KDIR=/xx/xx/linux-3.4 obj-m+=scr.o
+scr-objs := file1.o file2.o test-scr.o build: $(MAKE) -C $(KDIR) M=$(PWD) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,7 +94,30 @@ struct class* &hellip;">
   </header>
 
 
-  <div class="entry-content"><h3>创建设备</h3>
+  <div class="entry-content"><h3>交叉编译</h3>
+
+<p>编译ko文件</p>
+
+<pre><code>Makefile:
+PWD=$(shell pwd)
+KDIR=/xx/xx/linux-3.4
+
+obj-m+=scr.o
+scr-objs := file1.o file2.o test-scr.o
+
+build:
+    $(MAKE) -C $(KDIR) M=$(PWD)
+
+clean:
+    @rm -rf *.o *.ko *.cmd *.mod.c *.order *.symvers *.tmp_versions *~
+</code></pre>
+
+<p>执行编译：</p>
+
+<pre><code>make ARCH=arm CROSS_COMPILE=/xx/xx/arm-linux-gnueabi-
+</code></pre>
+
+<h3>创建设备</h3>
 
 <p>class_create和device_create函数，在/dev下创建设备节点</p>
 
@@ -257,8 +282,16 @@ dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过�
 
 <p>查看内容不解压：tar tvf xxx.tar.gz<br/>
 解压：tar -xzvf xxx.tar.gz<br/>
-压缩：tar -czvf xxx.tar.gz xxx/
+解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX   <br/>
+压缩：tar -czvf xxx.tar.gz xxx/   <br/>
 解压：tar -xjvf xxx.tar.bz2</p>
+
+<h4>mount</h4>
+
+<p>mount后让普通用户有读写权限，加参数-o umask=000</p>
+
+<pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
+</code></pre>
 
 <h4>pkg-config</h4>
 
@@ -530,7 +563,7 @@ if (connection.requestWait()==mUsbRequest)
   </header>
 
 
-  <div class="entry-content"><p><img src="http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg" alt="girl" /></p>
+  <div class="entry-content"><p><img src="http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg" alt="myself" /></p>
 
 <h2>archlinux安装</h2>
 
@@ -573,6 +606,20 @@ pacman-optimize &amp;&amp; sync        提高数据库访问速度
 # alsamixer
 注意要[M] 取消静音
 </code></pre>
+
+<h3>pyuv的deb安装</h3>
+
+<p>archlinux安装deb文件，将deb文件解压后复制</p>
+
+<pre><code>//先解压
+ar vx pyuv_0.5-1_x86_64.deb
+tar -xzvf data.tar.gz 
+//复制
+cp usr/bin/pyuv /usr/bin/
+</code></pre>
+
+<p>运行pyuv出错，pyuv: error while loading shared libraries: libwx_gtk2u_richtext-2.8.so.0: cannot open shared object file: No such file or directory    <br/>
+安装依赖库：pacman -S wxgtk2.8</p>
 
 <h3>安装adb</h3>
 

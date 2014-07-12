@@ -110,8 +110,16 @@ dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过�
 
 <p>查看内容不解压：tar tvf xxx.tar.gz<br/>
 解压：tar -xzvf xxx.tar.gz<br/>
-压缩：tar -czvf xxx.tar.gz xxx/
+解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX   <br/>
+压缩：tar -czvf xxx.tar.gz xxx/   <br/>
 解压：tar -xjvf xxx.tar.bz2</p>
+
+<h4>mount</h4>
+
+<p>mount后让普通用户有读写权限，加参数-o umask=000</p>
+
+<pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
+</code></pre>
 
 <h4>pkg-config</h4>
 
