@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-![girl](http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg)
+![myself](http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg)
 ##archlinux安装
 ###pacman
     pacman -Sy abc                    和源同步后安装名为abc的包
@@ -41,6 +41,17 @@ categories:
     # alsamixer
     注意要[M] 取消静音
 
+###pyuv的deb安装
+archlinux安装deb文件，将deb文件解压后复制
+
+    //先解压
+    ar vx pyuv_0.5-1_x86_64.deb
+    tar -xzvf data.tar.gz 
+    //复制
+    cp usr/bin/pyuv /usr/bin/
+
+运行pyuv出错，pyuv: error while loading shared libraries: libwx_gtk2u_richtext-2.8.so.0: cannot open shared object file: No such file or directory      
+安装依赖库：pacman -S wxgtk2.8
 ###安装adb
 64为系统安装32位程序需要安装库，对/etc/pacman.conf做如下修改
 
@@ -56,3 +67,25 @@ categories:
 打开usb转串口：minicom -D /dev/ttyUSB0  
 设置界面：ctrl+a 后点击o，打开设置界面; ctrl+a后点击l设置保存文件;
 ctrl+a后z帮助界面
+
+###github博客octopress
+[在Github上搭建Octopress博客](http://www.ectogo.com/blog/2014/03/25/settingupoctopressblogongithub/)        
+####新电脑 老博客
+    git clone git@github.com:username/username.github.io.git
+    cd username.github.io
+    git checkout source
+    mkdir _deploy
+    cd _deploy
+    git init
+    git remote add origin git@github.com:username/username.github.io.git
+    git pull origin master
+    cd ..
+
+下次切换电脑的时候只需要更新一下
+
+    #先更新source
+    git pull origin source
+    #更新master
+    cd _deploy
+    git pull origin master
+    cd ..

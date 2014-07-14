@@ -23,8 +23,14 @@ dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过�
 ####tar
 查看内容不解压：tar tvf xxx.tar.gz  
 解压：tar -xzvf xxx.tar.gz  
-压缩：tar -czvf xxx.tar.gz xxx/ 
+解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX     
+压缩：tar -czvf xxx.tar.gz xxx/     
 解压：tar -xjvf xxx.tar.bz2 
+
+####mount
+mount后让普通用户有读写权限，加参数-o umask=000
+
+    sudo mount /dev/sdb1 /mnt/ -o umask=000
 
 ####pkg-config
     查看头文件：pkg-config --cflags opencv
