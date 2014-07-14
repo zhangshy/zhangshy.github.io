@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>智能卡 - 张帅依的博客</title>
+  <title>Android Jni编写 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="智能卡ATR 一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。 &hellip;">
+  <meta name="description" content="java文件编写 package com.example.jni public class Testjni { public native int jniRead(byte[] data, int len); public native int jniWrite(byte[] data, int &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/04/zhi-neng-qia">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/14/android-jnibian-xie">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -65,7 +65,7 @@
   
   <header>
     
-      <h1 class="entry-title">智能卡</h1>
+      <h1 class="entry-title">Android Jni编写</h1>
     
     
       <p class="meta">
@@ -81,31 +81,87 @@
   
 
 
-<time datetime="2014-07-04T10:43:41+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+<time datetime="2014-07-14T11:26:26+00:00" pubdate data-updated="true">Jul 14<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>智能卡ATR</h3>
+<div class="entry-content"><h3>java文件编写</h3>
 
-<p>一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。  <br/>
-ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，这些在7816协议中都有规定。读ATR可以采用两种方式：按照协议边分析边读，这样按照协议读数结束就可以return了;也可以不管协议直接读，ATR中两个字节之间的间隔最长可以是9600etu，超时就认为ATR结束了。</p>
+<pre><code>package com.example.jni
 
-<h3>反向</h3>
-
-<p>像NDS的卡数据是反向，可通过ATR第一个字节看出，一般判断0x03或0x3f为反向卡。反向指高低位倒过来，再取反(软件取反的话，可以通过查表的方式)</p>
-
-<pre><code>0x03
-0 0 0 0 0 0 1 1 先高低倒过来
-1 1 0 0 0 0 0 0 再取反
-0 0 1 1 1 1 1 1 0x3f
+public class Testjni {
+    public native int jniRead(byte[] data, int len);
+    public native int jniWrite(byte[] data, int len);
+    static {
+        System.loadLibrary("myJni");
+    }
+}
 </code></pre>
 
-<h3>数据传输</h3>
+<h3>jni文件编写</h3>
 
-<p>一般来说传输一个字符要12个etu=1 START + 8 DATA + 1 PARITY + 2 GUARD</p>
+<p>jni文件的函数名要和java中的方法名对应起来，在jni中申请的空间要注意释放。</p>
+
+<pre><code>#include &lt;jni.h&gt;
+#include &lt;android/log.h&gt;
+
+#define LOG_TAG "myJni.c"
+#define LOGI(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA__ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA__ARGS__)
+
+jint Java_com_example_jni_jniRead(JNIEnv *env, jobject thiz,
+    jbyteArray receiveBuf, jint slen) {
+    uint8_t p_recv_buf[256] = {0};
+    int len = slen;
+    len = read(fd, p_recv_buf, slen);
+    LOGI("rea len:%d\n", len);
+    (*env)-&gt;setByteArrayRegion(env, receiveBuf, 0, len,
+        (const jbyte*)p_recv_buf);
+    return len;
+}
+
+jint Java_com_example_jni_jniWrite(JNIEnv *env, jobject thiz,
+    jbyteArray sendBuf, jint len) {
+    //申请空间
+    jbyte *sendelems = (*env)-&gt;GetByteArrayElements(env, sendBuf, NULL);
+    ...//处理函数
+    //释放
+    (*env)-&gt;ReleaseByteArrayElements(env, sendBuf, sendelems, 0);
+    return 0;
+}
+</code></pre>
+
+<h3>Android.mk</h3>
+
+<pre><code>LOCAL_PATH:= $(call my-dir)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES:= \
+    myJni.c
+LOCAL_LDLIBS := -llog
+
+LOCAL_SHARED_LIBRARIES += libam_adp liblog libcutils
+LOCAL_C_INCLUDES += ../inc
+#编译生成libmyJni.so
+LOCAL_MODULE := libmyJni
+#编译动态库
+#include $(BUILD_SHARED_LIBRARY)
+</code></pre>
+
+<p>执行mm编译。（菜鸟级别解释：:=是赋值的意思，+=是追加的意思，$是引用某变量的值）补充说明：BUILD_EXECUTABLE表示以一个可执行程序的方式进行编译，include $(BUILD_PACKAGE)则是编译出一个apk，include $(BUILD_STATIC_JAVA_LIBRARY)则是编译出jar包。</p>
+
+<h4>LOCAL_MODULE_TAGS说明</h4>
+
+<p>LOCAL_MODULE_TAGS ：=user eng tests optional  <br/>
+user: 指该模块只在user版本下才编译    <br/>
+eng: 指该模块只在eng版本下才编译      <br/>
+tests: 指该模块只在tests版本下才编译      <br/>
+optional:指该模块在所有版本下都编译   <br/>
+我一般都使用optional</p>
 </div>
 
 
@@ -128,8 +184,14 @@ ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，
   
 
 
-<time datetime="2014-07-04T10:43:41+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+<time datetime="2014-07-14T11:26:26+00:00" pubdate data-updated="true">Jul 14<sup>th</sup>, 2014</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>
+  
+</span>
 
 
     </p>
@@ -143,10 +205,8 @@ ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/02/linux-xue-xi/" title="Previous Post: linux 学习">&laquo; linux 学习</a>
+        <a class="basic-alignment left" href="/blog/2014/07/09/linuxqu-dong/" title="Previous Post: linux驱动">&laquo; linux驱动</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/07/09/linuxqu-dong/" title="Next Post: linux驱动">linux驱动 &raquo;</a>
       
     </p>
   </footer>
