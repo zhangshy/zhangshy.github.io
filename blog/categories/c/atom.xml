@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C | 张帅依的博客]]></title>
+  <link href="http://zhangshy.github.io/blog/categories/c/atom.xml" rel="self"/>
+  <link href="http://zhangshy.github.io/"/>
+  <updated>2014-07-21T10:39:36+00:00</updated>
+  <id>http://zhangshy.github.io/</id>
+  <author>
+    <name><![CDATA[张帅依]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[C语言学习]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi/"/>
+    <updated>2014-07-21T10:30:30+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi</id>
+    <content type="html"><![CDATA[<h3>VA_ARGS</h3>
+
+<p>可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号</p>
+
+<pre><code>#define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ##__VA_ARGS__)
+</code></pre>
+
+<h3>cpp引用c函数库</h3>
+
+<pre><code>#ifdef __cplusplus
+extern "C"{
+#endif
+/* c++引用C，将#include "x264.h"放到extern "C" 中 */
+#include "x264.h"
+#ifdef __cplusplus
+}
+#endif
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

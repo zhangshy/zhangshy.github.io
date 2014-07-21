@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-14T14:07:51+00:00</updated>
+  <updated>2014-07-21T10:39:36+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C语言学习]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi/"/>
+    <updated>2014-07-21T10:30:30+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi</id>
+    <content type="html"><![CDATA[<h3>VA_ARGS</h3>
+
+<p>可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号</p>
+
+<pre><code>#define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ##__VA_ARGS__)
+</code></pre>
+
+<h3>cpp引用c函数库</h3>
+
+<pre><code>#ifdef __cplusplus
+extern "C"{
+#endif
+/* c++引用C，将#include "x264.h"放到extern "C" 中 */
+#include "x264.h"
+#ifdef __cplusplus
+}
+#endif
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android Jni编写]]></title>
@@ -276,6 +302,11 @@ dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过�
 <pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
 </code></pre>
 
+<p>挂载linux网络设备</p>
+
+<pre><code>mount -t nfs -o nolock 192.168.0.188:/share /mnt
+</code></pre>
+
 <h4>pkg-config</h4>
 
 <pre><code>查看头文件：pkg-config --cflags opencv
@@ -298,6 +329,15 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
 <h3>find和grep</h3>
 
 <p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
+
+<h3>gcc编译时指定小端-EL</h3>
+
+<p>mips-linux-gnu-gcc -g -O2 -Wall -EL test.c</p>
+
+<h3>watch</h3>
+
+<p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
+free</p>
 ]]></content>
   </entry>
   
@@ -541,6 +581,33 @@ cp usr/bin/pyuv /usr/bin/
 打开usb转串口：minicom -D /dev/ttyUSB0<br/>
 设置界面：ctrl+a 后点击o，打开设置界面; ctrl+a后点击l设置保存文件;
 ctrl+a后z帮助界面</p>
+
+<h3>github博客octopress</h3>
+
+<p><a href="http://www.ectogo.com/blog/2014/03/25/settingupoctopressblogongithub/">在Github上搭建Octopress博客</a></p>
+
+<h4>新电脑 老博客</h4>
+
+<pre><code>git clone git@github.com:username/username.github.io.git
+cd username.github.io
+git checkout source
+mkdir _deploy
+cd _deploy
+git init
+git remote add origin git@github.com:username/username.github.io.git
+git pull origin master
+cd ..
+</code></pre>
+
+<p>下次切换电脑的时候只需要更新一下</p>
+
+<pre><code>#先更新source
+git pull origin source
+#更新master
+cd _deploy
+git pull origin master
+cd ..
+</code></pre>
 ]]></content>
   </entry>
   

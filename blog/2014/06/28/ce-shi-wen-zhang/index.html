@@ -168,6 +168,33 @@ cp usr/bin/pyuv /usr/bin/
 打开usb转串口：minicom -D /dev/ttyUSB0<br/>
 设置界面：ctrl+a 后点击o，打开设置界面; ctrl+a后点击l设置保存文件;
 ctrl+a后z帮助界面</p>
+
+<h3>github博客octopress</h3>
+
+<p><a href="http://www.ectogo.com/blog/2014/03/25/settingupoctopressblogongithub/">在Github上搭建Octopress博客</a></p>
+
+<h4>新电脑 老博客</h4>
+
+<pre><code>git clone git@github.com:username/username.github.io.git
+cd username.github.io
+git checkout source
+mkdir _deploy
+cd _deploy
+git init
+git remote add origin git@github.com:username/username.github.io.git
+git pull origin master
+cd ..
+</code></pre>
+
+<p>下次切换电脑的时候只需要更新一下</p>
+
+<pre><code>#先更新source
+git pull origin source
+#更新master
+cd _deploy
+git pull origin master
+cd ..
+</code></pre>
 </div>
 
 
@@ -220,12 +247,17 @@ ctrl+a后z帮助界面</p>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (3)</a></li>
+<li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/14/android-jnibian-xie/">Android Jni编写</a>
@@ -241,10 +273,6 @@ ctrl+a后z帮助界面</p>
     
       <li class="post">
         <a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/02/androidxue-xi/">Android学习</a>
       </li>
     
   </ul>

@@ -121,6 +121,11 @@ dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过�
 <pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
 </code></pre>
 
+<p>挂载linux网络设备</p>
+
+<pre><code>mount -t nfs -o nolock 192.168.0.188:/share /mnt
+</code></pre>
+
 <h4>pkg-config</h4>
 
 <pre><code>查看头文件：pkg-config --cflags opencv
@@ -143,6 +148,15 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
 <h3>find和grep</h3>
 
 <p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
+
+<h3>gcc编译时指定小端-EL</h3>
+
+<p>mips-linux-gnu-gcc -g -O2 -Wall -EL test.c</p>
+
+<h3>watch</h3>
+
+<p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
+free</p>
 </div>
 
 
@@ -203,12 +217,17 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (3)</a></li>
+<li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/14/android-jnibian-xie/">Android Jni编写</a>
@@ -224,10 +243,6 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
     
       <li class="post">
         <a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/02/androidxue-xi/">Android学习</a>
       </li>
     
   </ul>
