@@ -32,6 +32,9 @@ mount后让普通用户有读写权限，加参数-o umask=000
 
     sudo mount /dev/sdb1 /mnt/ -o umask=000
 
+挂载linux网络设备
+
+    mount -t nfs -o nolock 192.168.0.188:/share /mnt
 ####pkg-config
     查看头文件：pkg-config --cflags opencv
     查找库文件：pkg-config --libs opencv
@@ -46,5 +49,9 @@ c. 在第三行后添加一行： sed '3 a xxx' file
 d. 在第三行前添加一行： sed '3 i xxx' file
 ###find和grep
 在.c文件中查找东西：find -name '*.c' | xargs grep 'xxx'
+###gcc编译时指定小端-EL
+mips-linux-gnu-gcc -g -O2 -Wall -EL test.c
 
-
+###watch
+检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
+free
