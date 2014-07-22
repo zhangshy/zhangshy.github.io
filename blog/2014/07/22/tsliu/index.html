@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>C语言学习 - 张帅依的博客</title>
+  <title>Ts流 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="VA_ARGS 可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号 #define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ## &hellip;">
+  <meta name="description" content="TS详解 整体描述 ts整包长度为188,前4字节为包头。 同步字节 传输错误指示 开始指示 传输优先级 PID 加扰控制 适配域控制 连续性计数器 8 1 1 1 13 2 2 4 sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/22/tsliu">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -65,7 +65,7 @@
   
   <header>
     
-      <h1 class="entry-title">C语言学习</h1>
+      <h1 class="entry-title">Ts流</h1>
     
     
       <p class="meta">
@@ -81,30 +81,69 @@
   
 
 
-<time datetime="2014-07-21T10:30:30+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-22T09:08:51+00:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>VA_ARGS</h3>
+<div class="entry-content"><p><a href="http://blog.csdn.net/liuhongxiangm/article/details/8981032">TS详解</a></p>
 
-<p>可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号</p>
+<h3>整体描述</h3>
 
-<pre><code>#define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ##__VA_ARGS__)
+<p>ts整包长度为<font color="red">188</font>,前4字节为包头。</p>
+
+<table class="table table-bordered table-striped table-condensed">
+<thead>
+ <tr>
+    <th>同步字节</th>
+    <th>传输错误指示</th>
+    <th>开始指示</th>
+    <th>传输优先级</th>
+    <th>PID</th>
+    <th>加扰控制</th>
+    <th>适配域控制</th>
+    <th>连续性计数器</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+    <td>8</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>13</td>
+    <td>2</td>
+    <td>2</td>
+    <td>4</td>
+ </tr>
+ </tbody>
+</table>
+
+
+<p>sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别，使包头和有效负载可相互分离,MPEG-2解码器接收到MPEG-2 TS流时，首先检测包结构，在TS流中查找同步字节：</p>
+
+<pre><code>总是OX47，总位于TS包开始位置，固定间隔为188字节。同时满足这两个条件，可以确定同步。
+如果出现一个字节为47hex(OX47)，解码器将检测这个字节前后n倍188字节的位置是否也是同步字节。
+如果是，则当前字节为同步字节；
+否则，当前字节只是码流中偶尔出现的47hex，不是同步字节
 </code></pre>
 
-<h3>cpp引用c函数库</h3>
+<p>Table ID长度为8bit</p>
 
-<pre><code>#ifdef __cplusplus
-extern "C"{
-#endif
-/* c++引用C，将#include "x264.h"放到extern "C" 中 */
-#include "x264.h"
-#ifdef __cplusplus
-}
-#endif
+<pre><code>47  48  04  17  00  80  70 ...
+同步字节：0x47
+PID：0x804
+Table ID：0x80
+</code></pre>
+
+<h3>各表</h3>
+
+<pre><code>PAT表PID：0,Table ID：0,包含PMT信息
+CAT表PID：1,Table ID：1,包含CA的EMM信息
+PMT表PID从PAT中获取，Table ID：2,包含音视频和CA的ECM信息
+NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和调制方式。
 </code></pre>
 </div>
 
@@ -128,14 +167,8 @@ extern "C"{
   
 
 
-<time datetime="2014-07-21T10:30:30+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-22T09:08:51+00:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/c/'>c</a>
-  
-</span>
 
 
     </p>
@@ -149,10 +182,8 @@ extern "C"{
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/14/android-jnibian-xie/" title="Previous Post: android jni编写">&laquo; android jni编写</a>
+        <a class="basic-alignment left" href="/blog/2014/07/21/gitshi-yong/" title="Previous Post: git使用">&laquo; git使用</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/07/21/gitshi-yong/" title="Next Post: git使用">git使用 &raquo;</a>
       
     </p>
   </footer>

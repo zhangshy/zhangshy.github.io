@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tools | 张帅依的博客]]></title>
+  <link href="http://zhangshy.github.io/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="http://zhangshy.github.io/"/>
+  <updated>2014-07-22T10:32:49+00:00</updated>
+  <id>http://zhangshy.github.io/</id>
+  <author>
+    <name><![CDATA[张帅依]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Git使用]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/21/gitshi-yong/"/>
+    <updated>2014-07-21T11:48:05+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/21/gitshi-yong</id>
+    <content type="html"><![CDATA[<h3>在git status时显示与origin/master的比较</h3>
+
+<p>在git status时显示Your branch is ahead of &lsquo;origin/master&rsquo; by 1 commit</p>
+
+<pre><code>git branch --set-upstream master  origin/master
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

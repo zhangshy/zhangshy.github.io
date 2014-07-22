@@ -9,7 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="VA_ARGS 可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号 #define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ## &hellip;">
+  <meta name="description" content="TS详解 整体描述 ts整包长度为188,前4字节为包头。 同步字节 传输错误指示 开始指示 传输优先级 PID 加扰控制 适配域控制 连续性计数器 8 1 1 1 13 2 2 4 sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,139 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/22/tsliu/">Ts流</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-22T09:08:51+00:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://blog.csdn.net/liuhongxiangm/article/details/8981032">TS详解</a></p>
+
+<h3>整体描述</h3>
+
+<p>ts整包长度为<font color="red">188</font>,前4字节为包头。</p>
+
+<table class="table table-bordered table-striped table-condensed">
+<thead>
+ <tr>
+    <th>同步字节</th>
+    <th>传输错误指示</th>
+    <th>开始指示</th>
+    <th>传输优先级</th>
+    <th>PID</th>
+    <th>加扰控制</th>
+    <th>适配域控制</th>
+    <th>连续性计数器</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+    <td>8</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>13</td>
+    <td>2</td>
+    <td>2</td>
+    <td>4</td>
+ </tr>
+ </tbody>
+</table>
+
+
+<p>sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别，使包头和有效负载可相互分离,MPEG-2解码器接收到MPEG-2 TS流时，首先检测包结构，在TS流中查找同步字节：</p>
+
+<pre><code>总是OX47，总位于TS包开始位置，固定间隔为188字节。同时满足这两个条件，可以确定同步。
+如果出现一个字节为47hex(OX47)，解码器将检测这个字节前后n倍188字节的位置是否也是同步字节。
+如果是，则当前字节为同步字节；
+否则，当前字节只是码流中偶尔出现的47hex，不是同步字节
+</code></pre>
+
+<p>Table ID长度为8bit</p>
+
+<pre><code>47  48  04  17  00  80  70 ...
+同步字节：0x47
+PID：0x804
+Table ID：0x80
+</code></pre>
+
+<h3>各表</h3>
+
+<pre><code>PAT表PID：0,Table ID：0,包含PMT信息
+CAT表PID：1,Table ID：1,包含CA的EMM信息
+PMT表PID从PAT中获取，Table ID：2,包含音视频和CA的ECM信息
+NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和调制方式。
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/21/gitshi-yong/">Git使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-21T11:48:05+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>在git status时显示与origin/master的比较</h3>
+
+<p>在git status时显示Your branch is ahead of &lsquo;origin/master&rsquo; by 1 commit</p>
+
+<pre><code>git branch --set-upstream master  origin/master
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -605,6 +738,25 @@ px指屏幕上物理像素点，不建议使用;
     dip for everything else.    
     dip==dp
 </code></pre>
+
+<h2>adb及常用调试指令</h2>
+
+<p>开启adb功能：start adbd   <br/>
+启动应用某界面：am start com.example.test/.MainActivity   <br/>
+命令行安装应用：pm install xxx.apk    <br/>
+命令行卸载应用：pm uninstall com.example.test</p>
+
+<h2>签名文件</h2>
+
+<p>生成签名文件</p>
+
+<pre><code>keytool -genkey -alias sign.keystore -keyalg RSA -validity 20000 -keystore sign.keystore
+</code></pre>
+
+<p>签名</p>
+
+<pre><code>jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
+</code></pre>
 </div>
   
   
@@ -891,11 +1043,20 @@ cd ..
     <li class='category'><a href='/blog/categories/android/'>android (3)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/22/tsliu/">Ts流</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/21/gitshi-yong/">Git使用</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a>
@@ -907,14 +1068,6 @@ cd ..
     
       <li class="post">
         <a href="/blog/2014/07/09/linuxqu-dong/">Linux驱动</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/04/zhi-neng-qia/">智能卡</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a>
       </li>
     
   </ul>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>C语言学习 - 张帅依的博客</title>
+  <title>Git使用 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="VA_ARGS 可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号 #define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ## &hellip;">
+  <meta name="description" content="在git status时显示与origin/master的比较 在git status时显示Your branch is ahead of &lsquo;origin/master&rsquo; by 1 commit git branch --set-upstream master origin &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/21/gitshi-yong">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -65,7 +65,7 @@
   
   <header>
     
-      <h1 class="entry-title">C语言学习</h1>
+      <h1 class="entry-title">Git使用</h1>
     
     
       <p class="meta">
@@ -81,30 +81,18 @@
   
 
 
-<time datetime="2014-07-21T10:30:30+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-21T11:48:05+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>VA_ARGS</h3>
+<div class="entry-content"><h3>在git status时显示与origin/master的比较</h3>
 
-<p>可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号</p>
+<p>在git status时显示Your branch is ahead of &lsquo;origin/master&rsquo; by 1 commit</p>
 
-<pre><code>#define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ##__VA_ARGS__)
-</code></pre>
-
-<h3>cpp引用c函数库</h3>
-
-<pre><code>#ifdef __cplusplus
-extern "C"{
-#endif
-/* c++引用C，将#include "x264.h"放到extern "C" 中 */
-#include "x264.h"
-#ifdef __cplusplus
-}
-#endif
+<pre><code>git branch --set-upstream master  origin/master
 </code></pre>
 </div>
 
@@ -128,12 +116,12 @@ extern "C"{
   
 
 
-<time datetime="2014-07-21T10:30:30+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-21T11:48:05+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/c/'>c</a>
+    <a class='category' href='/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -149,10 +137,10 @@ extern "C"{
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/14/android-jnibian-xie/" title="Previous Post: android jni编写">&laquo; android jni编写</a>
+        <a class="basic-alignment left" href="/blog/2014/07/21/cyu-yan-xue-xi/" title="Previous Post: c语言学习">&laquo; c语言学习</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/07/21/gitshi-yong/" title="Next Post: git使用">git使用 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/07/22/tsliu/" title="Next Post: ts流">ts流 &raquo;</a>
       
     </p>
   </footer>

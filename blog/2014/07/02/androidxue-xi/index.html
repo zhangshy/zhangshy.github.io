@@ -139,6 +139,25 @@ px指屏幕上物理像素点，不建议使用;
     dip for everything else.    
     dip==dp
 </code></pre>
+
+<h2>adb及常用调试指令</h2>
+
+<p>开启adb功能：start adbd   <br/>
+启动应用某界面：am start com.example.test/.MainActivity   <br/>
+命令行安装应用：pm install xxx.apk    <br/>
+命令行卸载应用：pm uninstall com.example.test</p>
+
+<h2>签名文件</h2>
+
+<p>生成签名文件</p>
+
+<pre><code>keytool -genkey -alias sign.keystore -keyalg RSA -validity 20000 -keystore sign.keystore
+</code></pre>
+
+<p>签名</p>
+
+<pre><code>jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
+</code></pre>
 </div>
 
 
@@ -201,11 +220,20 @@ px指屏幕上物理像素点，不建议使用;
     <li class='category'><a href='/blog/categories/android/'>android (3)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/22/tsliu/">Ts流</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/21/gitshi-yong/">Git使用</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a>
@@ -217,14 +245,6 @@ px指屏幕上物理像素点，不建议使用;
     
       <li class="post">
         <a href="/blog/2014/07/09/linuxqu-dong/">Linux驱动</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/04/zhi-neng-qia/">智能卡</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a>
       </li>
     
   </ul>

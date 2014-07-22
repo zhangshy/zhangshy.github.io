@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-21T10:39:36+00:00</updated>
+  <updated>2014-07-22T10:32:49+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -150,6 +150,25 @@ px指屏幕上物理像素点，不建议使用;
     sp for font sizes
     dip for everything else.    
     dip==dp
+</code></pre>
+
+<h2>adb及常用调试指令</h2>
+
+<p>开启adb功能：start adbd   <br/>
+启动应用某界面：am start com.example.test/.MainActivity   <br/>
+命令行安装应用：pm install xxx.apk    <br/>
+命令行卸载应用：pm uninstall com.example.test</p>
+
+<h2>签名文件</h2>
+
+<p>生成签名文件</p>
+
+<pre><code>keytool -genkey -alias sign.keystore -keyalg RSA -validity 20000 -keystore sign.keystore
+</code></pre>
+
+<p>签名</p>
+
+<pre><code>jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
 </code></pre>
 ]]></content>
   </entry>
