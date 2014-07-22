@@ -1,0 +1,59 @@
+---
+layout: post
+title: "ts流"
+date: 2014-07-22 09:08:51 +0000
+comments: true
+categories: 
+---
+
+[TS详解](http://blog.csdn.net/liuhongxiangm/article/details/8981032)
+###整体描述
+ts整包长度为<font color="red">188</font>,前4字节为包头。     
+
+<table class="table table-bordered table-striped table-condensed">
+<thead>
+ <tr>
+    <th>同步字节</th>
+    <th>传输错误指示</th>
+    <th>开始指示</th>
+    <th>传输优先级</th>
+    <th>PID</th>
+    <th>加扰控制</th>
+    <th>适配域控制</th>
+    <th>连续性计数器</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+    <td>8</td>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+    <td>13</td>
+    <td>2</td>
+    <td>2</td>
+    <td>4</td>
+ </tr>
+ </tbody>
+</table>
+
+sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别，使包头和有效负载可相互分离,MPEG-2解码器接收到MPEG-2 TS流时，首先检测包结构，在TS流中查找同步字节：
+
+    总是OX47，总位于TS包开始位置，固定间隔为188字节。同时满足这两个条件，可以确定同步。
+    如果出现一个字节为47hex(OX47)，解码器将检测这个字节前后n倍188字节的位置是否也是同步字节。
+    如果是，则当前字节为同步字节；
+    否则，当前字节只是码流中偶尔出现的47hex，不是同步字节
+
+Table ID长度为8bit
+
+    47  48  04  17  00  80  70 ...
+    同步字节：0x47
+    PID：0x804
+    Table ID：0x80
+
+###各表
+    PAT表PID：0,Table ID：0,包含PMT信息
+    CAT表PID：1,Table ID：1,包含CA的EMM信息
+    PMT表PID从PAT中获取，Table ID：2,包含音视频和CA的ECM信息
+    NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和调制方式。
+

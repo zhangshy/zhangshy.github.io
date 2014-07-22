@@ -52,3 +52,18 @@ px指屏幕上物理像素点，不建议使用;
         dip for everything else.    
         dip==dp
 
+##adb及常用调试指令
+开启adb功能：start adbd     
+启动应用某界面：am start com.example.test/.MainActivity     
+命令行安装应用：pm install xxx.apk      
+命令行卸载应用：pm uninstall com.example.test       
+
+##签名文件
+生成签名文件        
+
+    keytool -genkey -alias sign.keystore -keyalg RSA -validity 20000 -keystore sign.keystore
+
+签名        
+
+    jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
+
