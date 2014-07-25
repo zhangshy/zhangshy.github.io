@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-22T10:32:49+00:00</updated>
+  <updated>2014-07-25T17:01:22+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,99 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python学习]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi/"/>
+    <updated>2014-07-24T16:15:52+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi</id>
+    <content type="html"><![CDATA[<h3>print</h3>
+
+<p>格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束</p>
+
+<pre><code>a=10
+b=12
+print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
+print("0x%02x+0x%x=%d" % (a, b, a+b))
+输出相同：0x0a+0xc=22
+</code></pre>
+
+<p>%% 百分号标记     <br/>
+%c 字符及其ASCII码    <br/>
+%s 字符串     <br/>
+%d 有符号整数(十进制)     <br/>
+%u 无符号整数(十进制)     <br/>
+%o 无符号整数(八进制)     <br/>
+%x 无符号整数(十六进制)   <br/>
+%X 无符号整数(十六进制大写字符)   <br/>
+%e 浮点数字(科学计数法)   <br/>
+%E 浮点数字(科学计数法，用E代替e)     <br/>
+%f 浮点数字(用小数点符号)     <br/>
+%g 浮点数字(根据值的大小采用%e或%f)   <br/>
+%G 浮点数字(类似于%g)     <br/>
+%p 指针(用十六进制打印值的内存地址)   <br/>
+%n 存储输出字符的数量放进参数列表的下一个变量中</p>
+
+<h3>字典</h3>
+
+<pre><code>headers = {'User-agent':'Mozilla/5.0',
+       'cache-control':'no-cache',
+       'accept':'*/*'}
+for k, v in headers.items():
+    print(k, v)
+</code></pre>
+
+<p>输出</p>
+
+<pre><code>User-agent Mozilla/5.0
+cache-control no-cache
+accept */*
+</code></pre>
+
+<h3>chr hex ord</h3>
+
+<p>ord返回字符的ASCII  print(ord(&lsquo;a&rsquo;)) 输出97    <br/>
+chr返回字符 print(chr(97))  输出a     <br/>
+hex返回16进制   print(hex(97))  输出0x61</p>
+
+<pre><code>f=open('xxx.ts', 'r', encoding="ISO-8859-1")
+context = f.read()
+buf = [ord(i) for i in context]
+</code></pre>
+
+<h3>字符串操作</h3>
+
+<h4>查找</h4>
+
+<p>find和index，使用index未找到字符串会抛出异常，find不抛异常只是返回-1。</p>
+
+<pre><code>index1 = str.find("xx")
+index2 = str.find("xxx", index1)#从第index1位置开始查找
+</code></pre>
+
+<h4>复制</h4>
+
+<p>str2 = str[index1: index2]</p>
+
+<h3>时间</h3>
+
+<p>获取当前时间localtime，格式化时间strftime</p>
+
+<pre><code>import time
+print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+输出2014-07-24 19:13:43
+</code></pre>
+
+<h3>文件操作</h3>
+
+<p>os.access可以判断文件是否存在，os.mkdir创建文件夹</p>
+
+<pre><code>if not os.access(filePath, os.R_OK):
+    print("目录不存在")
+    os.mkdir(filePath, mode=0o777)
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ts流]]></title>
@@ -425,7 +518,61 @@ free</p>
     <link href="http://zhangshy.github.io/blog/2014/07/02/androidxue-xi/"/>
     <updated>2014-07-02T14:35:05+00:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/02/androidxue-xi</id>
-    <content type="html"><![CDATA[<h2>Button</h2>
+    <content type="html"><![CDATA[<h2>包属性</h2>
+
+<h3>sharedUserId</h3>
+
+<p>使用sharedUserId属性时取值需要包含点（dot），如android:sharedUserId=&ldquo;test&#8221;安装时会提示：Failure [INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID]。使用android:sharedUserId=&#8221;zsy.test&#8221;就可以了。</p>
+
+<h2>Handler和HandlerThread</h2>
+
+<p>Handler会关联一个单独的线程和消息队列。Handler默认关联主线程，会在主线程执行，如果在这里面的操作会有阻塞，界面也会卡住。如果要在其他线程执行，可以使用HandlerThread</p>
+
+<pre><code>HandlerThread mHandlerThread = new HandlerThread("test");
+mHandlerThread.start();
+Handler mHandler = new Handler(mHandlerThread.getLooper()) {
+    public void handlerMessage(Message msg) {
+        XXX
+    }
+};
+</code></pre>
+
+<p>当要停止mHandlerThread时可执行：</p>
+
+<pre><code>mHandlerThread.quit();
+</code></pre>
+
+<h2>Thread和Runnable</h2>
+
+<p><a href="http://developer.51cto.com/art/201203/321042.htm">Java中Runnable和Thread的区别</a></p>
+
+<p>在java中可有两种方式实现多线程，一种是继承Thread类，一种是实现Runnable接口；Thread类是在java.lang包中定义的。一个类只要继承了Thread类同时覆写了本类中的run()方法就可以实现多线程操作了，但是一个类只能继承一个父类，这是此方法的局限</p>
+
+<p>在程序开发中只要是多线程肯定永远以实现Runnable接口为主，因为实现Runnable接口相比继承Thread类有如下好处：1.避免点继承的局限，一个类可以继承多个接口;2.适合于资源的共享</p>
+
+<pre><code>package org.demo.runnable;  
+class MyThread implements Runnable{  
+    private int ticket=10;  
+    public void run(){  
+        for(int i=0;i&lt;20;i++){  
+            if(this.ticket&gt;0){  
+                System.out.println("卖票：ticket"+this.ticket--);  
+            }  
+        }  
+    }  
+}  
+package org.demo.runnable;  
+public class RunnableTicket {  
+    public static void main(String[] args) {  
+        MyThread mt=new MyThread();  
+        new Thread(mt).start();//同一个mt，但是在Thread中就不可以，如果用同一  
+        new Thread(mt).start();//个实例化对象mt，就会出现异常  
+        new Thread(mt).start();  
+    }  
+}; 
+</code></pre>
+
+<h2>Button</h2>
 
 <p>使用Button的时候可以这么用：</p>
 
@@ -454,7 +601,7 @@ free</p>
 
 <p>mHandler的写法</p>
 
-<pre><code>private Hander mHandler = new Hander() {
+<pre><code>private Handler mHandler = new Handler() {
     public void handleMessage(Message msg) {
         switch(msg.what) {
         case XXX:
@@ -480,9 +627,27 @@ px指屏幕上物理像素点，不建议使用;
 <h2>adb及常用调试指令</h2>
 
 <p>开启adb功能：start adbd   <br/>
+查看设备：adb devices     <br/>
+多于一个设备时指定设备：adb -s 192.168.11.84:5555 shell     <br/>
 启动应用某界面：am start com.example.test/.MainActivity   <br/>
 命令行安装应用：pm install xxx.apk    <br/>
 命令行卸载应用：pm uninstall com.example.test</p>
+
+<h2>分析工具dumpsys</h2>
+
+<p>dumpsys用来给出android应用程序的信息：</p>
+
+<pre><code>dumpsys [Option]
+        meminfo 内存信息
+        cpuinfo cpu信息
+        等很多选项
+service list可以列出服务
+</code></pre>
+
+<h3>mat使用</h3>
+
+<p><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-ecl-ma/index.html">安装配置</a>   <br/>
+<a href="http://stackoverflow.com/questions/3999087/how-to-enable-heap-updates-on-my-android-client">How to enable Heap updates on my android client</a></p>
 
 <h2>签名文件</h2>
 
