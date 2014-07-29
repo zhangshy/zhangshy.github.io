@@ -9,10 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="print 格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束 a=10
-b=12
-print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
-print("0x%02x+0x%x=%d &hellip;">
+  <meta name="description" content="1. 简单程序hello world #include &lt;stdio.h&gt; int main(int argc, char** argv) { printf("hello world!!\n"); int a = 0x123; int b = 0x234; int c = a + b &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +62,285 @@ print("0x%02x+0x%x=%d &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-29T09:36:08+00:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1. 简单程序hello world</h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main(int argc, char** argv) {
+    printf("hello world!!\n");
+    int a = 0x123;
+    int b = 0x234;
+    int c = a + b;
+    printf("c is: 0x%x\n", c);
+    return 0;
+}
+</code></pre>
+
+<p>编译gcc hello.c -o hello</p>
+
+<h3>1.1 gcc -S</h3>
+
+<p>gcc hello.c -S -o hello.s     <br/>
+查看hello.s内容cat hello.s</p>
+
+<pre><code>    .file   "hello.c"
+    .section        .rodata
+.LC0:
+    .string "hello world!!"
+.LC1:
+    .string "c is: 0x%x\n"
+    .text
+.globl main
+    .type   main, @function
+main:
+.LFB0:
+    .cfi_startproc
+    pushq   %rbp
+    .cfi_def_cfa_offset 16
+    movq    %rsp, %rbp
+    .cfi_offset 6, -16
+    .cfi_def_cfa_register 6
+    subq    $32, %rsp
+    movl    %edi, -20(%rbp)
+    movq    %rsi, -32(%rbp)
+    movl    $.LC0, %edi
+    call    puts
+    movl    $291, -4(%rbp)
+    movl    $564, -8(%rbp)
+    movl    -8(%rbp), %eax
+    movl    -4(%rbp), %edx
+    leal    (%rdx,%rax), %eax
+    movl    %eax, -12(%rbp)
+    movl    $.LC1, %eax
+    movl    -12(%rbp), %edx
+    movl    %edx, %esi
+    movq    %rax, %rdi
+    movl    $0, %eax
+    call    printf
+    movl    $0, %eax
+    leave
+    ret
+    .cfi_endproc
+.LFE0:
+    .size   main, .-main
+    .ident  "GCC: (Ubuntu/Linaro 4.4.7-1ubuntu2) 4.4.7"
+    .section        .note.GNU-stack,"",@progbits
+</code></pre>
+
+<h3>1.2 objdump指令</h3>
+
+<h4>1.2.1 objdump -s hello</h4>
+
+<p>显示所有section内容</p>
+
+<pre><code>objdump -s -j .rodata hello
+
+hello:     file format elf64-x86-64
+
+Contents of section .rodata:
+400688 01000200 68656c6c 6f20776f 726c6421  ....hello world!
+400698 21006320 69733a20 30782578 0a00      !.c is: 0x%x..  
+只显示.rodata部分
+</code></pre>
+
+<h4>1.2.2 objdump -S hello</h4>
+
+<pre><code>objdump -S -j .rodata hello
+hello:     file format elf64-x86-64
+
+Disassembly of section .rodata:
+
+0000000000400688 &lt;_IO_stdin_used&gt;:
+400688:       01 00 02 00 68 65 6c 6c 6f 20 77 6f 72 6c 64 21     ....hello world!
+400698:       21 00 63 20 69 73 3a 20 30 78 25 78 0a 00           !.c is: 0x%x..
+</code></pre>
+
+<h2>各段含义</h2>
+
+<p><a href="http://blog.sina.com.cn/s/blog_8053938901014gih.html">汇编中bss,data,text,rodata,heap,stack,意义</a>    <br/>
+bss段：</p>
+
+<pre><code>BSS段（bsssegment）通常是指用来存放程序中未初始化的全局变量的一块内存区域。BSS是英文BlockStarted by Symbol的简称。BSS段属于静态内存分配。
+</code></pre>
+
+<p>data段：</p>
+
+<pre><code>数据段（datasegment）通常是指用来存放程序中已初始化的全局变量的一块内存区域。数据段属于静态内存分配。       
+</code></pre>
+
+<p>text段：</p>
+
+<pre><code>代码段（codesegment/textsegment）通常是指用来存放程序执行代码的一块内存区域。这部分区域的大小在程序运行前就已经确定，并且内存区域通常属于只读,某些架构也允许代码段为可写，即允许修改程序。在代码段中，也有可能包含一些只读的常数变量，例如字符串常量等
+</code></pre>
+
+<p>rodata段：</p>
+
+<pre><code>存放C中的字符串和#define定义的常量
+</code></pre>
+
+<h2>ARM汇编</h2>
+
+<p><a href="http://yulin724.wikidot.com/rwpaper:arm-assembly-instructions#toc12">ARM汇编指令集</a></p>
+
+<h4>BL</h4>
+
+<p>BL是arm汇编中用来调用子程序的指令，它把BL后面一条指令的地址放到R14寄存器里，R15寄存器(PC当前指针地址)就设置成要跳往的地址。这样在这个子程序返回时，再mov PC, R14就可以返回到BL后面的地址了</p>
+
+<h4>BEQ</h4>
+
+<p>BEQ指定是跳转指令，但是跳转要满足一定的条件，例：CMP    R1，#0    BEQ  Label    即当R1和0相等的时候程序跳到标号Label处执行。BEQ执行后不调回去。</p>
+
+<h4>LDR/STR</h4>
+
+<p>ARM是RISC结构，数据从内存到CPU之间的移动只能通过L/S指令来完成，也就是ldr/str指令。比如想把数据从内存中某处读取到寄存器中，只能使用ldr，比如：</p>
+
+<pre><code>ldr r0, 0x12345678
+</code></pre>
+
+<p>就是把0x12345678这个地址中的值存放到r0中。而mov不能干这个活，mov只能在寄存器之间移动数据，或者把立即数移动到寄存器中，这个和x86这种CISC架构的芯片区别最大的地方。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/28/wang-luo-zhua-bao-wireshark/">网络抓包wireshark</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T10:33:35+00:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>抓取youku</h2>
+
+<p>先使用wireshark抓取了一次youku申请播放的过程</p>
+
+<h4>过滤字符串</h4>
+
+<p>在Filter里输入：http contains &ldquo;getPlayList&rdquo;</p>
+
+<h4>过滤ip</h4>
+
+<p>ip.src==101.227.10.18 or ip.dst==101.227.10.18</p>
+
+<h4>复制数据包内容</h4>
+
+<p>选择数据包，右键&ndash;copy</p>
+
+<h4>youku实际地址</h4>
+
+<p>http contains &ldquo;getFlvPath&rdquo;    <br/>
+<img src="/images/cap_youku1.jpg" alt="结果" />
+在vlc中打开路径可以播放：</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/25/pythonwang-luo-bian-cheng/">Python网络编程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-25T17:03:38+00:00" pubdate data-updated="true">Jul 25<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>获取url数据</h3>
+
+<pre><code>url = "http://www.youku.com/"
+req = urllib.request.Request(url)
+req.add_header('User-agent', 'Mozilla/5.0')
+r = urllib.request.urlopen(req)
+print(r.read().decode("UTF-8"))
+</code></pre>
+
+<h3>保存图片</h3>
+
+<pre><code>urllib.request.urlretrieve(url, fileName);  #将url内容存入文件
+</code></pre>
+
+<h3>分析html</h3>
+
+<p>使用html.parser.HTMLParser分析html</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -681,411 +957,6 @@ ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-02T23:00:20+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>vim</h4>
-
-<p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
-:edit 打开文件<br/>
-:%!xxd -g 1 ：切换成十六进制的一个字节的模式  <br/>
-u 撤销上一步的操作<br/>
-ctrl+r 恢复上一步被撤销的操作 <br/>
-shift+8 查找当前单词  <br/>
-ggVG 全选 <br/>
-q: 进入命令历史编辑   <br/>
-vim xxx +N  打开文件并跳到第N行  <br/>
-vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
-:set noro   取消只读，在git difftool时很有用  <br/>
-dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
-
-<h4>tar</h4>
-
-<p>查看内容不解压：tar tvf xxx.tar.gz<br/>
-解压：tar -xzvf xxx.tar.gz<br/>
-解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX   <br/>
-压缩：tar -czvf xxx.tar.gz xxx/   <br/>
-解压：tar -xjvf xxx.tar.bz2</p>
-
-<h4>mount</h4>
-
-<p>mount后让普通用户有读写权限，加参数-o umask=000</p>
-
-<pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
-</code></pre>
-
-<p>挂载linux网络设备</p>
-
-<pre><code>mount -t nfs -o nolock 192.168.0.188:/share /mnt
-</code></pre>
-
-<h4>pkg-config</h4>
-
-<pre><code>查看头文件：pkg-config --cflags opencv
-查找库文件：pkg-config --libs opencv
-查看版本： pkg-config --modversion opencv
-</code></pre>
-
-<h4>cp</h4>
-
-<p>连带目录一起复制： cp &ndash;parents -r xx/xx/xx/ xx/</p>
-
-<h3>sed</h3>
-
-<p>&lsquo;-i&#8217;使修改生效<br/>
-a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
-b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
-c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
-d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
-
-<h3>find和grep</h3>
-
-<p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
-
-<h3>gcc编译时指定小端-EL</h3>
-
-<p>mips-linux-gnu-gcc -g -O2 -Wall -EL test.c</p>
-
-<h3>watch</h3>
-
-<p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
-free</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/02/androidxue-xi/">Android学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-02T14:35:05+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>包属性</h2>
-
-<h3>sharedUserId</h3>
-
-<p>使用sharedUserId属性时取值需要包含点（dot），如android:sharedUserId=&ldquo;test&#8221;安装时会提示：Failure [INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID]。使用android:sharedUserId=&#8221;zsy.test&#8221;就可以了。</p>
-
-<h2>Handler和HandlerThread</h2>
-
-<p>Handler会关联一个单独的线程和消息队列。Handler默认关联主线程，会在主线程执行，如果在这里面的操作会有阻塞，界面也会卡住。如果要在其他线程执行，可以使用HandlerThread</p>
-
-<pre><code>HandlerThread mHandlerThread = new HandlerThread("test");
-mHandlerThread.start();
-Handler mHandler = new Handler(mHandlerThread.getLooper()) {
-    public void handlerMessage(Message msg) {
-        XXX
-    }
-};
-</code></pre>
-
-<p>当要停止mHandlerThread时可执行：</p>
-
-<pre><code>mHandlerThread.quit();
-</code></pre>
-
-<h2>Thread和Runnable</h2>
-
-<p><a href="http://developer.51cto.com/art/201203/321042.htm">Java中Runnable和Thread的区别</a></p>
-
-<p>在java中可有两种方式实现多线程，一种是继承Thread类，一种是实现Runnable接口；Thread类是在java.lang包中定义的。一个类只要继承了Thread类同时覆写了本类中的run()方法就可以实现多线程操作了，但是一个类只能继承一个父类，这是此方法的局限</p>
-
-<p>在程序开发中只要是多线程肯定永远以实现Runnable接口为主，因为实现Runnable接口相比继承Thread类有如下好处：1.避免点继承的局限，一个类可以继承多个接口;2.适合于资源的共享</p>
-
-<pre><code>package org.demo.runnable;  
-class MyThread implements Runnable{  
-    private int ticket=10;  
-    public void run(){  
-        for(int i=0;i&lt;20;i++){  
-            if(this.ticket&gt;0){  
-                System.out.println("卖票：ticket"+this.ticket--);  
-            }  
-        }  
-    }  
-}  
-package org.demo.runnable;  
-public class RunnableTicket {  
-    public static void main(String[] args) {  
-        MyThread mt=new MyThread();  
-        new Thread(mt).start();//同一个mt，但是在Thread中就不可以，如果用同一  
-        new Thread(mt).start();//个实例化对象mt，就会出现异常  
-        new Thread(mt).start();  
-    }  
-}; 
-</code></pre>
-
-<h2>Button</h2>
-
-<p>使用Button的时候可以这么用：</p>
-
-<pre><code>public class MainActivity extends Activity implements View.OnClickListener {
-    ...
-    Button btn_ok = (Button) findViewById(R.id.btn_ok);
-    btn_ok.setOnClickListener(this);
-}
-</code></pre>
-
-<p>实现onClick(View v)方法，而且费时的按键响应操作使用Handler做</p>
-
-<pre><code>public void onClick(View v) {
-    switch(v.getId()) {
-    case R.id.btn_ok:
-        Message m = new Message();
-        m.what = XXXX;
-        Bundle data = new Bundle();
-        data.putString(XXX, XXXXX);
-        m.setData(data);
-        mHandler.sendMessage(m);
-        break;
-    }
-}
-</code></pre>
-
-<p>mHandler的写法</p>
-
-<pre><code>private Handler mHandler = new Handler() {
-    public void handleMessage(Message msg) {
-        switch(msg.what) {
-        case XXX:
-            String str = msg.getData().getString(XXX);
-            break;
-        }
-    }
-}
-</code></pre>
-
-<h2>像素</h2>
-
-<p><a href="http://www.cnblogs.com/bjzhanghao/archive/2012/11/06/2757300.html">px、dp和sp，这些单位有什么区别？</a><br/>
-px指屏幕上物理像素点，不建议使用;
-   因为100px的图片在不同手机上显示的实际大小可能不同</p>
-
-<pre><code>You would use:    
-    sp for font sizes
-    dip for everything else.    
-    dip==dp
-</code></pre>
-
-<h2>adb及常用调试指令</h2>
-
-<p>开启adb功能：start adbd   <br/>
-查看设备：adb devices     <br/>
-多于一个设备时指定设备：adb -s 192.168.11.84:5555 shell     <br/>
-启动应用某界面：am start com.example.test/.MainActivity   <br/>
-命令行安装应用：pm install xxx.apk    <br/>
-命令行卸载应用：pm uninstall com.example.test</p>
-
-<h2>分析工具dumpsys</h2>
-
-<p>dumpsys用来给出android应用程序的信息：</p>
-
-<pre><code>dumpsys [Option]
-        meminfo 内存信息
-        cpuinfo cpu信息
-        等很多选项
-service list可以列出服务
-</code></pre>
-
-<h3>mat使用</h3>
-
-<p><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-ecl-ma/index.html">安装配置</a>   <br/>
-<a href="http://stackoverflow.com/questions/3999087/how-to-enable-heap-updates-on-my-android-client">How to enable Heap updates on my android client</a></p>
-
-<h2>签名文件</h2>
-
-<p>生成签名文件</p>
-
-<pre><code>keytool -genkey -alias sign.keystore -keyalg RSA -validity 20000 -keystore sign.keystore
-</code></pre>
-
-<p>签名</p>
-
-<pre><code>jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-01T14:18:15+00:00" pubdate data-updated="true">Jul 1<sup>st</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>1. 检查系统是否开启了usb host功能</h3>
-
-<pre><code>  确认/system/etc/permissions目录有android.hardware.usb.host.xml这个文件。
-</code></pre>
-
-<h3>2. 查找设备</h3>
-
-<pre><code>在AndroidManifest.xml中添加：
-&lt;intent-filter&gt;
-    &lt;action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" /&gt;
-&lt;/intent-filter&gt;
-&lt;meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-android:resource="@xml/device_filter" /&gt;
-</code></pre>
-
-<p>res/xml/device_filter.xml的内容如下，注意为10进制数</p>
-
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;resources&gt;
-    &lt;usb-device vendor-id="1234" product-id="5678" class="255" subclass="66" protocol="1" /&gt;
-&lt;/resources&gt;
-</code></pre>
-
-<h4>方法1</h4>
-
-<pre><code>在&lt;activity ...&gt;&lt;/activity&gt;之间加intent-filter之间，这样当USB设备插入时会启动这个Activity，通过
-UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);获取设备
-</code></pre>
-
-<h4>方法2</h4>
-
-<p>不用系统的广播的话，可以遍历设备列表，得到设备</p>
-
-<pre><code>UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-...
-HashMap&lt;String, UsbDevice&gt; deviceList = manager.getDeviceList();
-Iterator&lt;UsbDevice&gt; deviceIterator = deviceList.values().iterator();
-while(deviceIterator.hasNext()){
-    UsbDevice device = deviceIterator.next()
-    //查找想要的设备
-    if (device.getVenderId()==venderID &amp;&amp; device.getProductId==productId)
-        //your code
-}
-</code></pre>
-
-<p>通过UsbManager的requestPermission方法申请usb权限
-manager.requestPermission(device, null);会弹出选择框让用户选择是否允许应用访问usb设备。</p>
-
-<h3>3. 通信</h3>
-
-<p>官网例子</p>
-
-<pre><code>private Byte[] bytes
-private static int TIMEOUT = 0;
-private boolean forceClaim = true;
-...
-UsbInterface intf = device.getInterface(0);
-UsbEndpoint endpoint = intf.getEndpoint(0);
-UsbDeviceConnection connection = mUsbManager.openDevice(device); 
-connection.claimInterface(intf, forceClaim);
-connection.bulkTransfer(endpoint, bytes, bytes.length, TIMEOUT); //do in another thread
-</code></pre>
-
-<p>获取usb设备端点</p>
-
-<pre><code>  UsbEndpoint ep = intf.getEndpoint(i);
-  ep.getType() == UsbConstants.USB_ENDPOINT_XFER_INT;//中断
-  ep.getDirection()==UsbConstants.USB_DIR_OUT;//相对主机来说
-</code></pre>
-
-<h4>使用UsbRequest</h4>
-
-<p>发送</p>
-
-<pre><code>ByteBuffer mOutData = ByteBuffer.allocate(len);
-UsbRequest mUsbRequest = new UsbRequest();
-mUsbRequest.initialize(connection, mEndpointOut);
-mUsbRequest.queue(mOutData, len);
-if (connection.requestWait()==mUsbRequest)
-    //成功
-</code></pre>
-
-<p>接收，不知道为什么在4.2上mInData要ByteBuffer.allocate(len*2)</p>
-
-<pre><code>//ByteBuffer mInData = ByteBuffer.allocate(len);//4.0
-ByteBuffer mInData = ByteBuffer.allocate(len*2);
-UsbRequest mUsbRequest = new UsbRequest();
-mUsbRequest.initialize(connection, mEndpointIn);
-mUsbRequest.queue(mInData, len);
-if (connection.requestWait()==mUsbRequest)
-    byte[] data = mInData.array();
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1102,8 +973,8 @@ if (connection.requestWait()==mUsbRequest)
     <li class='category'><a href='/blog/categories/android/'>android (3)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
-<li class='category'><a href='/blog/categories/python/'>python (1)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (1)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
   </ul>
 </section><section>
@@ -1111,23 +982,23 @@ if (connection.requestWait()==mUsbRequest)
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/28/wang-luo-zhua-bao-wireshark/">网络抓包wireshark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/07/25/pythonwang-luo-bian-cheng/">Python网络编程</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/24/pythonxue-xi/">Python学习</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/07/22/tsliu/">Ts流</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/21/gitshi-yong/">Git使用</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/14/android-jnibian-xie/">Android Jni编写</a>
       </li>
     
   </ul>

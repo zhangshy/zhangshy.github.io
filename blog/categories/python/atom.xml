@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-25T17:01:22+00:00</updated>
+  <updated>2014-07-29T18:27:21+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python网络编程]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/07/25/pythonwang-luo-bian-cheng/"/>
+    <updated>2014-07-25T17:03:38+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/25/pythonwang-luo-bian-cheng</id>
+    <content type="html"><![CDATA[<h3>获取url数据</h3>
+
+<pre><code>url = "http://www.youku.com/"
+req = urllib.request.Request(url)
+req.add_header('User-agent', 'Mozilla/5.0')
+r = urllib.request.urlopen(req)
+print(r.read().decode("UTF-8"))
+</code></pre>
+
+<h3>保存图片</h3>
+
+<pre><code>urllib.request.urlretrieve(url, fileName);  #将url内容存入文件
+</code></pre>
+
+<h3>分析html</h3>
+
+<p>使用html.parser.HTMLParser分析html</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python学习]]></title>

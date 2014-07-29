@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Tools - 张帅依的博客</title>
+  <title>网络抓包wireshark - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Category: tools">
+  <meta name="description" content="抓取youku 先使用wireshark抓取了一次youku申请播放的过程 过滤字符串 在Filter里输入：http contains &ldquo;getPlayList&rdquo; 过滤ip ip.src==101.227.10.18 or ip.dst==101.227.10.18 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/categories/tools">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/28/wang-luo-zhua-bao-wireshark">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -61,49 +61,98 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Tools</h1>
+    
+      <h1 class="entry-title">网络抓包wireshark</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T10:33:35+00:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h2>抓取youku</h2>
 
-  
-  <h2>2014</h2>
+<p>先使用wireshark抓取了一次youku申请播放的过程</p>
 
-<article>
-  
-<h1><a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a></h1>
-<time datetime="2014-07-29T09:36:08+00:00" pubdate><span class='month'>Jul</span> <span class='day'>29</span> <span class='year'>2014</span></time>
+<h4>过滤字符串</h4>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/tools/'>tools</a></span>
-</footer>
+<p>在Filter里输入：http contains &ldquo;getPlayList&rdquo;</p>
 
+<h4>过滤ip</h4>
 
-</article>
+<p>ip.src==101.227.10.18 or ip.dst==101.227.10.18</p>
 
+<h4>复制数据包内容</h4>
 
+<p>选择数据包，右键&ndash;copy</p>
 
-<article>
-  
-<h1><a href="/blog/2014/07/21/gitshi-yong/">Git使用</a></h1>
-<time datetime="2014-07-21T11:48:05+00:00" pubdate><span class='month'>Jul</span> <span class='day'>21</span> <span class='year'>2014</span></time>
+<h4>youku实际地址</h4>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/tools/'>tools</a></span>
-</footer>
-
-
-</article>
-
+<p>http contains &ldquo;getFlvPath&rdquo;    <br/>
+<img src="/images/cap_youku1.jpg" alt="结果" />
+在vlc中打开路径可以播放：</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-28T10:33:35+00:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/25/pythonwang-luo-bian-cheng/" title="Previous Post: python网络编程">&laquo; python网络编程</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/07/29/objdumpxue-xi/" title="Next Post: objdump学习">objdump学习 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
 </div>
