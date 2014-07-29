@@ -41,6 +41,15 @@ categories:
     # alsamixer
     注意要[M] 取消静音
 
+###截屏工具scrot
+sudo pacman -S scrot        
+1.抓取整个桌面:    scrot  ~/Pictures/pic1.jpg       
+2.抓取窗口:    scrot -bs ~/Pictures/pic1.jpg        
+3.区域截图:    scrot -s ~/Pictures/pic1.jpg     
+4.定时截图:    scrot -cd 10 ~/Pictures/pic1.jpg       
+5.生成缩略图:    scrot -t 70% ~/Pictures/pic1.jpg       
+6.更改截图品质:    scrot -q 80 ~/Pictures/pic1.jpg      
+
 ###pyuv的deb安装
 archlinux安装deb文件，将deb文件解压后复制
 
