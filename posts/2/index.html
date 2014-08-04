@@ -9,10 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="vim :vsplit 将窗口分成两个，ctrl+w切换
-:edit 打开文件
-:%!xxd -g 1 ：切换成十六进制的一个字节的模式 u 撤销上一步的操作
-ctrl+r 恢复上一步被撤销的操作 shift+8 查找当前单词 ggVG 全选 q: 进入命令历史编辑 vim xxx +N &hellip;">
+  <meta name="description" content="智能卡ATR 一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +62,59 @@ ctrl+r 恢复上一步被撤销的操作 shift+8 查找当前单词 ggVG 全选 
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/04/zhi-neng-qia/">智能卡</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-04T10:43:41+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>智能卡ATR</h3>
+
+<p>一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。  <br/>
+ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，这些在7816协议中都有规定。读ATR可以采用两种方式：按照协议边分析边读，这样按照协议读数结束就可以return了;也可以不管协议直接读，ATR中两个字节之间的间隔最长可以是9600etu，超时就认为ATR结束了。</p>
+
+<h3>反向</h3>
+
+<p>像NDS的卡数据是反向，可通过ATR第一个字节看出，一般判断0x03或0x3f为反向卡。反向指高低位倒过来，再取反(软件取反的话，可以通过查表的方式)</p>
+
+<pre><code>0x03
+0 0 0 0 0 0 1 1 先高低倒过来
+1 1 0 0 0 0 0 0 再取反
+0 0 1 1 1 1 1 1 0x3f
+</code></pre>
+
+<h3>数据传输</h3>
+
+<p>一般来说传输一个字符要12个etu=1 START + 8 DATA + 1 PARITY + 2 GUARD</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -634,7 +684,7 @@ cd ..
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (3)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>linux (2)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (2)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
@@ -642,6 +692,10 @@ cd ..
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a>
@@ -657,10 +711,6 @@ cd ..
     
       <li class="post">
         <a href="/blog/2014/07/24/pythonxue-xi/">Python学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/22/tsliu/">Ts流</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-29T18:27:21+00:00</updated>
+  <updated>2014-08-04T16:36:48+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[环形buffer]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer/"/>
+    <updated>2014-08-04T16:00:14+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
+
+<h3>定义</h3>
+
+<pre><code>#define BUFFER_SIZE 0xF 
+typedef struct {
+    uint32_t wptr;   ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint32_t rptr;   ///&lt; buffer读取位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint8_t buffer[BUFFER_SIZE+1];  ///&lt; buffer大小为BUFFER_SIZE+1
+}ring_buffer_t; 
+</code></pre>
+
+<h3>使用</h3>
+
+<p>若BUFFER_SIZE=3，wptr和rptr的索引为[0:7]  <br/>
+1. wptr=rptr时buffer为空      <br/>
+2. wptr和rptr之间的差值为BUFFER_SIZE+1即4时buffer为满     <br/>
+3. wptr和rptr的范围通过pbuf->wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1 确定，BUFFER_SIZE的取值应该是N个2进制1？？</p>
+
+<pre><code>__inline uint32_t ring_buffer_is_empty(ring_buffer_t *pbuf) {
+    return (pbuf-&gt;wptr==pbuf-&gt;rptr);
+}
+
+__inline uint32_t ring_buffer_is_full(ring_buffer_t *pbuf) {
+    return ((pbuf-&gt;wptr^pbuf-&gt;rptr)==(BUFFER_SIZE+1));
+}
+
+__inline void ring_buffer_flush(ring_buffer_t *pbuf) {
+    pbuf-&gt;wptr = pbuf-&gt;rptr = 0;
+}
+
+void fill_ring_buffer(ring_buffer_t *pbuf, uint8_t data) {
+    pbuf-&gt;buffer[pbuf-&gt;wptr&amp;BUFFER_SIZE] = data;
+    pbuf-&gt;wptr++;
+    pbuf-&gt;wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+}
+
+uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
+    uint8_t data;
+    data = pbuf-&gt;buffer[pbuf-&gt;rptr&amp;BUFFER_SIZE];
+    pbuf-&gt;rptr++;
+    pbuf-&gt;rptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+
+    return data;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Objdump学习]]></title>
@@ -136,6 +190,19 @@ bss段：</p>
 
 <h2>ARM汇编</h2>
 
+<h3>参数传递</h3>
+
+<pre><code>当少于四个时，按从左到右的顺序依次放在r0,r1,r2,r3中;
+当多于四个时，前四个放在r0,r1,r2,r3中，剩余的放在堆栈中，
+最后一个参数先入栈，第五个参数最后入栈，即从右到左入栈
+</code></pre>
+
+<h3>返回值</h3>
+
+<pre><code>结果为32位时,通过R0返回
+结果为64位时，r0放低32位，r1放高32位        
+</code></pre>
+
 <p><a href="http://yulin724.wikidot.com/rwpaper:arm-assembly-instructions#toc12">ARM汇编指令集</a></p>
 
 <h4>BL</h4>
@@ -144,7 +211,7 @@ bss段：</p>
 
 <h4>BEQ</h4>
 
-<p>BEQ指定是跳转指令，但是跳转要满足一定的条件，例：CMP    R1，#0    BEQ  Label    即当R1和0相等的时候程序跳到标号Label处执行。BEQ执行后不调回去。</p>
+<p>BEQ指定是跳转指令，但是跳转要满足一定的条件，例：CMP    R1，#0    BEQ  Label    即当R1和0相等的时候程序跳到标号Label处执行。(BEQ执行后不调回去？？)</p>
 
 <h4>LDR/STR</h4>
 
@@ -154,6 +221,22 @@ bss段：</p>
 </code></pre>
 
 <p>就是把0x12345678这个地址中的值存放到r0中。而mov不能干这个活，mov只能在寄存器之间移动数据，或者把立即数移动到寄存器中，这个和x86这种CISC架构的芯片区别最大的地方。</p>
+
+<h4>LDR伪指令</h4>
+
+<p>ldr r0, =0x12345678       <br/>
+把0x12345678这个地址写到r0中</p>
+
+<h4>LDMIA</h4>
+
+<p>LDMIA R0! ,{R1,R2}  是指将R0指向的单元中的数据读出到R1，R2中      <br/>
+R1←[R0] R2←[R0＋4]</p>
+
+<h4>BIC</h4>
+
+<p>位清除    <br/>
+    BIC     R0, R0, #0xF0000000     将R0高4位清零
+    BIC     R1, R1, #0x0F           将R1低4位清0</p>
 ]]></content>
   </entry>
   

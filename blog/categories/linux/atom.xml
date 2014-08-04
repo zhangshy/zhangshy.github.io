@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-07-29T18:27:21+00:00</updated>
+  <updated>2014-08-04T16:36:48+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[环形buffer]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer/"/>
+    <updated>2014-08-04T16:00:14+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
+
+<h3>定义</h3>
+
+<pre><code>#define BUFFER_SIZE 0xF 
+typedef struct {
+    uint32_t wptr;   ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint32_t rptr;   ///&lt; buffer读取位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint8_t buffer[BUFFER_SIZE+1];  ///&lt; buffer大小为BUFFER_SIZE+1
+}ring_buffer_t; 
+</code></pre>
+
+<h3>使用</h3>
+
+<p>若BUFFER_SIZE=3，wptr和rptr的索引为[0:7]  <br/>
+1. wptr=rptr时buffer为空      <br/>
+2. wptr和rptr之间的差值为BUFFER_SIZE+1即4时buffer为满     <br/>
+3. wptr和rptr的范围通过pbuf->wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1 确定，BUFFER_SIZE的取值应该是N个2进制1？？</p>
+
+<pre><code>__inline uint32_t ring_buffer_is_empty(ring_buffer_t *pbuf) {
+    return (pbuf-&gt;wptr==pbuf-&gt;rptr);
+}
+
+__inline uint32_t ring_buffer_is_full(ring_buffer_t *pbuf) {
+    return ((pbuf-&gt;wptr^pbuf-&gt;rptr)==(BUFFER_SIZE+1));
+}
+
+__inline void ring_buffer_flush(ring_buffer_t *pbuf) {
+    pbuf-&gt;wptr = pbuf-&gt;rptr = 0;
+}
+
+void fill_ring_buffer(ring_buffer_t *pbuf, uint8_t data) {
+    pbuf-&gt;buffer[pbuf-&gt;wptr&amp;BUFFER_SIZE] = data;
+    pbuf-&gt;wptr++;
+    pbuf-&gt;wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+}
+
+uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
+    uint8_t data;
+    data = pbuf-&gt;buffer[pbuf-&gt;rptr&amp;BUFFER_SIZE];
+    pbuf-&gt;rptr++;
+    pbuf-&gt;rptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+
+    return data;
+}
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux驱动]]></title>
