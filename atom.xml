@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-04T16:36:48+00:00</updated>
+  <updated>2014-08-13T13:42:31+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[加密模式和填充方式]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/"/>
+    <updated>2014-08-09T14:30:00+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi</id>
+    <content type="html"><![CDATA[<h3>模式介绍</h3>
+
+<ol>
+<li>电码本模式(Electronic Codebook Book(ECB))  <br/>
+这种模式是将整个明文分成若干段相同的小段，然后对每一小段进行加密。</li>
+<li>密码分组链接模式(Cipher Block Chaining (CBC))  <br/>
+这种模式是先将明文切分成若干小段，然后每一小段与初始块或者上一段的密文段进行异或运算后，再与密钥进行加密。
+
+<h3>填充方式</h3>
+
+<p><a href="http://blog.chinaunix.net/uid-196845-id-2788287.html">JCE中支持AES，支持的模式和填充方式</a>    <br/>
+JCE中AES支持五中模式：CBC，CFB，ECB，OFB，PCBC；支持三种填充：NoPadding，PKCS5Padding，ISO10126Padding。不支持SSL3Padding。不支持“NONE”模式。</p></li>
+</ol>
+
+
+<p>其中AES/ECB/NoPadding和我现在使用的AESUtil得出的结果相同(在16的整数倍情况下)。不带模式和填充来获取AES算法的时候，其默认使用ECB/PKCS5Padding。</p>
+
+<pre><code>算法/模式/填充                   16字节加密后数据长度         不满16字节加密后长度
+AES/CBC/NoPadding              16                         不支持
+AES/CBC/PKCS5Padding           32                         16
+AES/CBC/ISO10126Padding        32                         16
+AES/CFB/NoPadding              16                         原始数据长度
+AES/CFB/PKCS5Padding           32                         16
+AES/CFB/ISO10126Padding        32                         16
+AES/ECB/NoPadding              16                         不支持
+AES/ECB/PKCS5Padding           32                         16
+AES/ECB/ISO10126Padding        32                         16
+AES/OFB/NoPadding              16                         原始数据长度
+AES/OFB/PKCS5Padding           32                         16
+AES/OFB/ISO10126Padding        32                         16
+AES/PCBC/NoPadding             16                         不支持
+AES/PCBC/PKCS5Padding          32                         16
+AES/PCBC/ISO10126Padding       32                         16
+</code></pre>
+
+<p>可以看到，在原始数据长度为16的整数倍时，假如原始数据长度等于16n，则使用NoPadding时加密后数据长度等于16n，其它情况下加密数据长度等于16(n+1)。在不足16的整数倍的情况下，假如原始数据长度等于16n+m[其中m小于16]，除了NoPadding填充之外的任何方式，加密数据长度都等于16(n+1)；NoPadding填充情况下，CBC、ECB和PCBC三种模式是不支持的，CFB、OFB两种模式下则加密数据长度等于原始数据长度。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[DexClassLoader动态加载]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/"/>
+    <updated>2014-08-08T11:40:07+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/over140/archive/2011/11/23/2259367.html">Android动态加载jar/dex</a>      <br/>
+<a href="http://blog.csdn.net/jiangwei0910410003/article/details/17679823">Android中的动态加载机制</a>   <br/>
+<a href="https://github.com/zhangshy/myTest/tree/master/DexClassLoaderTest">示例代码</a></p>
+
+<h2>1. 准备dex文件</h2>
+
+<h3>1.1 编写</h3>
+
+<p>接口：</p>
+
+<pre><code>package com.dex.test;
+
+public interface IDextest {
+    public String getDexString();
+}
+</code></pre>
+
+<p>实现：</p>
+
+<pre><code>package com.dex.test;
+
+public class Dextest implements IDextest{
+    @Override
+    public String getDexString() {
+        return "here dex test!!";
+    }
+}
+</code></pre>
+
+<h3>1.2 导出jar包</h3>
+
+<p><img src="http://zhangshy.github.io/images/cap_jar.jpg" alt="导出jar包" />     <br/>
+导出时不用选择接口文件。</p>
+
+<h3>1.3 使用dx转换</h3>
+
+<p>dx在sdk/build-tools/android-4.4.2/下，执行/opt/android/sdk/build-tools/android-4.4.2/dx &ndash;dex &ndash;output=test.jar dextest.jar</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Binder编写]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie/"/>
+    <updated>2014-08-06T11:35:45+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html">Android深入浅出之Binder机制</a>  <br/>
+<a href="https://github.com/zhangshy/myTest/tree/master/binder">我的例子</a></p>
+
+<pre><code>使用NDK编译多模块时编译顺序和要生成的文件的首字母有关？
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux多线程编程]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/"/>
+    <updated>2014-08-05T17:28:29+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
+
+<h3>pthread_create</h3>
+
+<pre><code>void *test_thread(void *arg) {
+    int *num = (int *)arg;  //可以得到参数
+}
+
+pthread_t thread_id;
+int testNum=1;
+pthread_create(&amp;thread_id, NULL, test_thread, (void *)&amp;testNum);
+</code></pre>
+
+<h3>pthread_detach与pthread_join</h3>
+
+<p>调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞;这时可以在子线程中加入代码    <br/>
+pthread_detach(pthread_self())    <br/>
+或者父线程调用    <br/>
+pthread_detach(thread_id)（非阻塞，可立即返回）   <br/>
+这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源</p>
+
+<h3>pthread_cond_wait</h3>
+
+<p><a href="http://baike.baidu.com/view/5725833.htm?fr=aladdin">pthread_cond_wait</a>   <br/>
+条件变量是利用线程间共享的全局变量进行同步的一种机制，主要包括两个动作：一个线程等待&#8221;条件变量的条件成立&#8221;而挂起；另一个线程使&#8221;条件成立&#8221;（给出条件成立信号）。为了防止竞争，条件变量的使用总是和一个互斥锁结合在一起。</p>
+
+<pre><code>pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_mutex_init(&amp;mutex, NULL);
+pthread_cond_init(&amp;cond, NULL);
+
+//等待
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_wait(&amp;cond, &amp;mutex);
+pthread_mutex_unlock(&amp;mutex)
+//激活
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_signal(&amp;cond);
+pthread_mutex_unlock(&amp;mutex);
+//注销
+pthread_mutex_destroy(&amp;mutex);
+pthread_cond_destroy(&amp;cond);
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[环形buffer]]></title>
@@ -912,7 +1065,8 @@ px指屏幕上物理像素点，不建议使用;
 多于一个设备时指定设备：adb -s 192.168.11.84:5555 shell     <br/>
 启动应用某界面：am start com.example.test/.MainActivity   <br/>
 命令行安装应用：pm install xxx.apk    <br/>
-命令行卸载应用：pm uninstall com.example.test</p>
+命令行卸载应用：pm uninstall com.example.test     <br/>
+启动模拟器：./emulator -avd test -memory 512 -partition-size 256  启动名称为test的模拟器，rom大小256M</p>
 
 <h2>分析工具dumpsys</h2>
 

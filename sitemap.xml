@@ -3,6 +3,30 @@
   
   
   <url>
+    <loc>http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/</loc>
+    <lastmod>2014-08-09T14:30:00+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/</loc>
+    <lastmod>2014-08-08T11:40:07+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie/</loc>
+    <lastmod>2014-08-06T11:35:45+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/</loc>
+    <lastmod>2014-08-05T17:28:29+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer/</loc>
     <lastmod>2014-08-04T16:00:14+00:00</lastmod>
     <priority>0.8</priority>
@@ -95,14 +119,14 @@
   
   <url>
     <loc>http://zhangshy.github.io/blog/archives/</loc>
-    <lastmod>2014-08-04T16:36:48+00:00</lastmod>
+    <lastmod>2014-08-13T13:42:31+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://zhangshy.github.io/</loc>
-    <lastmod>2014-08-04T16:36:48+00:00</lastmod>
+    <lastmod>2014-08-13T13:42:31+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

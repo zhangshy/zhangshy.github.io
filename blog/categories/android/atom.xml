@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-04T16:36:48+00:00</updated>
+  <updated>2014-08-13T13:42:31+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,64 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[DexClassLoader动态加载]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/"/>
+    <updated>2014-08-08T11:40:07+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/over140/archive/2011/11/23/2259367.html">Android动态加载jar/dex</a>      <br/>
+<a href="http://blog.csdn.net/jiangwei0910410003/article/details/17679823">Android中的动态加载机制</a>   <br/>
+<a href="https://github.com/zhangshy/myTest/tree/master/DexClassLoaderTest">示例代码</a></p>
+
+<h2>1. 准备dex文件</h2>
+
+<h3>1.1 编写</h3>
+
+<p>接口：</p>
+
+<pre><code>package com.dex.test;
+
+public interface IDextest {
+    public String getDexString();
+}
+</code></pre>
+
+<p>实现：</p>
+
+<pre><code>package com.dex.test;
+
+public class Dextest implements IDextest{
+    @Override
+    public String getDexString() {
+        return "here dex test!!";
+    }
+}
+</code></pre>
+
+<h3>1.2 导出jar包</h3>
+
+<p><img src="/images/cap_jar.jpg" alt="导出jar包" />     <br/>
+导出时不用选择接口文件。</p>
+
+<h3>1.3 使用dx转换</h3>
+
+<p>dx在sdk/build-tools/android-4.4.2/下，执行/opt/android/sdk/build-tools/android-4.4.2/dx &ndash;dex &ndash;output=test.jar dextest.jar</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android Binder编写]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie/"/>
+    <updated>2014-08-06T11:35:45+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html">Android深入浅出之Binder机制</a>  <br/>
+<a href="https://github.com/zhangshy/myTest/tree/master/binder">我的例子</a></p>
+
+<pre><code>使用NDK编译多模块时编译顺序和要生成的文件的首字母有关？
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Android Jni编写]]></title>
@@ -213,7 +271,8 @@ px指屏幕上物理像素点，不建议使用;
 多于一个设备时指定设备：adb -s 192.168.11.84:5555 shell     <br/>
 启动应用某界面：am start com.example.test/.MainActivity   <br/>
 命令行安装应用：pm install xxx.apk    <br/>
-命令行卸载应用：pm uninstall com.example.test</p>
+命令行卸载应用：pm uninstall com.example.test     <br/>
+启动模拟器：./emulator -avd test -memory 512 -partition-size 256  启动名称为test的模拟器，rom大小256M</p>
 
 <h2>分析工具dumpsys</h2>
 

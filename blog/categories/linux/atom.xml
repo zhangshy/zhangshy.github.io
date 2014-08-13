@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-04T16:36:48+00:00</updated>
+  <updated>2014-08-13T13:42:31+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux多线程编程]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/"/>
+    <updated>2014-08-05T17:28:29+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng</id>
+    <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
+
+<h3>pthread_create</h3>
+
+<pre><code>void *test_thread(void *arg) {
+    int *num = (int *)arg;  //可以得到参数
+}
+
+pthread_t thread_id;
+int testNum=1;
+pthread_create(&amp;thread_id, NULL, test_thread, (void *)&amp;testNum);
+</code></pre>
+
+<h3>pthread_detach与pthread_join</h3>
+
+<p>调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞;这时可以在子线程中加入代码    <br/>
+pthread_detach(pthread_self())    <br/>
+或者父线程调用    <br/>
+pthread_detach(thread_id)（非阻塞，可立即返回）   <br/>
+这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源</p>
+
+<h3>pthread_cond_wait</h3>
+
+<p><a href="http://baike.baidu.com/view/5725833.htm?fr=aladdin">pthread_cond_wait</a>   <br/>
+条件变量是利用线程间共享的全局变量进行同步的一种机制，主要包括两个动作：一个线程等待"条件变量的条件成立"而挂起；另一个线程使"条件成立"（给出条件成立信号）。为了防止竞争，条件变量的使用总是和一个互斥锁结合在一起。</p>
+
+<pre><code>pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_mutex_init(&amp;mutex, NULL);
+pthread_cond_init(&amp;cond, NULL);
+
+//等待
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_wait(&amp;cond, &amp;mutex);
+pthread_mutex_unlock(&amp;mutex)
+//激活
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_signal(&amp;cond);
+pthread_mutex_unlock(&amp;mutex);
+//注销
+pthread_mutex_destroy(&amp;mutex);
+pthread_cond_destroy(&amp;cond);
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[环形buffer]]></title>

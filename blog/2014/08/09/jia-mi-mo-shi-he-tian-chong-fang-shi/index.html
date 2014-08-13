@@ -5,14 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Python学习 - 张帅依的博客</title>
+  <title>加密模式和填充方式 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="print 格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束 a=10
-b=12
-print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
-print("0x%02x+0x%x=%d &hellip;">
+  <meta name="description" content="模式介绍 电码本模式(Electronic Codebook Book(ECB)) 这种模式是将整个明文分成若干段相同的小段，然后对每一小段进行加密。
+密码分组链接模式(Cipher Block Chaining (CBC)) 这种模式是先将明文切分成若干小段， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +19,7 @@ print("0x%02x+0x%x=%d &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -68,7 +66,7 @@ print("0x%02x+0x%x=%d &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Python学习</h1>
+      <h1 class="entry-title">加密模式和填充方式</h1>
     
     
       <p class="meta">
@@ -84,98 +82,49 @@ print("0x%02x+0x%x=%d &hellip;">
   
 
 
-<time datetime="2014-07-24T16:15:52+00:00" pubdate data-updated="true">Jul 24<sup>th</sup>, 2014</time>
+<time datetime="2014-08-09T14:30:00+00:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h3>print</h3>
+<div class="entry-content"><h3>模式介绍</h3>
 
-<p>格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束</p>
+<ol>
+<li>电码本模式(Electronic Codebook Book(ECB))  <br/>
+这种模式是将整个明文分成若干段相同的小段，然后对每一小段进行加密。</li>
+<li>密码分组链接模式(Cipher Block Chaining (CBC))  <br/>
+这种模式是先将明文切分成若干小段，然后每一小段与初始块或者上一段的密文段进行异或运算后，再与密钥进行加密。
 
-<pre><code>a=10
-b=12
-print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
-print("0x%02x+0x%x=%d" % (a, b, a+b))
-输出相同：0x0a+0xc=22
+<h3>填充方式</h3>
+
+<p><a href="http://blog.chinaunix.net/uid-196845-id-2788287.html">JCE中支持AES，支持的模式和填充方式</a>    <br/>
+JCE中AES支持五中模式：CBC，CFB，ECB，OFB，PCBC；支持三种填充：NoPadding，PKCS5Padding，ISO10126Padding。不支持SSL3Padding。不支持“NONE”模式。</p></li>
+</ol>
+
+
+<p>其中AES/ECB/NoPadding和我现在使用的AESUtil得出的结果相同(在16的整数倍情况下)。不带模式和填充来获取AES算法的时候，其默认使用ECB/PKCS5Padding。</p>
+
+<pre><code>算法/模式/填充                   16字节加密后数据长度         不满16字节加密后长度
+AES/CBC/NoPadding              16                         不支持
+AES/CBC/PKCS5Padding           32                         16
+AES/CBC/ISO10126Padding        32                         16
+AES/CFB/NoPadding              16                         原始数据长度
+AES/CFB/PKCS5Padding           32                         16
+AES/CFB/ISO10126Padding        32                         16
+AES/ECB/NoPadding              16                         不支持
+AES/ECB/PKCS5Padding           32                         16
+AES/ECB/ISO10126Padding        32                         16
+AES/OFB/NoPadding              16                         原始数据长度
+AES/OFB/PKCS5Padding           32                         16
+AES/OFB/ISO10126Padding        32                         16
+AES/PCBC/NoPadding             16                         不支持
+AES/PCBC/PKCS5Padding          32                         16
+AES/PCBC/ISO10126Padding       32                         16
 </code></pre>
 
-<p>%% 百分号标记     <br/>
-%c 字符及其ASCII码    <br/>
-%s 字符串     <br/>
-%d 有符号整数(十进制)     <br/>
-%u 无符号整数(十进制)     <br/>
-%o 无符号整数(八进制)     <br/>
-%x 无符号整数(十六进制)   <br/>
-%X 无符号整数(十六进制大写字符)   <br/>
-%e 浮点数字(科学计数法)   <br/>
-%E 浮点数字(科学计数法，用E代替e)     <br/>
-%f 浮点数字(用小数点符号)     <br/>
-%g 浮点数字(根据值的大小采用%e或%f)   <br/>
-%G 浮点数字(类似于%g)     <br/>
-%p 指针(用十六进制打印值的内存地址)   <br/>
-%n 存储输出字符的数量放进参数列表的下一个变量中</p>
-
-<h3>字典</h3>
-
-<pre><code>headers = {'User-agent':'Mozilla/5.0',
-       'cache-control':'no-cache',
-       'accept':'*/*'}
-for k, v in headers.items():
-    print(k, v)
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>User-agent Mozilla/5.0
-cache-control no-cache
-accept */*
-</code></pre>
-
-<h3>chr hex ord</h3>
-
-<p>ord返回字符的ASCII  print(ord(&lsquo;a&rsquo;)) 输出97    <br/>
-chr返回字符 print(chr(97))  输出a     <br/>
-hex返回16进制   print(hex(97))  输出0x61</p>
-
-<pre><code>f=open('xxx.ts', 'r', encoding="ISO-8859-1")
-context = f.read()
-buf = [ord(i) for i in context]
-</code></pre>
-
-<h3>字符串操作</h3>
-
-<h4>查找</h4>
-
-<p>find和index，使用index未找到字符串会抛出异常，find不抛异常只是返回-1。</p>
-
-<pre><code>index1 = str.find("xx")
-index2 = str.find("xxx", index1)#从第index1位置开始查找
-</code></pre>
-
-<h4>复制</h4>
-
-<p>str2 = str[index1: index2]</p>
-
-<h3>时间</h3>
-
-<p>获取当前时间localtime，格式化时间strftime</p>
-
-<pre><code>import time
-print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-输出2014-07-24 19:13:43
-</code></pre>
-
-<h3>文件操作</h3>
-
-<p>os.access可以判断文件是否存在，os.mkdir创建文件夹</p>
-
-<pre><code>if not os.access(filePath, os.R_OK):
-    print("目录不存在")
-    os.mkdir(filePath, mode=0o777)
-</code></pre>
+<p>可以看到，在原始数据长度为16的整数倍时，假如原始数据长度等于16n，则使用NoPadding时加密后数据长度等于16n，其它情况下加密数据长度等于16(n+1)。在不足16的整数倍的情况下，假如原始数据长度等于16n+m[其中m小于16]，除了NoPadding填充之外的任何方式，加密数据长度都等于16(n+1)；NoPadding填充情况下，CBC、ECB和PCBC三种模式是不支持的，CFB、OFB两种模式下则加密数据长度等于原始数据长度。</p>
 </div>
 
 
@@ -198,14 +147,8 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
   
 
 
-<time datetime="2014-07-24T16:15:52+00:00" pubdate data-updated="true">Jul 24<sup>th</sup>, 2014</time>
+<time datetime="2014-08-09T14:30:00+00:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/python/'>python</a>
-  
-</span>
 
 
     </p>
@@ -219,10 +162,8 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/22/tsliu/" title="Previous Post: ts流">&laquo; ts流</a>
+        <a class="basic-alignment left" href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/" title="Previous Post: DexClassLoader动态加载">&laquo; DexClassLoader动态加载</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/07/25/pythonwang-luo-bian-cheng/" title="Next Post: python网络编程">python网络编程 &raquo;</a>
       
     </p>
   </footer>
