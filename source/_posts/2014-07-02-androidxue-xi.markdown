@@ -103,6 +103,7 @@ px指屏幕上物理像素点，不建议使用;
 启动应用某界面：am start com.example.test/.MainActivity     
 命令行安装应用：pm install xxx.apk      
 命令行卸载应用：pm uninstall com.example.test       
+启动模拟器：./emulator -avd test -memory 512 -partition-size 256  启动名称为test的模拟器，rom大小256M
 ##分析工具dumpsys
 dumpsys用来给出android应用程序的信息：      
 
