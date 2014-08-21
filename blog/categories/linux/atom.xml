@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-13T13:42:31+00:00</updated>
+  <updated>2014-08-21T14:06:47+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -235,6 +235,11 @@ device_wq = create_singlethread_workqueue("device_wq");//只创建一个内核�
 INIT_WORK(&amp;device_work, device_work_func);
 request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断服务
 </code></pre>
+
+<p>补充：
+1. 中断处理中尽量不要加打印;
+2. 在硬中断处理函数device_irq_service中不能使用mutex_lock，如果必须加锁可使用自旋锁spinlock_t; 在软中断
+函数device_work_func中可以加mutex_lock</p>
 ]]></content>
   </entry>
   
@@ -309,6 +314,11 @@ d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
 
 <p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
 free</p>
+
+<h3>usermod</h3>
+
+<p>查看用户所属的组：groups user     <br/>
+添加用户到某个组：usermod -a -G groupA user</p>
 ]]></content>
   </entry>
   

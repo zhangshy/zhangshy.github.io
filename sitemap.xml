@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku/</loc>
+    <lastmod>2014-08-13T17:15:28+00:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/</loc>
     <lastmod>2014-08-09T14:30:00+00:00</lastmod>
     <priority>0.8</priority>
@@ -119,14 +125,14 @@
   
   <url>
     <loc>http://zhangshy.github.io/blog/archives/</loc>
-    <lastmod>2014-08-13T13:42:31+00:00</lastmod>
+    <lastmod>2014-08-21T14:06:47+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://zhangshy.github.io/</loc>
-    <lastmod>2014-08-13T13:42:31+00:00</lastmod>
+    <lastmod>2014-08-21T14:06:47+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

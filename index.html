@@ -9,8 +9,8 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="模式介绍 电码本模式(Electronic Codebook Book(ECB)) 这种模式是将整个明文分成若干段相同的小段，然后对每一小段进行加密。
-密码分组链接模式(Cipher Block Chaining (CBC)) 这种模式是先将明文切分成若干小段， &hellip;">
+  <meta name="description" content="我的例子 调用c++ c++编写的so库要加上extern &ldquo;C&#8221;，要不然找不到函数 传递字符串 使用c_char_p(b&#8221;xxxx&#8221;)传递字符串，如果直接用xxx的话，c层只能得到一个字符。 from ctypes import *
+rpng = &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +63,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-13T17:15:28+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/zhangshy/myTest/blob/master/python/cvsave2Png.py">我的例子</a></p>
+
+<h3>调用c++</h3>
+
+<p>c++编写的so库要加上extern &ldquo;C&#8221;，要不然找不到函数</p>
+
+<h3>传递字符串</h3>
+
+<p>使用c_char_p(b&#8221;xxxx&#8221;)传递字符串，如果直接用xxx的话，c层只能得到一个字符。</p>
+
+<pre><code>from ctypes import *
+rpng = cdll.LoadLibrary("/home/zsy/lqbz/java/librpng.so")
+rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvout.png"))
+</code></pre>
+
+<h3>python调用shell</h3>
+
+<p><a href="https://github.com/zhangshy/myTest/blob/master/python/pushShell.py">我的例子</a>    <br/>
+    os.system(&ldquo;adb push libjni.so /system/lib&rdquo;)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -834,98 +888,6 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/22/tsliu/">Ts流</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-22T09:08:51+00:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://blog.csdn.net/liuhongxiangm/article/details/8981032">TS详解</a></p>
-
-<h3>整体描述</h3>
-
-<p>ts整包长度为<font color="red">188</font>,前4字节为包头。</p>
-
-<table class="table table-bordered table-striped table-condensed">
-<thead>
- <tr>
-    <th>同步字节</th>
-    <th>传输错误指示</th>
-    <th>开始指示</th>
-    <th>传输优先级</th>
-    <th>PID</th>
-    <th>加扰控制</th>
-    <th>适配域控制</th>
-    <th>连续性计数器</th>
- </tr>
- </thead>
- <tbody>
- <tr>
-    <td>8</td>
-    <td>1</td>
-    <td>1</td>
-    <td>1</td>
-    <td>13</td>
-    <td>2</td>
-    <td>2</td>
-    <td>4</td>
- </tr>
- </tbody>
-</table>
-
-
-<p>sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别，使包头和有效负载可相互分离,MPEG-2解码器接收到MPEG-2 TS流时，首先检测包结构，在TS流中查找同步字节：</p>
-
-<pre><code>总是OX47，总位于TS包开始位置，固定间隔为188字节。同时满足这两个条件，可以确定同步。
-如果出现一个字节为47hex(OX47)，解码器将检测这个字节前后n倍188字节的位置是否也是同步字节。
-如果是，则当前字节为同步字节；
-否则，当前字节只是码流中偶尔出现的47hex，不是同步字节
-</code></pre>
-
-<p>Table ID长度为8bit</p>
-
-<pre><code>47  48  04  17  00  80  70 ...
-同步字节：0x47
-PID：0x804
-Table ID：0x80
-</code></pre>
-
-<h3>各表</h3>
-
-<pre><code>PAT表PID：0,Table ID：0,包含PMT信息
-CAT表PID：1,Table ID：1,包含CA的EMM信息
-PMT表PID从PAT中获取，Table ID：2,包含音视频和CA的ECM信息
-NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和调制方式。
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -942,13 +904,17 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
     <li class='category'><a href='/blog/categories/android/'>android (5)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
-<li class='category'><a href='/blog/categories/python/'>python (2)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
@@ -964,10 +930,6 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
     
       <li class="post">
         <a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a>
       </li>
     
   </ul>

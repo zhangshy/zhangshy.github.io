@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-13T13:42:31+00:00</updated>
+  <updated>2014-08-21T14:06:47+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Python Ctypes使用c库]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku/"/>
+    <updated>2014-08-13T17:15:28+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/python/cvsave2Png.py">我的例子</a></p>
+
+<h3>调用c++</h3>
+
+<p>c++编写的so库要加上extern &ldquo;C"，要不然找不到函数</p>
+
+<h3>传递字符串</h3>
+
+<p>使用c_char_p(b"xxxx")传递字符串，如果直接用xxx的话，c层只能得到一个字符。</p>
+
+<pre><code>from ctypes import *
+rpng = cdll.LoadLibrary("/home/zsy/lqbz/java/librpng.so")
+rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvout.png"))
+</code></pre>
+
+<h3>python调用shell</h3>
+
+<p><a href="https://github.com/zhangshy/myTest/blob/master/python/pushShell.py">我的例子</a>    <br/>
+    os.system(&ldquo;adb push libjni.so /system/lib&rdquo;)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python网络编程]]></title>

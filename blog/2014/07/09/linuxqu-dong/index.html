@@ -203,6 +203,11 @@ device_wq = create_singlethread_workqueue("device_wq");//只创建一个内核�
 INIT_WORK(&amp;device_work, device_work_func);
 request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断服务
 </code></pre>
+
+<p>补充：
+1. 中断处理中尽量不要加打印;
+2. 在硬中断处理函数device_irq_service中不能使用mutex_lock，如果必须加锁可使用自旋锁spinlock_t; 在软中断
+函数device_work_func中可以加mutex_lock</p>
 </div>
 
 
@@ -265,13 +270,17 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
     <li class='category'><a href='/blog/categories/android/'>android (5)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
-<li class='category'><a href='/blog/categories/python/'>python (2)</a></li>
+<li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
   </ul>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
@@ -287,10 +296,6 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
     
       <li class="post">
         <a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a>
       </li>
     
   </ul>
