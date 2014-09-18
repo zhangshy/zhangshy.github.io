@@ -55,3 +55,10 @@ mips-linux-gnu-gcc -g -O2 -Wall -EL test.c
 ###watch
 检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
 free
+###usermod
+查看用户所属的组：groups user       
+添加用户到某个组：usermod -a -G groupA user     
+### &&和||
+command1 && command2 当command1执行成功才执行command2       
+command1 || command2 当command1执行不成功才执行command2
+

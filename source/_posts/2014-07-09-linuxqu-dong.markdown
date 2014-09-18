@@ -103,5 +103,8 @@ spin_lock_irqsave会关闭中断
     INIT_WORK(&device_work, device_work_func);
     request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断服务
     
-
+补充：
+1. 中断处理中尽量不要加打印; 
+2. 在硬中断处理函数device_irq_service中不能使用mutex_lock，如果必须加锁可使用自旋锁spinlock_t; 在软中断
+函数device_work_func中可以加mutex_lock
 
