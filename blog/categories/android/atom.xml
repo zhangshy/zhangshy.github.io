@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-21T14:06:47+00:00</updated>
+  <updated>2014-09-18T18:34:41+08:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[DexClassLoader动态加载]]></title>
     <link href="http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/"/>
-    <updated>2014-08-08T11:40:07+00:00</updated>
+    <updated>2014-08-08T19:40:07+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai</id>
     <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/over140/archive/2011/11/23/2259367.html">Android动态加载jar/dex</a>      <br/>
 <a href="http://blog.csdn.net/jiangwei0910410003/article/details/17679823">Android中的动态加载机制</a>   <br/>
@@ -61,7 +61,7 @@ public class Dextest implements IDextest{
   <entry>
     <title type="html"><![CDATA[Android Binder编写]]></title>
     <link href="http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie/"/>
-    <updated>2014-08-06T11:35:45+00:00</updated>
+    <updated>2014-08-06T19:35:45+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie</id>
     <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html">Android深入浅出之Binder机制</a>  <br/>
 <a href="https://github.com/zhangshy/myTest/tree/master/binder">我的例子</a></p>
@@ -74,7 +74,7 @@ public class Dextest implements IDextest{
   <entry>
     <title type="html"><![CDATA[Android Jni编写]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/14/android-jnibian-xie/"/>
-    <updated>2014-07-14T11:26:26+00:00</updated>
+    <updated>2014-07-14T19:26:26+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/14/android-jnibian-xie</id>
     <content type="html"><![CDATA[<h3>java文件编写</h3>
 
@@ -162,7 +162,7 @@ optional:指该模块在所有版本下都编译   <br/>
   <entry>
     <title type="html"><![CDATA[Android学习]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/02/androidxue-xi/"/>
-    <updated>2014-07-02T14:35:05+00:00</updated>
+    <updated>2014-07-02T22:35:05+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/02/androidxue-xi</id>
     <content type="html"><![CDATA[<h2>包属性</h2>
 
@@ -313,7 +313,7 @@ service list可以列出服务
   <entry>
     <title type="html"><![CDATA[Android Usb Host]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/01/android-usb-host/"/>
-    <updated>2014-07-01T14:18:15+00:00</updated>
+    <updated>2014-07-01T22:18:15+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/01/android-usb-host</id>
     <content type="html"><![CDATA[<h3>1. 检查系统是否开启了usb host功能</h3>
 

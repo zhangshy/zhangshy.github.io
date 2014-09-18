@@ -9,7 +9,10 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="TS详解 整体描述 ts整包长度为188,前4字节为包头。 同步字节 传输错误指示 开始指示 传输优先级 PID 加扰控制 适配域控制 连续性计数器 8 1 1 1 13 2 2 4 sync_byte （同步字节）：固定为0100 0111(0x47)；该字节由解码器识别， &hellip;">
+  <meta name="description" content="print 格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束 a=10
+b=12
+print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
+print("0x%02x+0x%x=%d &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +71,126 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/25/pythonxue-xi/">Python学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-25T00:15:52+08:00" pubdate data-updated="true">Jul 25<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>print</h3>
+
+<p>格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束</p>
+
+<pre><code>a=10
+b=12
+print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
+print("0x%02x+0x%x=%d" % (a, b, a+b))
+输出相同：0x0a+0xc=22
+</code></pre>
+
+<p>%% 百分号标记     <br/>
+%c 字符及其ASCII码    <br/>
+%s 字符串     <br/>
+%d 有符号整数(十进制)     <br/>
+%u 无符号整数(十进制)     <br/>
+%o 无符号整数(八进制)     <br/>
+%x 无符号整数(十六进制)   <br/>
+%X 无符号整数(十六进制大写字符)   <br/>
+%e 浮点数字(科学计数法)   <br/>
+%E 浮点数字(科学计数法，用E代替e)     <br/>
+%f 浮点数字(用小数点符号)     <br/>
+%g 浮点数字(根据值的大小采用%e或%f)   <br/>
+%G 浮点数字(类似于%g)     <br/>
+%p 指针(用十六进制打印值的内存地址)   <br/>
+%n 存储输出字符的数量放进参数列表的下一个变量中</p>
+
+<h3>字典</h3>
+
+<pre><code>headers = {'User-agent':'Mozilla/5.0',
+       'cache-control':'no-cache',
+       'accept':'*/*'}
+for k, v in headers.items():
+    print(k, v)
+</code></pre>
+
+<p>输出</p>
+
+<pre><code>User-agent Mozilla/5.0
+cache-control no-cache
+accept */*
+</code></pre>
+
+<h3>chr hex ord</h3>
+
+<p>ord返回字符的ASCII  print(ord(&lsquo;a&rsquo;)) 输出97    <br/>
+chr返回字符 print(chr(97))  输出a     <br/>
+hex返回16进制   print(hex(97))  输出0x61</p>
+
+<pre><code>f=open('xxx.ts', 'r', encoding="ISO-8859-1")
+context = f.read()
+buf = [ord(i) for i in context]
+</code></pre>
+
+<h3>字符串操作</h3>
+
+<h4>查找</h4>
+
+<p>find和index，使用index未找到字符串会抛出异常，find不抛异常只是返回-1。</p>
+
+<pre><code>index1 = str.find("xx")
+index2 = str.find("xxx", index1)#从第index1位置开始查找
+</code></pre>
+
+<h4>复制</h4>
+
+<p>str2 = str[index1: index2]</p>
+
+<h3>时间</h3>
+
+<p>获取当前时间localtime，格式化时间strftime</p>
+
+<pre><code>import time
+print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+输出2014-07-24 19:13:43
+</code></pre>
+
+<h3>文件操作</h3>
+
+<p>os.access可以判断文件是否存在，os.mkdir创建文件夹</p>
+
+<pre><code>if not os.access(filePath, os.R_OK):
+    print("目录不存在")
+    os.mkdir(filePath, mode=0o777)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/07/22/tsliu/">Ts流</a></h1>
     
     
@@ -84,7 +207,7 @@
   
 
 
-<time datetime="2014-07-22T09:08:51+00:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
+<time datetime="2014-07-22T17:08:51+08:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
         
       </p>
     
@@ -176,7 +299,7 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
   
 
 
-<time datetime="2014-07-21T11:48:05+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-21T19:48:05+08:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
         
       </p>
     
@@ -217,7 +340,7 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
   
 
 
-<time datetime="2014-07-21T10:30:30+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-21T18:30:30+08:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
         
       </p>
     
@@ -270,7 +393,7 @@ extern "C"{
   
 
 
-<time datetime="2014-07-14T11:26:26+00:00" pubdate data-updated="true">Jul 14<sup>th</sup>, 2014</time>
+<time datetime="2014-07-14T19:26:26+08:00" pubdate data-updated="true">Jul 14<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -369,7 +492,7 @@ optional:指该模块在所有版本下都编译   <br/>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/07/09/linuxqu-dong/">Linux驱动</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/10/linuxqu-dong/">Linux驱动</a></h1>
     
     
       <p class="meta">
@@ -385,7 +508,7 @@ optional:指该模块在所有版本下都编译   <br/>
   
 
 
-<time datetime="2014-07-09T16:08:06+00:00" pubdate data-updated="true">Jul 9<sup>th</sup>, 2014</time>
+<time datetime="2014-07-10T00:08:06+08:00" pubdate data-updated="true">Jul 10<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -537,7 +660,7 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
   
 
 
-<time datetime="2014-07-04T10:43:41+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+<time datetime="2014-07-04T18:43:41+08:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -574,7 +697,7 @@ ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/03/linux-xue-xi/">Linux 学习</a></h1>
     
     
       <p class="meta">
@@ -590,7 +713,7 @@ ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，
   
 
 
-<time datetime="2014-07-02T23:00:20+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+<time datetime="2014-07-03T07:00:20+08:00" pubdate data-updated="true">Jul 3<sup>rd</sup>, 2014</time>
         
       </p>
     
@@ -668,6 +791,11 @@ free</p>
 
 <p>查看用户所属的组：groups user     <br/>
 添加用户到某个组：usermod -a -G groupA user</p>
+
+<h3>&amp;&amp;和||</h3>
+
+<p>command1 &amp;&amp; command2 当command1执行成功才执行command2     <br/>
+command1 || command2 当command1执行不成功才执行command2</p>
 </div>
   
   
@@ -696,7 +824,7 @@ free</p>
   
 
 
-<time datetime="2014-07-02T14:35:05+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+<time datetime="2014-07-02T22:35:05+08:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
         
       </p>
     
@@ -874,7 +1002,7 @@ service list可以列出服务
   
 
 
-<time datetime="2014-07-01T14:18:15+00:00" pubdate data-updated="true">Jul 1<sup>st</sup>, 2014</time>
+<time datetime="2014-07-01T22:18:15+08:00" pubdate data-updated="true">Jul 1<sup>st</sup>, 2014</time>
         
       </p>
     
@@ -980,155 +1108,9 @@ if (connection.requestWait()==mUsbRequest)
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/28/ce-shi-wen-zhang/">测试文章</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-28T15:57:06+00:00" pubdate data-updated="true">Jun 28<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="http://hd42.xiaonei.com/photos/hd42/20080422/19/21/large_3444b150.jpg" alt="myself" /></p>
-
-<h2>archlinux安装</h2>
-
-<h3>pacman</h3>
-
-<pre><code>pacman -Sy abc                    和源同步后安装名为abc的包
-pacman -S abc                     从本地数据库中得到abc的信息，下载安装abc包
-pacman -Sf abc                    强制安装包abc
-pacman -Ss abc                   搜索有关abc信息的包
-pacman -Si abc                    从数据库中搜索包abc的信息
-pacman -Syu                        同步源，并更新系统
-pacman -Sy                          仅同步源
-pacman -R abc                     删除abc包
-pacman -Rc abc                   删除abc包和依赖abc的包
-pacman -Rsn abc                 移除包所有不需要的依赖包并删除其配置文件
-pacman -Sc                          清理/var/cache/pacman/pkg目录下的旧包
-pacman -Scc                        清除所有下载的包和数据库
-pacman -Sd abc                   忽略依赖性问题，安装包abc
-pacman -Su --ignore foo       升级时不升级包foo
-pacman -Sg abc                   查询abc这个包组包含的软件包
-pacman -Q                           列出系统中所有的包
-pacman -Q package             在本地包数据库搜索(查询)指定软件包
-pacman -Qi package            在本地包数据库搜索(查询)指定软件包并列出相关信息
-pacman -Q | wc -l                  统计当前系统中的包数量
-pacman -Qdt                         找出孤立包
-pacman -Rs $(pacman -Qtdq) 删除孤立软件包（递归的,小心用)
-pacman -U   abc.pkg.tar.gz      安装下载的abs包，或新编译的本地abc包
-pacman-optimize &amp;&amp; sync        提高数据库访问速度
-</code></pre>
-
-<h3>输入法fcitx</h3>
-
-<pre><code>  按照例子安装fcitx后，还要安装pacman -S fcitx-googlepinyin。  
-  配置输入法，在Input Method -&gt; 去掉Only Show Currentt Language勾 -&gt; 搜索Chinese 选择
-</code></pre>
-
-<h3>声音</h3>
-
-<pre><code># pacman -S alsa-utils
-# alsamixer
-注意要[M] 取消静音
-</code></pre>
-
-<h3>截屏工具scrot</h3>
-
-<p>sudo pacman -S scrot      <br/>
-1.抓取整个桌面:    scrot  ~/Pictures/pic1.jpg     <br/>
-2.抓取窗口:    scrot -bs ~/Pictures/pic1.jpg      <br/>
-3.区域截图:    scrot -s ~/Pictures/pic1.jpg   <br/>
-4.定时截图:    scrot -cd 10 ~/Pictures/pic1.jpg     <br/>
-5.生成缩略图:    scrot -t 70% ~/Pictures/pic1.jpg     <br/>
-6.更改截图品质:    scrot -q 80 ~/Pictures/pic1.jpg</p>
-
-<h3>pyuv的deb安装</h3>
-
-<p>archlinux安装deb文件，将deb文件解压后复制</p>
-
-<pre><code>//先解压
-ar vx pyuv_0.5-1_x86_64.deb
-tar -xzvf data.tar.gz 
-//复制
-cp usr/bin/pyuv /usr/bin/
-</code></pre>
-
-<p>运行pyuv出错，pyuv: error while loading shared libraries: libwx_gtk2u_richtext-2.8.so.0: cannot open shared object file: No such file or directory    <br/>
-安装依赖库：pacman -S wxgtk2.8</p>
-
-<h3>安装adb</h3>
-
-<p>64为系统安装32位程序需要安装库，对/etc/pacman.conf做如下修改</p>
-
-<pre><code>-#[multilib]
--#Include = /etc/pacman.d/mirrorlist
-+[multilib]
-+Include = /etc/pacman.d/mirrorlist
-</code></pre>
-
-<p>运行pacman -Sy同步包数据库，安装pacman -S lib32-glibc和pacman -S lib32-libstdc++5; pacman -S lib32-ncurses ：lib32-ncurses也安装了，不知是否必须。</p>
-
-<h3>串口工具</h3>
-
-<p>安装minicom: pacman -S minicom<br/>
-打开usb转串口：minicom -D /dev/ttyUSB0<br/>
-设置界面：ctrl+a 后点击o，打开设置界面; ctrl+a后点击l设置保存文件;
-ctrl+a后z帮助界面</p>
-
-<h3>github博客octopress</h3>
-
-<p><a href="http://www.ectogo.com/blog/2014/03/25/settingupoctopressblogongithub/">在Github上搭建Octopress博客</a></p>
-
-<h4>新电脑 老博客</h4>
-
-<pre><code>git clone git@github.com:username/username.github.io.git
-cd username.github.io
-git checkout source
-mkdir _deploy
-cd _deploy
-git init
-git remote add origin git@github.com:username/username.github.io.git
-git pull origin master
-cd ..
-</code></pre>
-
-<p>下次切换电脑的时候只需要更新一下</p>
-
-<pre><code>#先更新source
-git pull origin source
-#更新master
-cd _deploy
-git pull origin master
-cd ..
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/3">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1153,7 +1135,11 @@ cd ..
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
+        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
       </li>
     
       <li class="post">
@@ -1166,10 +1152,6 @@ cd ..
     
       <li class="post">
         <a href="/blog/2014/08/06/android-binderbian-xie/">Android Binder编写</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a>
       </li>
     
   </ul>

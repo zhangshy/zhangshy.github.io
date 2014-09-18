@@ -9,8 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="我的例子 调用c++ c++编写的so库要加上extern &ldquo;C&#8221;，要不然找不到函数 传递字符串 使用c_char_p(b&#8221;xxxx&#8221;)传递字符串，如果直接用xxx的话，c层只能得到一个字符。 from ctypes import *
-rpng = &hellip;">
+  <meta name="description" content="头文件 在android-ndk-r9c/platforms/android-14/arch-arm/usr/include/下可以查看ndk相关的头文件，比如android/log.h 编译工具 编译工具在android-ndk-r9c/toolchains/arm-linux- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,7 +68,7 @@ rpng = &hellip;">
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a></h1>
     
     
       <p class="meta">
@@ -85,7 +84,62 @@ rpng = &hellip;">
   
 
 
-<time datetime="2014-08-13T17:15:28+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
+<time datetime="2014-09-12T23:52:50+08:00" pubdate data-updated="true">Sep 12<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>头文件</h3>
+
+<p>在android-ndk-r9c/platforms/android-14/arch-arm/usr/include/下可以查看ndk相关的头文件，比如android/log.h</p>
+
+<h3>编译工具</h3>
+
+<p>编译工具在android-ndk-r9c/toolchains/arm-linux-androideabi-4.8/prebuilt/linux-x86/bin/下。</p>
+
+<h3>调试命令addr2line</h3>
+
+<p>addr2line 0x08048258 -e test -f</p>
+
+<h2>gdbserver</h2>
+
+<p>在android端运行gdbserver :1234 &ndash;attach 96   #:1234是端口号，96 是进程ID  <br/>
+在pc端运行adb forward tcp:1234 tcp:1234  #端口映射，将pc机的1235端口映射到手机的1234端口      <br/>
+运行arm-linux-androideabi-gdb</p>
+
+<pre><code>(gdb) target remote:1234
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-14T01:15:28+08:00" pubdate data-updated="true">Aug 14<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -139,7 +193,7 @@ rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvou
   
 
 
-<time datetime="2014-08-09T14:30:00+00:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
+<time datetime="2014-08-09T22:30:00+08:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -210,7 +264,7 @@ AES/PCBC/ISO10126Padding       32                         16
   
 
 
-<time datetime="2014-08-08T11:40:07+00:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2014</time>
+<time datetime="2014-08-08T19:40:07+08:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -282,7 +336,7 @@ public class Dextest implements IDextest{
   
 
 
-<time datetime="2014-08-06T11:35:45+00:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
+<time datetime="2014-08-06T19:35:45+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -306,7 +360,7 @@ public class Dextest implements IDextest{
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a></h1>
     
     
       <p class="meta">
@@ -322,7 +376,7 @@ public class Dextest implements IDextest{
   
 
 
-<time datetime="2014-08-05T17:28:29+00:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
+<time datetime="2014-08-06T01:28:29+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -384,7 +438,7 @@ pthread_cond_destroy(&amp;cond);
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/05/huan-xing-buffer/">环形buffer</a></h1>
     
     
       <p class="meta">
@@ -400,7 +454,7 @@ pthread_cond_destroy(&amp;cond);
   
 
 
-<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+<time datetime="2014-08-05T00:00:14+08:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -481,7 +535,7 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   
 
 
-<time datetime="2014-07-29T09:36:08+00:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
+<time datetime="2014-07-29T17:36:08+08:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -681,7 +735,7 @@ R1←[R0] R2←[R0＋4]</p>
   
 
 
-<time datetime="2014-07-28T10:33:35+00:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
+<time datetime="2014-07-28T18:33:35+08:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -721,7 +775,7 @@ R1←[R0] R2←[R0＋4]</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/07/25/pythonwang-luo-bian-cheng/">Python网络编程</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/26/pythonwang-luo-bian-cheng/">Python网络编程</a></h1>
     
     
       <p class="meta">
@@ -737,7 +791,7 @@ R1←[R0] R2←[R0＋4]</p>
   
 
 
-<time datetime="2014-07-25T17:03:38+00:00" pubdate data-updated="true">Jul 25<sup>th</sup>, 2014</time>
+<time datetime="2014-07-26T01:03:38+08:00" pubdate data-updated="true">Jul 26<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -761,126 +815,6 @@ print(r.read().decode("UTF-8"))
 <h3>分析html</h3>
 
 <p>使用html.parser.HTMLParser分析html</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/24/pythonxue-xi/">Python学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-24T16:15:52+00:00" pubdate data-updated="true">Jul 24<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>print</h3>
-
-<p>格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束</p>
-
-<pre><code>a=10
-b=12
-print("0x{0:02x}+0x{1:x}={2}".format(a, b, a+b))
-print("0x%02x+0x%x=%d" % (a, b, a+b))
-输出相同：0x0a+0xc=22
-</code></pre>
-
-<p>%% 百分号标记     <br/>
-%c 字符及其ASCII码    <br/>
-%s 字符串     <br/>
-%d 有符号整数(十进制)     <br/>
-%u 无符号整数(十进制)     <br/>
-%o 无符号整数(八进制)     <br/>
-%x 无符号整数(十六进制)   <br/>
-%X 无符号整数(十六进制大写字符)   <br/>
-%e 浮点数字(科学计数法)   <br/>
-%E 浮点数字(科学计数法，用E代替e)     <br/>
-%f 浮点数字(用小数点符号)     <br/>
-%g 浮点数字(根据值的大小采用%e或%f)   <br/>
-%G 浮点数字(类似于%g)     <br/>
-%p 指针(用十六进制打印值的内存地址)   <br/>
-%n 存储输出字符的数量放进参数列表的下一个变量中</p>
-
-<h3>字典</h3>
-
-<pre><code>headers = {'User-agent':'Mozilla/5.0',
-       'cache-control':'no-cache',
-       'accept':'*/*'}
-for k, v in headers.items():
-    print(k, v)
-</code></pre>
-
-<p>输出</p>
-
-<pre><code>User-agent Mozilla/5.0
-cache-control no-cache
-accept */*
-</code></pre>
-
-<h3>chr hex ord</h3>
-
-<p>ord返回字符的ASCII  print(ord(&lsquo;a&rsquo;)) 输出97    <br/>
-chr返回字符 print(chr(97))  输出a     <br/>
-hex返回16进制   print(hex(97))  输出0x61</p>
-
-<pre><code>f=open('xxx.ts', 'r', encoding="ISO-8859-1")
-context = f.read()
-buf = [ord(i) for i in context]
-</code></pre>
-
-<h3>字符串操作</h3>
-
-<h4>查找</h4>
-
-<p>find和index，使用index未找到字符串会抛出异常，find不抛异常只是返回-1。</p>
-
-<pre><code>index1 = str.find("xx")
-index2 = str.find("xxx", index1)#从第index1位置开始查找
-</code></pre>
-
-<h4>复制</h4>
-
-<p>str2 = str[index1: index2]</p>
-
-<h3>时间</h3>
-
-<p>获取当前时间localtime，格式化时间strftime</p>
-
-<pre><code>import time
-print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-输出2014-07-24 19:13:43
-</code></pre>
-
-<h3>文件操作</h3>
-
-<p>os.access可以判断文件是否存在，os.mkdir创建文件夹</p>
-
-<pre><code>if not os.access(filePath, os.R_OK):
-    print("目录不存在")
-    os.mkdir(filePath, mode=0o777)
-</code></pre>
 </div>
   
   
@@ -913,7 +847,11 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
+        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
       </li>
     
       <li class="post">
@@ -926,10 +864,6 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     
       <li class="post">
         <a href="/blog/2014/08/06/android-binderbian-xie/">Android Binder编写</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a>
       </li>
     
   </ul>

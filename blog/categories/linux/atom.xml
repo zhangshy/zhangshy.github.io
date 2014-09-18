@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-08-21T14:06:47+00:00</updated>
+  <updated>2014-09-18T18:34:41+08:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Linux多线程编程]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/"/>
-    <updated>2014-08-05T17:28:29+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng</id>
+    <link href="http://zhangshy.github.io/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng/"/>
+    <updated>2014-08-06T01:28:29+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng</id>
     <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
 
 <h3>pthread_create</h3>
@@ -66,9 +66,9 @@ pthread_cond_destroy(&amp;cond);
   
   <entry>
     <title type="html"><![CDATA[环形buffer]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer/"/>
-    <updated>2014-08-04T16:00:14+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer</id>
+    <link href="http://zhangshy.github.io/blog/2014/08/05/huan-xing-buffer/"/>
+    <updated>2014-08-05T00:00:14+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/05/huan-xing-buffer</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
 
 <h3>定义</h3>
@@ -120,9 +120,9 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   
   <entry>
     <title type="html"><![CDATA[Linux驱动]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong/"/>
-    <updated>2014-07-09T16:08:06+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong</id>
+    <link href="http://zhangshy.github.io/blog/2014/07/10/linuxqu-dong/"/>
+    <updated>2014-07-10T00:08:06+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/10/linuxqu-dong</id>
     <content type="html"><![CDATA[<h3>交叉编译</h3>
 
 <p>编译ko文件</p>
@@ -245,9 +245,9 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
   
   <entry>
     <title type="html"><![CDATA[Linux 学习]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi/"/>
-    <updated>2014-07-02T23:00:20+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi</id>
+    <link href="http://zhangshy.github.io/blog/2014/07/03/linux-xue-xi/"/>
+    <updated>2014-07-03T07:00:20+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/03/linux-xue-xi</id>
     <content type="html"><![CDATA[<h4>vim</h4>
 
 <p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
@@ -319,6 +319,11 @@ free</p>
 
 <p>查看用户所属的组：groups user     <br/>
 添加用户到某个组：usermod -a -G groupA user</p>
+
+<h3>&amp;&amp;和||</h3>
+
+<p>command1 &amp;&amp; command2 当command1执行成功才执行command2     <br/>
+command1 || command2 当command1执行不成功才执行command2</p>
 ]]></content>
   </entry>
   
