@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-09-18T19:42:25+08:00</updated>
+  <updated>2014-09-22T05:13:56+08:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,32 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nginx 学习]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/09/19/nginx-xue-xi/"/>
+    <updated>2014-09-19T01:20:38+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/09/19/nginx-xue-xi</id>
+    <content type="html"><![CDATA[<h4>配置</h4>
+
+<p>配置文件：/etc/nginx/nginx.conf，将</p>
+
+<pre><code>location /images/ {
+        root   /data;
+}
+</code></pre>
+
+<p>加入/etc/nginx/nginx.conf</p>
+
+<h4>启动</h4>
+
+<p>sudo systemctl start nginx</p>
+
+<h4>测试</h4>
+
+<p>将cap_jar.jpg复制到/data/images/目录下，运行wget <a href="http://localhost/images/cap_jar.jpg%E5%8F%AF%E5%B0%86%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E4%B8%8B%E6%9D%A5">http://localhost/images/cap_jar.jpg%E5%8F%AF%E5%B0%86%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E4%B8%8B%E6%9D%A5</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ndk相关]]></title>
@@ -1170,106 +1196,6 @@ service list可以列出服务
 <p>签名</p>
 
 <pre><code>jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android Usb Host]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/01/android-usb-host/"/>
-    <updated>2014-07-01T22:18:15+08:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/01/android-usb-host</id>
-    <content type="html"><![CDATA[<h3>1. 检查系统是否开启了usb host功能</h3>
-
-<pre><code>  确认/system/etc/permissions目录有android.hardware.usb.host.xml这个文件。
-</code></pre>
-
-<h3>2. 查找设备</h3>
-
-<pre><code>在AndroidManifest.xml中添加：
-&lt;intent-filter&gt;
-    &lt;action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" /&gt;
-&lt;/intent-filter&gt;
-&lt;meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-android:resource="@xml/device_filter" /&gt;
-</code></pre>
-
-<p>res/xml/device_filter.xml的内容如下，注意为10进制数</p>
-
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;resources&gt;
-    &lt;usb-device vendor-id="1234" product-id="5678" class="255" subclass="66" protocol="1" /&gt;
-&lt;/resources&gt;
-</code></pre>
-
-<h4>方法1</h4>
-
-<pre><code>在&lt;activity ...&gt;&lt;/activity&gt;之间加intent-filter之间，这样当USB设备插入时会启动这个Activity，通过
-UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);获取设备
-</code></pre>
-
-<h4>方法2</h4>
-
-<p>不用系统的广播的话，可以遍历设备列表，得到设备</p>
-
-<pre><code>UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-...
-HashMap&lt;String, UsbDevice&gt; deviceList = manager.getDeviceList();
-Iterator&lt;UsbDevice&gt; deviceIterator = deviceList.values().iterator();
-while(deviceIterator.hasNext()){
-    UsbDevice device = deviceIterator.next()
-    //查找想要的设备
-    if (device.getVenderId()==venderID &amp;&amp; device.getProductId==productId)
-        //your code
-}
-</code></pre>
-
-<p>通过UsbManager的requestPermission方法申请usb权限
-manager.requestPermission(device, null);会弹出选择框让用户选择是否允许应用访问usb设备。</p>
-
-<h3>3. 通信</h3>
-
-<p>官网例子</p>
-
-<pre><code>private Byte[] bytes
-private static int TIMEOUT = 0;
-private boolean forceClaim = true;
-...
-UsbInterface intf = device.getInterface(0);
-UsbEndpoint endpoint = intf.getEndpoint(0);
-UsbDeviceConnection connection = mUsbManager.openDevice(device); 
-connection.claimInterface(intf, forceClaim);
-connection.bulkTransfer(endpoint, bytes, bytes.length, TIMEOUT); //do in another thread
-</code></pre>
-
-<p>获取usb设备端点</p>
-
-<pre><code>  UsbEndpoint ep = intf.getEndpoint(i);
-  ep.getType() == UsbConstants.USB_ENDPOINT_XFER_INT;//中断
-  ep.getDirection()==UsbConstants.USB_DIR_OUT;//相对主机来说
-</code></pre>
-
-<h4>使用UsbRequest</h4>
-
-<p>发送</p>
-
-<pre><code>ByteBuffer mOutData = ByteBuffer.allocate(len);
-UsbRequest mUsbRequest = new UsbRequest();
-mUsbRequest.initialize(connection, mEndpointOut);
-mUsbRequest.queue(mOutData, len);
-if (connection.requestWait()==mUsbRequest)
-    //成功
-</code></pre>
-
-<p>接收，不知道为什么在4.2上mInData要ByteBuffer.allocate(len*2)</p>
-
-<pre><code>//ByteBuffer mInData = ByteBuffer.allocate(len);//4.0
-ByteBuffer mInData = ByteBuffer.allocate(len*2);
-UsbRequest mUsbRequest = new UsbRequest();
-mUsbRequest.initialize(connection, mEndpointIn);
-mUsbRequest.queue(mInData, len);
-if (connection.requestWait()==mUsbRequest)
-    byte[] data = mInData.array();
 </code></pre>
 ]]></content>
   </entry>
