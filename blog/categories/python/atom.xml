@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-09-22T05:17:58+08:00</updated>
+  <updated>2014-09-26T16:15:22+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Python Ctypes使用c库]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/08/14/python-ctypesshi-yong-cku/"/>
-    <updated>2014-08-14T01:15:28+08:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/08/14/python-ctypesshi-yong-cku</id>
+    <link href="http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku/"/>
+    <updated>2014-08-13T17:15:28+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/python/cvsave2Png.py">我的例子</a></p>
 
 <h3>调用c++</h3>
@@ -42,9 +42,9 @@ rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvou
   
   <entry>
     <title type="html"><![CDATA[Python网络编程]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/26/pythonwang-luo-bian-cheng/"/>
-    <updated>2014-07-26T01:03:38+08:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/26/pythonwang-luo-bian-cheng</id>
+    <link href="http://zhangshy.github.io/blog/2014/07/25/pythonwang-luo-bian-cheng/"/>
+    <updated>2014-07-25T17:03:38+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/25/pythonwang-luo-bian-cheng</id>
     <content type="html"><![CDATA[<h3>获取url数据</h3>
 
 <pre><code>url = "http://www.youku.com/"
@@ -67,9 +67,9 @@ print(r.read().decode("UTF-8"))
   
   <entry>
     <title type="html"><![CDATA[Python学习]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/25/pythonxue-xi/"/>
-    <updated>2014-07-25T00:15:52+08:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/25/pythonxue-xi</id>
+    <link href="http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi/"/>
+    <updated>2014-07-24T16:15:52+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi</id>
     <content type="html"><![CDATA[<h3>print</h3>
 
 <p>格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束</p>

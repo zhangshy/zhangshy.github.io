@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Tools - 张帅依的博客</title>
+  <title>环形buffer - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Category: tools">
+  <meta name="description" content="示例代码 定义 #define BUFFER_SIZE 0xF typedef struct { uint32_t wptr; ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1] uint32_t rptr; ///&lt; buffer读取位置，索引范围：[0 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/categories/tools">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -61,49 +61,129 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Tools</h1>
+    
+      <h1 class="entry-title">环形buffer</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
 
-  
-  <h2>2014</h2>
+<h3>定义</h3>
 
-<article>
-  
-<h1><a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a></h1>
-<time datetime="2014-07-29T09:36:08+00:00" pubdate><span class='month'>Jul</span> <span class='day'>29</span> <span class='year'>2014</span></time>
+<pre><code>#define BUFFER_SIZE 0xF 
+typedef struct {
+    uint32_t wptr;   ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint32_t rptr;   ///&lt; buffer读取位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint8_t buffer[BUFFER_SIZE+1];  ///&lt; buffer大小为BUFFER_SIZE+1
+}ring_buffer_t; 
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/tools/'>tools</a></span>
-</footer>
+<h3>使用</h3>
 
+<p>若BUFFER_SIZE=3，wptr和rptr的索引为[0:7]  <br/>
+1. wptr=rptr时buffer为空      <br/>
+2. wptr和rptr之间的差值为BUFFER_SIZE+1即4时buffer为满     <br/>
+3. wptr和rptr的范围通过pbuf->wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1 确定，BUFFER_SIZE的取值应该是N个2进制1？？</p>
 
-</article>
+<pre><code>__inline uint32_t ring_buffer_is_empty(ring_buffer_t *pbuf) {
+    return (pbuf-&gt;wptr==pbuf-&gt;rptr);
+}
 
+__inline uint32_t ring_buffer_is_full(ring_buffer_t *pbuf) {
+    return ((pbuf-&gt;wptr^pbuf-&gt;rptr)==(BUFFER_SIZE+1));
+}
 
+__inline void ring_buffer_flush(ring_buffer_t *pbuf) {
+    pbuf-&gt;wptr = pbuf-&gt;rptr = 0;
+}
 
-<article>
-  
-<h1><a href="/blog/2014/07/21/gitshi-yong/">Git使用</a></h1>
-<time datetime="2014-07-21T11:48:05+00:00" pubdate><span class='month'>Jul</span> <span class='day'>21</span> <span class='year'>2014</span></time>
+void fill_ring_buffer(ring_buffer_t *pbuf, uint8_t data) {
+    pbuf-&gt;buffer[pbuf-&gt;wptr&amp;BUFFER_SIZE] = data;
+    pbuf-&gt;wptr++;
+    pbuf-&gt;wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+}
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/tools/'>tools</a></span>
-</footer>
+uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
+    uint8_t data;
+    data = pbuf-&gt;buffer[pbuf-&gt;rptr&amp;BUFFER_SIZE];
+    pbuf-&gt;rptr++;
+    pbuf-&gt;rptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
 
-
-</article>
-
+    return data;
+}
+</code></pre>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/29/objdumpxue-xi/" title="Previous Post: objdump学习">&laquo; objdump学习</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/" title="Next Post: linux多线程编程">linux多线程编程 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
 </div>

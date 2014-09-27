@@ -9,8 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="配置 配置文件：/etc/nginx/nginx.conf，将 location /images/ { root /data;
-} 加入/etc/nginx/nginx.conf 启动 sudo systemctl start nginx 测试 将cap_jar.jpg复制到/data/ &hellip;">
+  <meta name="description" content="下载zlib-1.2.8.tar.xz和libpng-1.6.13.tar.xz，解压tar -xJvf xx.tar.xz 编译zlib 编写zlibbuild.mk文件，对照源码下的win32/Makefile.gcc文件填写LOCAL_SRC_FILES项： LOCAL_PATH:= $( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,7 +68,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/09/19/nginx-xue-xi/">Nginx 学习</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a></h1>
     
     
       <p class="meta">
@@ -85,7 +84,119 @@
   
 
 
-<time datetime="2014-09-19T01:20:38+08:00" pubdate data-updated="true">Sep 19<sup>th</sup>, 2014</time>
+<time datetime="2014-09-26T16:01:23+00:00" pubdate data-updated="true">Sep 26<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>下载zlib-1.2.8.tar.xz和libpng-1.6.13.tar.xz，解压tar -xJvf xx.tar.xz</p>
+
+<h3>编译zlib</h3>
+
+<p>编写zlibbuild.mk文件，对照源码下的win32/Makefile.gcc文件填写LOCAL_SRC_FILES项：</p>
+
+<pre><code>LOCAL_PATH:= $(call my-dir)  
+
+include $(CLEAR_VARS)  
+
+LOCAL_SRC_FILES := \
+    adler32.c \
+    compress.c \
+    crc32.c \
+    deflate.c \
+    gzclose.c \
+    gzlib.c \
+    gzread.c \
+    gzwrite.c \
+    infback.c \
+    inffast.c \
+    inflate.c \
+    inftrees.c \
+    trees.c \
+    uncompr.c \
+    zutil.c  
+
+LOCAL_MODULE:= libz  
+
+include $(BUILD_STATIC_LIBRARY)
+</code></pre>
+
+<p>编写build文件</p>
+
+<pre><code>ndk-build \
+NDK_PROJECT_PATH=`pwd` \
+APP_ABI=armeabi-v7a \
+APP_PLATFORM=android-14 \
+APP_BUILD_SCRIPT=`pwd`/zlibbuild.mk \
+TARGET_PRODUCT=alltarget \
+$@
+</code></pre>
+
+<p>执行. build编译</p>
+
+<h3>编译libpng</h3>
+
+<p>参照源码下的scripts/makefile.gcc文件填写LOCAL_SRC_FILES项：</p>
+
+<pre><code>LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := \
+    png.c \
+    pngerror.c \
+    pngget.c \
+    pngmem.c \
+    pngpread.c \
+    pngread.c \
+    pngrio.c \
+    pngrtran.c \
+    pngrutil.c \
+    pngset.c \
+    pngtrans.c \
+    pngwio.c \
+    pngwrite.c \
+    pngwtran.c \
+    pngwutil.c
+
+LOCAL_MODULE := libpng
+
+LOCAL_LDLIBS := -lz
+
+include $(BUILD_SHARED_LIBRARY)
+</code></pre>
+
+<p>编译时提示缺少pnglibconf.h文件，解决办法使用源码下的scripts/pnglibconf.h.prebuilt文件，ln -s scripts/pnglibconf.h.prebuilt pnglibconf.h</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-18T17:20:38+00:00" pubdate data-updated="true">Sep 18<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -138,7 +249,7 @@
   
 
 
-<time datetime="2014-09-12T23:52:50+08:00" pubdate data-updated="true">Sep 12<sup>th</sup>, 2014</time>
+<time datetime="2014-09-12T15:52:50+00:00" pubdate data-updated="true">Sep 12<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -177,7 +288,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
     
     
       <p class="meta">
@@ -193,7 +304,7 @@
   
 
 
-<time datetime="2014-08-14T01:15:28+08:00" pubdate data-updated="true">Aug 14<sup>th</sup>, 2014</time>
+<time datetime="2014-08-13T17:15:28+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -247,7 +358,7 @@ rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvou
   
 
 
-<time datetime="2014-08-09T22:30:00+08:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
+<time datetime="2014-08-09T14:30:00+00:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -318,7 +429,7 @@ AES/PCBC/ISO10126Padding       32                         16
   
 
 
-<time datetime="2014-08-08T19:40:07+08:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2014</time>
+<time datetime="2014-08-08T11:40:07+00:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -390,7 +501,7 @@ public class Dextest implements IDextest{
   
 
 
-<time datetime="2014-08-06T19:35:45+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
+<time datetime="2014-08-06T11:35:45+00:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -414,7 +525,7 @@ public class Dextest implements IDextest{
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a></h1>
     
     
       <p class="meta">
@@ -430,7 +541,7 @@ public class Dextest implements IDextest{
   
 
 
-<time datetime="2014-08-06T01:28:29+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
+<time datetime="2014-08-05T17:28:29+00:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -492,7 +603,7 @@ pthread_cond_destroy(&amp;cond);
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/05/huan-xing-buffer/">环形buffer</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a></h1>
     
     
       <p class="meta">
@@ -508,7 +619,7 @@ pthread_cond_destroy(&amp;cond);
   
 
 
-<time datetime="2014-08-05T00:00:14+08:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
+<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -589,7 +700,7 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   
 
 
-<time datetime="2014-07-29T17:36:08+08:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
+<time datetime="2014-07-29T09:36:08+00:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -768,62 +879,6 @@ R1←[R0] R2←[R0＋4]</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/28/wang-luo-zhua-bao-wireshark/">网络抓包wireshark</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-28T18:33:35+08:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>抓取youku</h2>
-
-<p>先使用wireshark抓取了一次youku申请播放的过程</p>
-
-<h4>过滤字符串</h4>
-
-<p>在Filter里输入：http contains &ldquo;getPlayList&rdquo;</p>
-
-<h4>过滤ip</h4>
-
-<p>ip.src==101.227.10.18 or ip.dst==101.227.10.18</p>
-
-<h4>复制数据包内容</h4>
-
-<p>选择数据包，右键&ndash;copy</p>
-
-<h4>youku实际地址</h4>
-
-<p>http contains &ldquo;getFlvPath&rdquo;    <br/>
-<img src="/images/cap_youku1.jpg" alt="结果" />
-在vlc中打开路径可以播放：</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -837,7 +892,7 @@ R1←[R0] R2←[R0＋4]</p>
     <section>
   <h1>文章分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/android/'>android (5)</a></li>
+    <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
@@ -849,7 +904,11 @@ R1←[R0] R2←[R0＋4]</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/09/19/nginx-xue-xi/">Nginx 学习</a>
+        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
       </li>
     
       <li class="post">
@@ -857,15 +916,11 @@ R1←[R0] R2←[R0＋4]</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
+        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/">DexClassLoader动态加载</a>
       </li>
     
   </ul>

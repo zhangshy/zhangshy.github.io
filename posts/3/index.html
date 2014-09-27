@@ -9,8 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="1. 检查系统是否开启了usb host功能 确认/system/etc/permissions目录有android.hardware.usb.host.xml这个文件。 2. 查找设备 在AndroidManifest.xml中添加：
-&lt;intent-filter&gt; &lt; &hellip;">
+  <meta name="description" content="包属性 sharedUserId 使用sharedUserId属性时取值需要包含点（dot），如android:sharedUserId=&ldquo;test&#8221;安装时会提示：Failure [INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID]。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +68,184 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/02/androidxue-xi/">Android学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T14:35:05+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>包属性</h2>
+
+<h3>sharedUserId</h3>
+
+<p>使用sharedUserId属性时取值需要包含点（dot），如android:sharedUserId=&ldquo;test&#8221;安装时会提示：Failure [INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID]。使用android:sharedUserId=&#8221;zsy.test&#8221;就可以了。</p>
+
+<h2>Handler和HandlerThread</h2>
+
+<p>Handler会关联一个单独的线程和消息队列。Handler默认关联主线程，会在主线程执行，如果在这里面的操作会有阻塞，界面也会卡住。如果要在其他线程执行，可以使用HandlerThread</p>
+
+<pre><code>HandlerThread mHandlerThread = new HandlerThread("test");
+mHandlerThread.start();
+Handler mHandler = new Handler(mHandlerThread.getLooper()) {
+    public void handlerMessage(Message msg) {
+        XXX
+    }
+};
+</code></pre>
+
+<p>当要停止mHandlerThread时可执行：</p>
+
+<pre><code>mHandlerThread.quit();
+</code></pre>
+
+<h2>Thread和Runnable</h2>
+
+<p><a href="http://developer.51cto.com/art/201203/321042.htm">Java中Runnable和Thread的区别</a></p>
+
+<p>在java中可有两种方式实现多线程，一种是继承Thread类，一种是实现Runnable接口；Thread类是在java.lang包中定义的。一个类只要继承了Thread类同时覆写了本类中的run()方法就可以实现多线程操作了，但是一个类只能继承一个父类，这是此方法的局限</p>
+
+<p>在程序开发中只要是多线程肯定永远以实现Runnable接口为主，因为实现Runnable接口相比继承Thread类有如下好处：1.避免点继承的局限，一个类可以继承多个接口;2.适合于资源的共享</p>
+
+<pre><code>package org.demo.runnable;  
+class MyThread implements Runnable{  
+    private int ticket=10;  
+    public void run(){  
+        for(int i=0;i&lt;20;i++){  
+            if(this.ticket&gt;0){  
+                System.out.println("卖票：ticket"+this.ticket--);  
+            }  
+        }  
+    }  
+}  
+package org.demo.runnable;  
+public class RunnableTicket {  
+    public static void main(String[] args) {  
+        MyThread mt=new MyThread();  
+        new Thread(mt).start();//同一个mt，但是在Thread中就不可以，如果用同一  
+        new Thread(mt).start();//个实例化对象mt，就会出现异常  
+        new Thread(mt).start();  
+    }  
+}; 
+</code></pre>
+
+<h2>Button</h2>
+
+<p>使用Button的时候可以这么用：</p>
+
+<pre><code>public class MainActivity extends Activity implements View.OnClickListener {
+    ...
+    Button btn_ok = (Button) findViewById(R.id.btn_ok);
+    btn_ok.setOnClickListener(this);
+}
+</code></pre>
+
+<p>实现onClick(View v)方法，而且费时的按键响应操作使用Handler做</p>
+
+<pre><code>public void onClick(View v) {
+    switch(v.getId()) {
+    case R.id.btn_ok:
+        Message m = new Message();
+        m.what = XXXX;
+        Bundle data = new Bundle();
+        data.putString(XXX, XXXXX);
+        m.setData(data);
+        mHandler.sendMessage(m);
+        break;
+    }
+}
+</code></pre>
+
+<p>mHandler的写法</p>
+
+<pre><code>private Handler mHandler = new Handler() {
+    public void handleMessage(Message msg) {
+        switch(msg.what) {
+        case XXX:
+            String str = msg.getData().getString(XXX);
+            break;
+        }
+    }
+}
+</code></pre>
+
+<h2>像素</h2>
+
+<p><a href="http://www.cnblogs.com/bjzhanghao/archive/2012/11/06/2757300.html">px、dp和sp，这些单位有什么区别？</a><br/>
+px指屏幕上物理像素点，不建议使用;
+   因为100px的图片在不同手机上显示的实际大小可能不同</p>
+
+<pre><code>You would use:    
+    sp for font sizes
+    dip for everything else.    
+    dip==dp
+</code></pre>
+
+<h2>adb及常用调试指令</h2>
+
+<p>开启adb功能：start adbd   <br/>
+查看设备：adb devices     <br/>
+多于一个设备时指定设备：adb -s 192.168.11.84:5555 shell     <br/>
+启动应用某界面：am start com.example.test/.MainActivity   <br/>
+命令行安装应用：pm install xxx.apk    <br/>
+命令行卸载应用：pm uninstall com.example.test     <br/>
+启动模拟器：./emulator -avd test -memory 512 -partition-size 256  启动名称为test的模拟器，rom大小256M</p>
+
+<h2>分析工具dumpsys</h2>
+
+<p>dumpsys用来给出android应用程序的信息：</p>
+
+<pre><code>dumpsys [Option]
+        meminfo 内存信息
+        cpuinfo cpu信息
+        等很多选项
+service list可以列出服务
+</code></pre>
+
+<h3>mat使用</h3>
+
+<p><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-ecl-ma/index.html">安装配置</a>   <br/>
+<a href="http://stackoverflow.com/questions/3999087/how-to-enable-heap-updates-on-my-android-client">How to enable Heap updates on my android client</a></p>
+
+<h2>签名文件</h2>
+
+<p>生成签名文件</p>
+
+<pre><code>keytool -genkey -alias sign.keystore -keyalg RSA -validity 20000 -keystore sign.keystore
+</code></pre>
+
+<p>签名</p>
+
+<pre><code>jarsigner -verbose -keystore sign.keystore -signedjar xxx_signed.apk xxx.apk sign.keystore
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a></h1>
     
     
@@ -85,7 +262,7 @@
   
 
 
-<time datetime="2014-07-01T22:18:15+08:00" pubdate data-updated="true">Jul 1<sup>st</sup>, 2014</time>
+<time datetime="2014-07-01T14:18:15+00:00" pubdate data-updated="true">Jul 1<sup>st</sup>, 2014</time>
         
       </p>
     
@@ -212,7 +389,7 @@ if (connection.requestWait()==mUsbRequest)
   
 
 
-<time datetime="2014-06-28T23:57:06+08:00" pubdate data-updated="true">Jun 28<sup>th</sup>, 2014</time>
+<time datetime="2014-06-28T15:57:06+00:00" pubdate data-updated="true">Jun 28<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -352,7 +529,7 @@ cd ..
     <section>
   <h1>文章分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/android/'>android (5)</a></li>
+    <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
@@ -364,7 +541,11 @@ cd ..
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/09/19/nginx-xue-xi/">Nginx 学习</a>
+        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
       </li>
     
       <li class="post">
@@ -372,15 +553,11 @@ cd ..
       </li>
     
       <li class="post">
-        <a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
+        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/">DexClassLoader动态加载</a>
       </li>
     
   </ul>
