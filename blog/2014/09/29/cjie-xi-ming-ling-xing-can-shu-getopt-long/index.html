@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Android - 张帅依的博客</title>
+  <title>C解析命令行参数getopt_long - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Category: android">
+  <meta name="description" content="getopt_long支持长选项的命令行参数解析，我的例子 单个字符，表示选项 单个字符后接一个冒号：表示该选项后必须跟一个参数。参数紧跟在选项后或者以空格隔开。该参数的指针赋给optarg 单个字符后跟两个冒号，表示该选项后可以有参数也可以没有参数。如果有参数，参数必须紧跟在选项后不能以空格隔开 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/categories/android">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -61,105 +61,91 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Android</h1>
+    
+      <h1 class="entry-title">C解析命令行参数getopt_long</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T10:31:48+00:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>getopt_long支持长选项的命令行参数解析，<a href="https://github.com/zhangshy/Image/blob/master/src/image.cpp">我的例子</a></p>
 
-  
-  <h2>2014</h2>
-
-<article>
-  
-<h1><a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a></h1>
-<time datetime="2014-09-26T16:01:23+00:00" pubdate><span class='month'>Sep</span> <span class='day'>26</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/">DexClassLoader动态加载</a></h1>
-<time datetime="2014-08-08T11:40:07+00:00" pubdate><span class='month'>Aug</span> <span class='day'>08</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/08/06/android-binderbian-xie/">Android Binder编写</a></h1>
-<time datetime="2014-08-06T11:35:45+00:00" pubdate><span class='month'>Aug</span> <span class='day'>06</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/14/android-jnibian-xie/">Android Jni编写</a></h1>
-<time datetime="2014-07-14T11:26:26+00:00" pubdate><span class='month'>Jul</span> <span class='day'>14</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/02/androidxue-xi/">Android学习</a></h1>
-<time datetime="2014-07-02T14:35:05+00:00" pubdate><span class='month'>Jul</span> <span class='day'>02</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a></h1>
-<time datetime="2014-07-01T14:18:15+00:00" pubdate><span class='month'>Jul</span> <span class='day'>01</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
+<ol>
+<li>  单个字符，表示选项</li>
+<li>  单个字符后接一个冒号：表示该选项后必须跟一个参数。参数紧跟在选项后或者以空格隔开。该参数的指针赋给optarg</li>
+<li>  单个字符后跟两个冒号，表示该选项后可以有参数也可以没有参数。如果有参数，参数必须紧跟在选项后不能以空格隔开。该参数的指针赋给optarg</li>
+</ol>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T10:31:48+00:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c/'>c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/" title="Previous Post: NDK编译zlib和libpng">&laquo; NDK编译zlib和libpng</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/" title="Next Post: linux测试常用命令">linux测试常用命令 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
 </div>

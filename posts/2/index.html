@@ -9,7 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="抓取youku 先使用wireshark抓取了一次youku申请播放的过程 过滤字符串 在Filter里输入：http contains &ldquo;getPlayList&rdquo; 过滤ip ip.src==101.227.10.18 or ip.dst==101.227.10.18 &hellip;">
+  <meta name="description" content="示例代码 定义 #define BUFFER_SIZE 0xF typedef struct { uint32_t wptr; ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1] uint32_t rptr; ///&lt; buffer读取位置，索引范围：[0 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,287 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
+
+<h3>定义</h3>
+
+<pre><code>#define BUFFER_SIZE 0xF 
+typedef struct {
+    uint32_t wptr;   ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint32_t rptr;   ///&lt; buffer读取位置，索引范围：[0:2*BUFFER_SIZE+1]
+    uint8_t buffer[BUFFER_SIZE+1];  ///&lt; buffer大小为BUFFER_SIZE+1
+}ring_buffer_t; 
+</code></pre>
+
+<h3>使用</h3>
+
+<p>若BUFFER_SIZE=3，wptr和rptr的索引为[0:7]  <br/>
+1. wptr=rptr时buffer为空      <br/>
+2. wptr和rptr之间的差值为BUFFER_SIZE+1即4时buffer为满     <br/>
+3. wptr和rptr的范围通过pbuf->wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1 确定，BUFFER_SIZE的取值应该是N个2进制1？？</p>
+
+<pre><code>__inline uint32_t ring_buffer_is_empty(ring_buffer_t *pbuf) {
+    return (pbuf-&gt;wptr==pbuf-&gt;rptr);
+}
+
+__inline uint32_t ring_buffer_is_full(ring_buffer_t *pbuf) {
+    return ((pbuf-&gt;wptr^pbuf-&gt;rptr)==(BUFFER_SIZE+1));
+}
+
+__inline void ring_buffer_flush(ring_buffer_t *pbuf) {
+    pbuf-&gt;wptr = pbuf-&gt;rptr = 0;
+}
+
+void fill_ring_buffer(ring_buffer_t *pbuf, uint8_t data) {
+    pbuf-&gt;buffer[pbuf-&gt;wptr&amp;BUFFER_SIZE] = data;
+    pbuf-&gt;wptr++;
+    pbuf-&gt;wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+}
+
+uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
+    uint8_t data;
+    data = pbuf-&gt;buffer[pbuf-&gt;rptr&amp;BUFFER_SIZE];
+    pbuf-&gt;rptr++;
+    pbuf-&gt;rptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
+
+    return data;
+}
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-29T09:36:08+00:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1. 简单程序hello world</h2>
+
+<pre><code>#include &lt;stdio.h&gt;
+
+int main(int argc, char** argv) {
+    printf("hello world!!\n");
+    int a = 0x123;
+    int b = 0x234;
+    int c = a + b;
+    printf("c is: 0x%x\n", c);
+    return 0;
+}
+</code></pre>
+
+<p>编译gcc hello.c -o hello</p>
+
+<h3>1.1 gcc -S</h3>
+
+<p>gcc hello.c -S -o hello.s     <br/>
+查看hello.s内容cat hello.s</p>
+
+<pre><code>    .file   "hello.c"
+    .section        .rodata
+.LC0:
+    .string "hello world!!"
+.LC1:
+    .string "c is: 0x%x\n"
+    .text
+.globl main
+    .type   main, @function
+main:
+.LFB0:
+    .cfi_startproc
+    pushq   %rbp
+    .cfi_def_cfa_offset 16
+    movq    %rsp, %rbp
+    .cfi_offset 6, -16
+    .cfi_def_cfa_register 6
+    subq    $32, %rsp
+    movl    %edi, -20(%rbp)
+    movq    %rsi, -32(%rbp)
+    movl    $.LC0, %edi
+    call    puts
+    movl    $291, -4(%rbp)
+    movl    $564, -8(%rbp)
+    movl    -8(%rbp), %eax
+    movl    -4(%rbp), %edx
+    leal    (%rdx,%rax), %eax
+    movl    %eax, -12(%rbp)
+    movl    $.LC1, %eax
+    movl    -12(%rbp), %edx
+    movl    %edx, %esi
+    movq    %rax, %rdi
+    movl    $0, %eax
+    call    printf
+    movl    $0, %eax
+    leave
+    ret
+    .cfi_endproc
+.LFE0:
+    .size   main, .-main
+    .ident  "GCC: (Ubuntu/Linaro 4.4.7-1ubuntu2) 4.4.7"
+    .section        .note.GNU-stack,"",@progbits
+</code></pre>
+
+<h3>1.2 objdump指令</h3>
+
+<h4>1.2.1 objdump -s hello</h4>
+
+<p>显示所有section内容</p>
+
+<pre><code>objdump -s -j .rodata hello
+
+hello:     file format elf64-x86-64
+
+Contents of section .rodata:
+400688 01000200 68656c6c 6f20776f 726c6421  ....hello world!
+400698 21006320 69733a20 30782578 0a00      !.c is: 0x%x..  
+只显示.rodata部分
+</code></pre>
+
+<h4>1.2.2 objdump -S hello</h4>
+
+<pre><code>objdump -S -j .rodata hello
+hello:     file format elf64-x86-64
+
+Disassembly of section .rodata:
+
+0000000000400688 &lt;_IO_stdin_used&gt;:
+400688:       01 00 02 00 68 65 6c 6c 6f 20 77 6f 72 6c 64 21     ....hello world!
+400698:       21 00 63 20 69 73 3a 20 30 78 25 78 0a 00           !.c is: 0x%x..
+</code></pre>
+
+<h2>各段含义</h2>
+
+<p><a href="http://blog.sina.com.cn/s/blog_8053938901014gih.html">汇编中bss,data,text,rodata,heap,stack,意义</a>    <br/>
+bss段：</p>
+
+<pre><code>BSS段（bsssegment）通常是指用来存放程序中未初始化的全局变量的一块内存区域。BSS是英文BlockStarted by Symbol的简称。BSS段属于静态内存分配。
+</code></pre>
+
+<p>data段：</p>
+
+<pre><code>数据段（datasegment）通常是指用来存放程序中已初始化的全局变量的一块内存区域。数据段属于静态内存分配。       
+</code></pre>
+
+<p>text段：</p>
+
+<pre><code>代码段（codesegment/textsegment）通常是指用来存放程序执行代码的一块内存区域。这部分区域的大小在程序运行前就已经确定，并且内存区域通常属于只读,某些架构也允许代码段为可写，即允许修改程序。在代码段中，也有可能包含一些只读的常数变量，例如字符串常量等
+</code></pre>
+
+<p>rodata段：</p>
+
+<pre><code>存放C中的字符串和#define定义的常量
+</code></pre>
+
+<h2>ARM汇编</h2>
+
+<h3>参数传递</h3>
+
+<pre><code>当少于四个时，按从左到右的顺序依次放在r0,r1,r2,r3中;
+当多于四个时，前四个放在r0,r1,r2,r3中，剩余的放在堆栈中，
+最后一个参数先入栈，第五个参数最后入栈，即从右到左入栈
+</code></pre>
+
+<h3>返回值</h3>
+
+<pre><code>结果为32位时,通过R0返回
+结果为64位时，r0放低32位，r1放高32位        
+</code></pre>
+
+<p><a href="http://yulin724.wikidot.com/rwpaper:arm-assembly-instructions#toc12">ARM汇编指令集</a></p>
+
+<h4>BL</h4>
+
+<p>BL是arm汇编中用来调用子程序的指令，它把BL后面一条指令的地址放到R14寄存器里，R15寄存器(PC当前指针地址)就设置成要跳往的地址。这样在这个子程序返回时，再mov PC, R14就可以返回到BL后面的地址了</p>
+
+<h4>BEQ</h4>
+
+<p>BEQ指定是跳转指令，但是跳转要满足一定的条件，例：CMP    R1，#0    BEQ  Label    即当R1和0相等的时候程序跳到标号Label处执行。(BEQ执行后不调回去？？)</p>
+
+<h4>LDR/STR</h4>
+
+<p>ARM是RISC结构，数据从内存到CPU之间的移动只能通过L/S指令来完成，也就是ldr/str指令。比如想把数据从内存中某处读取到寄存器中，只能使用ldr，比如：</p>
+
+<pre><code>ldr r0, 0x12345678
+</code></pre>
+
+<p>就是把0x12345678这个地址中的值存放到r0中。而mov不能干这个活，mov只能在寄存器之间移动数据，或者把立即数移动到寄存器中，这个和x86这种CISC架构的芯片区别最大的地方。</p>
+
+<h4>LDR伪指令</h4>
+
+<p>ldr r0, =0x12345678       <br/>
+把0x12345678这个地址写到r0中</p>
+
+<h4>LDMIA</h4>
+
+<p>LDMIA R0! ,{R1,R2}  是指将R0指向的单元中的数据读出到R1，R2中      <br/>
+R1←[R0] R2←[R0＋4]</p>
+
+<h4>BIC</h4>
+
+<p>位清除    <br/>
+    BIC     R0, R0, #0xF0000000     将R0高4位清零
+    BIC     R1, R1, #0x0F           将R1低4位清0</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -744,171 +1025,6 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/04/zhi-neng-qia/">智能卡</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-04T10:43:41+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>智能卡ATR</h3>
-
-<p>一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。  <br/>
-ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，这些在7816协议中都有规定。读ATR可以采用两种方式：按照协议边分析边读，这样按照协议读数结束就可以return了;也可以不管协议直接读，ATR中两个字节之间的间隔最长可以是9600etu，超时就认为ATR结束了。</p>
-
-<h3>反向</h3>
-
-<p>像NDS的卡数据是反向，可通过ATR第一个字节看出，一般判断0x03或0x3f为反向卡。反向指高低位倒过来，再取反(软件取反的话，可以通过查表的方式)</p>
-
-<pre><code>0x03
-0 0 0 0 0 0 1 1 先高低倒过来
-1 1 0 0 0 0 0 0 再取反
-0 0 1 1 1 1 1 1 0x3f
-</code></pre>
-
-<h3>数据传输</h3>
-
-<p>一般来说传输一个字符要12个etu=1 START + 8 DATA + 1 PARITY + 2 GUARD</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-02T23:00:20+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h4>vim</h4>
-
-<p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
-:edit 打开文件<br/>
-:%!xxd -g 1 ：切换成十六进制的一个字节的模式  <br/>
-u 撤销上一步的操作<br/>
-ctrl+r 恢复上一步被撤销的操作 <br/>
-shift+8 查找当前单词  <br/>
-ggVG 全选 <br/>
-q: 进入命令历史编辑   <br/>
-vim xxx +N  打开文件并跳到第N行  <br/>
-vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
-:set noro   取消只读，在git difftool时很有用  <br/>
-dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
-
-<h4>tar</h4>
-
-<p>查看内容不解压：tar tvf xxx.tar.gz<br/>
-解压：tar -xzvf xxx.tar.gz<br/>
-解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX   <br/>
-压缩：tar -czvf xxx.tar.gz xxx/   <br/>
-解压：tar -xjvf xxx.tar.bz2   <br/>
-解压：tar xvJf  xxx.tar.xz</p>
-
-<h4>mount</h4>
-
-<p>mount后让普通用户有读写权限，加参数-o umask=000</p>
-
-<pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
-</code></pre>
-
-<p>挂载linux网络设备</p>
-
-<pre><code>mount -t nfs -o nolock 192.168.0.188:/share /mnt
-</code></pre>
-
-<h4>pkg-config</h4>
-
-<pre><code>查看头文件：pkg-config --cflags opencv
-查找库文件：pkg-config --libs opencv
-查看版本： pkg-config --modversion opencv
-</code></pre>
-
-<h4>cp</h4>
-
-<p>连带目录一起复制： cp &ndash;parents -r xx/xx/xx/ xx/</p>
-
-<h3>sed</h3>
-
-<p>&lsquo;-i&#8217;使修改生效<br/>
-a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
-b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
-c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
-d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
-
-<h3>find和grep</h3>
-
-<p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
-
-<h3>gcc编译时指定小端-EL</h3>
-
-<p>mips-linux-gnu-gcc -g -O2 -Wall -EL test.c</p>
-
-<h3>watch</h3>
-
-<p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
-free</p>
-
-<h3>usermod</h3>
-
-<p>查看用户所属的组：groups user     <br/>
-添加用户到某个组：usermod -a -G groupA user</p>
-
-<h3>&amp;&amp;和||</h3>
-
-<p>command1 &amp;&amp; command2 当command1执行成功才执行command2     <br/>
-command1 || command2 当command1执行不成功才执行command2</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -925,8 +1041,8 @@ command1 || command2 当command1执行不成功才执行command2</p>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
-<li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
+<li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
@@ -934,6 +1050,14 @@ command1 || command2 当command1执行不成功才执行command2</p>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
@@ -945,14 +1069,6 @@ command1 || command2 当command1执行不成功才执行command2</p>
     
       <li class="post">
         <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
       </li>
     
   </ul>

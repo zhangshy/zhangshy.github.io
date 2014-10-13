@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-09-26T16:15:22+00:00</updated>
+  <updated>2014-10-13T18:55:26+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,44 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux测试常用命令]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/"/>
+    <updated>2014-09-30T12:50:52+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling</id>
+    <content type="html"><![CDATA[<h3>关内核打印</h3>
+
+<p>内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误<br/>
+    echo 0 > /proc/sys/kernel/printk  <br/>
+所有的内核打印都不在串口上输出，默认可使用4。     <br/>
+查看内核打印有两个方法dmesg或cat /proc/kmsg</p>
+
+<h3>查看cpu主频</h3>
+
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
+
+<h3>查看进程内存使用</h3>
+
+<p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C解析命令行参数getopt_long]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/"/>
+    <updated>2014-09-29T10:31:48+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long</id>
+    <content type="html"><![CDATA[<p>getopt_long支持长选项的命令行参数解析，<a href="https://github.com/zhangshy/Image/blob/master/src/image.cpp">我的例子</a></p>
+
+<ol>
+<li>  单个字符，表示选项</li>
+<li>  单个字符后接一个冒号：表示该选项后必须跟一个参数。参数紧跟在选项后或者以空格隔开。该参数的指针赋给optarg</li>
+<li>  单个字符后跟两个冒号，表示该选项后可以有参数也可以没有参数。如果有参数，参数必须紧跟在选项后不能以空格隔开。该参数的指针赋给optarg</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NDK编译zlib和libpng]]></title>
@@ -1021,117 +1059,6 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
 1. 中断处理中尽量不要加打印;
 2. 在硬中断处理函数device_irq_service中不能使用mutex_lock，如果必须加锁可使用自旋锁spinlock_t; 在软中断
 函数device_work_func中可以加mutex_lock</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[智能卡]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/04/zhi-neng-qia/"/>
-    <updated>2014-07-04T10:43:41+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/04/zhi-neng-qia</id>
-    <content type="html"><![CDATA[<h3>智能卡ATR</h3>
-
-<p>一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。  <br/>
-ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，这些在7816协议中都有规定。读ATR可以采用两种方式：按照协议边分析边读，这样按照协议读数结束就可以return了;也可以不管协议直接读，ATR中两个字节之间的间隔最长可以是9600etu，超时就认为ATR结束了。</p>
-
-<h3>反向</h3>
-
-<p>像NDS的卡数据是反向，可通过ATR第一个字节看出，一般判断0x03或0x3f为反向卡。反向指高低位倒过来，再取反(软件取反的话，可以通过查表的方式)</p>
-
-<pre><code>0x03
-0 0 0 0 0 0 1 1 先高低倒过来
-1 1 0 0 0 0 0 0 再取反
-0 0 1 1 1 1 1 1 0x3f
-</code></pre>
-
-<h3>数据传输</h3>
-
-<p>一般来说传输一个字符要12个etu=1 START + 8 DATA + 1 PARITY + 2 GUARD</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux 学习]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi/"/>
-    <updated>2014-07-02T23:00:20+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/02/linux-xue-xi</id>
-    <content type="html"><![CDATA[<h4>vim</h4>
-
-<p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
-:edit 打开文件<br/>
-:%!xxd -g 1 ：切换成十六进制的一个字节的模式  <br/>
-u 撤销上一步的操作<br/>
-ctrl+r 恢复上一步被撤销的操作 <br/>
-shift+8 查找当前单词  <br/>
-ggVG 全选 <br/>
-q: 进入命令历史编辑   <br/>
-vim xxx +N  打开文件并跳到第N行  <br/>
-vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
-:set noro   取消只读，在git difftool时很有用  <br/>
-dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
-
-<h4>tar</h4>
-
-<p>查看内容不解压：tar tvf xxx.tar.gz<br/>
-解压：tar -xzvf xxx.tar.gz<br/>
-解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX   <br/>
-压缩：tar -czvf xxx.tar.gz xxx/   <br/>
-解压：tar -xjvf xxx.tar.bz2   <br/>
-解压：tar xvJf  xxx.tar.xz</p>
-
-<h4>mount</h4>
-
-<p>mount后让普通用户有读写权限，加参数-o umask=000</p>
-
-<pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
-</code></pre>
-
-<p>挂载linux网络设备</p>
-
-<pre><code>mount -t nfs -o nolock 192.168.0.188:/share /mnt
-</code></pre>
-
-<h4>pkg-config</h4>
-
-<pre><code>查看头文件：pkg-config --cflags opencv
-查找库文件：pkg-config --libs opencv
-查看版本： pkg-config --modversion opencv
-</code></pre>
-
-<h4>cp</h4>
-
-<p>连带目录一起复制： cp &ndash;parents -r xx/xx/xx/ xx/</p>
-
-<h3>sed</h3>
-
-<p>&lsquo;-i&#8217;使修改生效<br/>
-a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
-b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
-c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
-d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
-
-<h3>find和grep</h3>
-
-<p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
-
-<h3>gcc编译时指定小端-EL</h3>
-
-<p>mips-linux-gnu-gcc -g -O2 -Wall -EL test.c</p>
-
-<h3>watch</h3>
-
-<p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
-free</p>
-
-<h3>usermod</h3>
-
-<p>查看用户所属的组：groups user     <br/>
-添加用户到某个组：usermod -a -G groupA user</p>
-
-<h3>&amp;&amp;和||</h3>
-
-<p>command1 &amp;&amp; command2 当command1执行成功才执行command2     <br/>
-command1 || command2 当command1执行不成功才执行command2</p>
 ]]></content>
   </entry>
   

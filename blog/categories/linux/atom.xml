@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-09-26T16:15:22+00:00</updated>
+  <updated>2014-10-13T18:55:26+00:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux测试常用命令]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/"/>
+    <updated>2014-09-30T12:50:52+00:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling</id>
+    <content type="html"><![CDATA[<h3>关内核打印</h3>
+
+<p>内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误<br/>
+    echo 0 > /proc/sys/kernel/printk  <br/>
+所有的内核打印都不在串口上输出，默认可使用4。     <br/>
+查看内核打印有两个方法dmesg或cat /proc/kmsg</p>
+
+<h3>查看cpu主频</h3>
+
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
+
+<h3>查看进程内存使用</h3>
+
+<p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux多线程编程]]></title>
@@ -325,6 +347,16 @@ free</p>
 
 <p>command1 &amp;&amp; command2 当command1执行成功才执行command2     <br/>
 command1 || command2 当command1执行不成功才执行command2</p>
+
+<h3>bg fg jobs和ctrl+z</h3>
+
+<ol>
+<li>ctrl+z: 暂停进程，可使用jobs查看可看到状态为Stopped</li>
+<li>bg % [num]: 将job id为num的进程放到后台运行，job id通过jobs查看得到，此时查看状态为Running</li>
+<li>fg % [num]: 将job id为num的后台进程放到前台运行</li>
+<li>命令后加&amp; 是将命令放在后台执行</li>
+</ol>
+
 ]]></content>
   </entry>
   

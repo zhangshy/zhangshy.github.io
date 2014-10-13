@@ -9,7 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="下载zlib-1.2.8.tar.xz和libpng-1.6.13.tar.xz，解压tar -xJvf xx.tar.xz 编译zlib 编写zlibbuild.mk文件，对照源码下的win32/Makefile.gcc文件填写LOCAL_SRC_FILES项： LOCAL_PATH:= $( &hellip;">
+  <meta name="description" content="关内核打印 内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误 echo 0 > /proc/sys/kernel/printk 所有的内核打印都不在串口上输出，默认可使用4。 查看内核打印有两个方法dmesg或cat / &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,98 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-30T12:50:52+00:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>关内核打印</h3>
+
+<p>内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误<br/>
+    echo 0 > /proc/sys/kernel/printk  <br/>
+所有的内核打印都不在串口上输出，默认可使用4。     <br/>
+查看内核打印有两个方法dmesg或cat /proc/kmsg</p>
+
+<h3>查看cpu主频</h3>
+
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
+
+<h3>查看进程内存使用</h3>
+
+<p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-29T10:31:48+00:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>getopt_long支持长选项的命令行参数解析，<a href="https://github.com/zhangshy/Image/blob/master/src/image.cpp">我的例子</a></p>
+
+<ol>
+<li>  单个字符，表示选项</li>
+<li>  单个字符后接一个冒号：表示该选项后必须跟一个参数。参数紧跟在选项后或者以空格隔开。该参数的指针赋给optarg</li>
+<li>  单个字符后跟两个冒号，表示该选项后可以有参数也可以没有参数。如果有参数，参数必须紧跟在选项后不能以空格隔开。该参数的指针赋给optarg</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -598,287 +690,6 @@ pthread_cond_destroy(&amp;cond);
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
-
-<h3>定义</h3>
-
-<pre><code>#define BUFFER_SIZE 0xF 
-typedef struct {
-    uint32_t wptr;   ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1]
-    uint32_t rptr;   ///&lt; buffer读取位置，索引范围：[0:2*BUFFER_SIZE+1]
-    uint8_t buffer[BUFFER_SIZE+1];  ///&lt; buffer大小为BUFFER_SIZE+1
-}ring_buffer_t; 
-</code></pre>
-
-<h3>使用</h3>
-
-<p>若BUFFER_SIZE=3，wptr和rptr的索引为[0:7]  <br/>
-1. wptr=rptr时buffer为空      <br/>
-2. wptr和rptr之间的差值为BUFFER_SIZE+1即4时buffer为满     <br/>
-3. wptr和rptr的范围通过pbuf->wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1 确定，BUFFER_SIZE的取值应该是N个2进制1？？</p>
-
-<pre><code>__inline uint32_t ring_buffer_is_empty(ring_buffer_t *pbuf) {
-    return (pbuf-&gt;wptr==pbuf-&gt;rptr);
-}
-
-__inline uint32_t ring_buffer_is_full(ring_buffer_t *pbuf) {
-    return ((pbuf-&gt;wptr^pbuf-&gt;rptr)==(BUFFER_SIZE+1));
-}
-
-__inline void ring_buffer_flush(ring_buffer_t *pbuf) {
-    pbuf-&gt;wptr = pbuf-&gt;rptr = 0;
-}
-
-void fill_ring_buffer(ring_buffer_t *pbuf, uint8_t data) {
-    pbuf-&gt;buffer[pbuf-&gt;wptr&amp;BUFFER_SIZE] = data;
-    pbuf-&gt;wptr++;
-    pbuf-&gt;wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
-}
-
-uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
-    uint8_t data;
-    data = pbuf-&gt;buffer[pbuf-&gt;rptr&amp;BUFFER_SIZE];
-    pbuf-&gt;rptr++;
-    pbuf-&gt;rptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
-
-    return data;
-}
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/29/objdumpxue-xi/">Objdump学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-29T09:36:08+00:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1. 简单程序hello world</h2>
-
-<pre><code>#include &lt;stdio.h&gt;
-
-int main(int argc, char** argv) {
-    printf("hello world!!\n");
-    int a = 0x123;
-    int b = 0x234;
-    int c = a + b;
-    printf("c is: 0x%x\n", c);
-    return 0;
-}
-</code></pre>
-
-<p>编译gcc hello.c -o hello</p>
-
-<h3>1.1 gcc -S</h3>
-
-<p>gcc hello.c -S -o hello.s     <br/>
-查看hello.s内容cat hello.s</p>
-
-<pre><code>    .file   "hello.c"
-    .section        .rodata
-.LC0:
-    .string "hello world!!"
-.LC1:
-    .string "c is: 0x%x\n"
-    .text
-.globl main
-    .type   main, @function
-main:
-.LFB0:
-    .cfi_startproc
-    pushq   %rbp
-    .cfi_def_cfa_offset 16
-    movq    %rsp, %rbp
-    .cfi_offset 6, -16
-    .cfi_def_cfa_register 6
-    subq    $32, %rsp
-    movl    %edi, -20(%rbp)
-    movq    %rsi, -32(%rbp)
-    movl    $.LC0, %edi
-    call    puts
-    movl    $291, -4(%rbp)
-    movl    $564, -8(%rbp)
-    movl    -8(%rbp), %eax
-    movl    -4(%rbp), %edx
-    leal    (%rdx,%rax), %eax
-    movl    %eax, -12(%rbp)
-    movl    $.LC1, %eax
-    movl    -12(%rbp), %edx
-    movl    %edx, %esi
-    movq    %rax, %rdi
-    movl    $0, %eax
-    call    printf
-    movl    $0, %eax
-    leave
-    ret
-    .cfi_endproc
-.LFE0:
-    .size   main, .-main
-    .ident  "GCC: (Ubuntu/Linaro 4.4.7-1ubuntu2) 4.4.7"
-    .section        .note.GNU-stack,"",@progbits
-</code></pre>
-
-<h3>1.2 objdump指令</h3>
-
-<h4>1.2.1 objdump -s hello</h4>
-
-<p>显示所有section内容</p>
-
-<pre><code>objdump -s -j .rodata hello
-
-hello:     file format elf64-x86-64
-
-Contents of section .rodata:
-400688 01000200 68656c6c 6f20776f 726c6421  ....hello world!
-400698 21006320 69733a20 30782578 0a00      !.c is: 0x%x..  
-只显示.rodata部分
-</code></pre>
-
-<h4>1.2.2 objdump -S hello</h4>
-
-<pre><code>objdump -S -j .rodata hello
-hello:     file format elf64-x86-64
-
-Disassembly of section .rodata:
-
-0000000000400688 &lt;_IO_stdin_used&gt;:
-400688:       01 00 02 00 68 65 6c 6c 6f 20 77 6f 72 6c 64 21     ....hello world!
-400698:       21 00 63 20 69 73 3a 20 30 78 25 78 0a 00           !.c is: 0x%x..
-</code></pre>
-
-<h2>各段含义</h2>
-
-<p><a href="http://blog.sina.com.cn/s/blog_8053938901014gih.html">汇编中bss,data,text,rodata,heap,stack,意义</a>    <br/>
-bss段：</p>
-
-<pre><code>BSS段（bsssegment）通常是指用来存放程序中未初始化的全局变量的一块内存区域。BSS是英文BlockStarted by Symbol的简称。BSS段属于静态内存分配。
-</code></pre>
-
-<p>data段：</p>
-
-<pre><code>数据段（datasegment）通常是指用来存放程序中已初始化的全局变量的一块内存区域。数据段属于静态内存分配。       
-</code></pre>
-
-<p>text段：</p>
-
-<pre><code>代码段（codesegment/textsegment）通常是指用来存放程序执行代码的一块内存区域。这部分区域的大小在程序运行前就已经确定，并且内存区域通常属于只读,某些架构也允许代码段为可写，即允许修改程序。在代码段中，也有可能包含一些只读的常数变量，例如字符串常量等
-</code></pre>
-
-<p>rodata段：</p>
-
-<pre><code>存放C中的字符串和#define定义的常量
-</code></pre>
-
-<h2>ARM汇编</h2>
-
-<h3>参数传递</h3>
-
-<pre><code>当少于四个时，按从左到右的顺序依次放在r0,r1,r2,r3中;
-当多于四个时，前四个放在r0,r1,r2,r3中，剩余的放在堆栈中，
-最后一个参数先入栈，第五个参数最后入栈，即从右到左入栈
-</code></pre>
-
-<h3>返回值</h3>
-
-<pre><code>结果为32位时,通过R0返回
-结果为64位时，r0放低32位，r1放高32位        
-</code></pre>
-
-<p><a href="http://yulin724.wikidot.com/rwpaper:arm-assembly-instructions#toc12">ARM汇编指令集</a></p>
-
-<h4>BL</h4>
-
-<p>BL是arm汇编中用来调用子程序的指令，它把BL后面一条指令的地址放到R14寄存器里，R15寄存器(PC当前指针地址)就设置成要跳往的地址。这样在这个子程序返回时，再mov PC, R14就可以返回到BL后面的地址了</p>
-
-<h4>BEQ</h4>
-
-<p>BEQ指定是跳转指令，但是跳转要满足一定的条件，例：CMP    R1，#0    BEQ  Label    即当R1和0相等的时候程序跳到标号Label处执行。(BEQ执行后不调回去？？)</p>
-
-<h4>LDR/STR</h4>
-
-<p>ARM是RISC结构，数据从内存到CPU之间的移动只能通过L/S指令来完成，也就是ldr/str指令。比如想把数据从内存中某处读取到寄存器中，只能使用ldr，比如：</p>
-
-<pre><code>ldr r0, 0x12345678
-</code></pre>
-
-<p>就是把0x12345678这个地址中的值存放到r0中。而mov不能干这个活，mov只能在寄存器之间移动数据，或者把立即数移动到寄存器中，这个和x86这种CISC架构的芯片区别最大的地方。</p>
-
-<h4>LDR伪指令</h4>
-
-<p>ldr r0, =0x12345678       <br/>
-把0x12345678这个地址写到r0中</p>
-
-<h4>LDMIA</h4>
-
-<p>LDMIA R0! ,{R1,R2}  是指将R0指向的单元中的数据读出到R1，R2中      <br/>
-R1←[R0] R2←[R0＋4]</p>
-
-<h4>BIC</h4>
-
-<p>位清除    <br/>
-    BIC     R0, R0, #0xF0000000     将R0高4位清零
-    BIC     R1, R1, #0x0F           将R1低4位清0</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -893,8 +704,8 @@ R1←[R0] R2←[R0＋4]</p>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
-<li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
+<li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
@@ -902,6 +713,14 @@ R1←[R0] R2←[R0＋4]</p>
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
@@ -913,14 +732,6 @@ R1←[R0] R2←[R0＋4]</p>
     
       <li class="post">
         <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
       </li>
     
   </ul>

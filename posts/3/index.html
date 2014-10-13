@@ -9,7 +9,7 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="包属性 sharedUserId 使用sharedUserId属性时取值需要包含点（dot），如android:sharedUserId=&ldquo;test&#8221;安装时会提示：Failure [INSTALL_PARSE_FAILED_BAD_SHARED_USER_ID]。 &hellip;">
+  <meta name="description" content="智能卡ATR 一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,181 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/04/zhi-neng-qia/">智能卡</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-04T10:43:41+00:00" pubdate data-updated="true">Jul 4<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>智能卡ATR</h3>
+
+<p>一般来说只要VCC上电CLK有时钟（电压要对应，data保持上拉），这时只用给RST持续一段时间的低电平，智能卡就会主动回复ATR。智能卡可以直接使用5V供电，目前还没遇到过只工作在3V的卡，一般工作电压在2.7-5.5V，但遇到过工作电压是4.75-5.25V的卡。  <br/>
+ATR最长33字节，ATR的各数据位之间可能也有一段的时间间隔，这些在7816协议中都有规定。读ATR可以采用两种方式：按照协议边分析边读，这样按照协议读数结束就可以return了;也可以不管协议直接读，ATR中两个字节之间的间隔最长可以是9600etu，超时就认为ATR结束了。</p>
+
+<h3>反向</h3>
+
+<p>像NDS的卡数据是反向，可通过ATR第一个字节看出，一般判断0x03或0x3f为反向卡。反向指高低位倒过来，再取反(软件取反的话，可以通过查表的方式)</p>
+
+<pre><code>0x03
+0 0 0 0 0 0 1 1 先高低倒过来
+1 1 0 0 0 0 0 0 再取反
+0 0 1 1 1 1 1 1 0x3f
+</code></pre>
+
+<h3>数据传输</h3>
+
+<p>一般来说传输一个字符要12个etu=1 START + 8 DATA + 1 PARITY + 2 GUARD</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/02/linux-xue-xi/">Linux 学习</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-02T23:00:20+00:00" pubdate data-updated="true">Jul 2<sup>nd</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>vim</h4>
+
+<p>:vsplit 将窗口分成两个，ctrl+w切换<br/>
+:edit 打开文件<br/>
+:%!xxd -g 1 ：切换成十六进制的一个字节的模式  <br/>
+u 撤销上一步的操作<br/>
+ctrl+r 恢复上一步被撤销的操作 <br/>
+shift+8 查找当前单词  <br/>
+ggVG 全选 <br/>
+q: 进入命令历史编辑   <br/>
+vim xxx +N  打开文件并跳到第N行  <br/>
+vim -d xx xxx 等同于 vimdiff xx xxx   <br/>
+:set noro   取消只读，在git difftool时很有用  <br/>
+dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过来</p>
+
+<h4>tar</h4>
+
+<p>查看内容不解压：tar tvf xxx.tar.gz<br/>
+解压：tar -xzvf xxx.tar.gz<br/>
+解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX   <br/>
+压缩：tar -czvf xxx.tar.gz xxx/   <br/>
+解压：tar -xjvf xxx.tar.bz2   <br/>
+解压：tar xvJf  xxx.tar.xz</p>
+
+<h4>mount</h4>
+
+<p>mount后让普通用户有读写权限，加参数-o umask=000</p>
+
+<pre><code>sudo mount /dev/sdb1 /mnt/ -o umask=000
+</code></pre>
+
+<p>挂载linux网络设备</p>
+
+<pre><code>mount -t nfs -o nolock 192.168.0.188:/share /mnt
+</code></pre>
+
+<h4>pkg-config</h4>
+
+<pre><code>查看头文件：pkg-config --cflags opencv
+查找库文件：pkg-config --libs opencv
+查看版本： pkg-config --modversion opencv
+</code></pre>
+
+<h4>cp</h4>
+
+<p>连带目录一起复制： cp &ndash;parents -r xx/xx/xx/ xx/</p>
+
+<h3>sed</h3>
+
+<p>&lsquo;-i&#8217;使修改生效<br/>
+a. 将old替换为new： sed &rsquo;s/old/new/g&rsquo; file -i<br/>
+b. 删除第四行： sed &lsquo;4 d&rsquo; file<br/>
+c. 在第三行后添加一行： sed &lsquo;3 a xxx&rsquo; file<br/>
+d. 在第三行前添加一行： sed &lsquo;3 i xxx&rsquo; file</p>
+
+<h3>find和grep</h3>
+
+<p>在.c文件中查找东西：find -name &lsquo;*.c&rsquo; | xargs grep &lsquo;xxx&rsquo;</p>
+
+<h3>gcc编译时指定小端-EL</h3>
+
+<p>mips-linux-gnu-gcc -g -O2 -Wall -EL test.c</p>
+
+<h3>watch</h3>
+
+<p>检测一个命令的运行结果，默认2S间隔重复运行命令，用-n参数指定时间间隔: watch
+free</p>
+
+<h3>usermod</h3>
+
+<p>查看用户所属的组：groups user     <br/>
+添加用户到某个组：usermod -a -G groupA user</p>
+
+<h3>&amp;&amp;和||</h3>
+
+<p>command1 &amp;&amp; command2 当command1执行成功才执行command2     <br/>
+command1 || command2 当command1执行不成功才执行command2</p>
+
+<h3>bg fg jobs和ctrl+z</h3>
+
+<ol>
+<li>ctrl+z: 暂停进程，可使用jobs查看可看到状态为Stopped</li>
+<li>bg % [num]: 将job id为num的进程放到后台运行，job id通过jobs查看得到，此时查看状态为Running</li>
+<li>fg % [num]: 将job id为num的后台进程放到前台运行</li>
+<li>命令后加&amp; 是将命令放在后台执行</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -530,8 +705,8 @@ cd ..
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
-<li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>linux (4)</a></li>
+<li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
 
@@ -539,6 +714,14 @@ cd ..
 </section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
@@ -550,14 +733,6 @@ cd ..
     
       <li class="post">
         <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/">加密模式和填充方式</a>
       </li>
     
   </ul>

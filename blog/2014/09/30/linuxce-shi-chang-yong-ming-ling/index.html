@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Android - 张帅依的博客</title>
+  <title>Linux测试常用命令 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Category: android">
+  <meta name="description" content="关内核打印 内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误 echo 0 > /proc/sys/kernel/printk 所有的内核打印都不在串口上输出，默认可使用4。 查看内核打印有两个方法dmesg或cat / &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/categories/android">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -61,105 +61,95 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Android</h1>
+    
+      <h1 class="entry-title">Linux测试常用命令</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-30T12:50:52+00:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h3>关内核打印</h3>
 
-  
-  <h2>2014</h2>
+<p>内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误<br/>
+    echo 0 > /proc/sys/kernel/printk  <br/>
+所有的内核打印都不在串口上输出，默认可使用4。     <br/>
+查看内核打印有两个方法dmesg或cat /proc/kmsg</p>
 
-<article>
-  
-<h1><a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a></h1>
-<time datetime="2014-09-26T16:01:23+00:00" pubdate><span class='month'>Sep</span> <span class='day'>26</span> <span class='year'>2014</span></time>
+<h3>查看cpu主频</h3>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
 
+<h3>查看进程内存使用</h3>
 
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/">DexClassLoader动态加载</a></h1>
-<time datetime="2014-08-08T11:40:07+00:00" pubdate><span class='month'>Aug</span> <span class='day'>08</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/08/06/android-binderbian-xie/">Android Binder编写</a></h1>
-<time datetime="2014-08-06T11:35:45+00:00" pubdate><span class='month'>Aug</span> <span class='day'>06</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/14/android-jnibian-xie/">Android Jni编写</a></h1>
-<time datetime="2014-07-14T11:26:26+00:00" pubdate><span class='month'>Jul</span> <span class='day'>14</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/02/androidxue-xi/">Android学习</a></h1>
-<time datetime="2014-07-02T14:35:05+00:00" pubdate><span class='month'>Jul</span> <span class='day'>02</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/01/android-usb-host/">Android Usb Host</a></h1>
-<time datetime="2014-07-01T14:18:15+00:00" pubdate><span class='month'>Jul</span> <span class='day'>01</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/android/'>android</a></span>
-</footer>
-
-
-</article>
-
+<p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-30T12:50:52+00:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/" title="Previous Post: c解析命令行参数getopt_long">&laquo; c解析命令行参数getopt_long</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
