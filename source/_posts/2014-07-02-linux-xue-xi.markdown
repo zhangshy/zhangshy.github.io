@@ -25,7 +25,8 @@ dp将当前光标内容复制到另一窗口，do将另一窗口内容复制过�
 解压：tar -xzvf xxx.tar.gz  
 解压到指定目录：tar -xzvf xxx.tar.gz -C /XX/XXX     
 压缩：tar -czvf xxx.tar.gz xxx/     
-解压：tar -xjvf xxx.tar.bz2 
+解压：tar -xjvf xxx.tar.bz2     
+解压：tar xvJf  xxx.tar.xz
 
 ####mount
 mount后让普通用户有读写权限，加参数-o umask=000
@@ -61,4 +62,10 @@ free
 ### &&和||
 command1 && command2 当command1执行成功才执行command2       
 command1 || command2 当command1执行不成功才执行command2
+
+###bg fg jobs和ctrl+z
+1.  ctrl+z: 暂停进程，可使用jobs查看可看到状态为Stopped     
+2.  bg % [num]: 将job id为num的进程放到后台运行，job id通过jobs查看得到，此时查看状态为Running     
+3.  fg % [num]: 将job id为num的后台进程放到前台运行
+4.  命令后加& 是将命令放在后台执行
 
