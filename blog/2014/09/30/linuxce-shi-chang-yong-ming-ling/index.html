@@ -81,7 +81,7 @@
   
 
 
-<time datetime="2014-09-30T12:50:52+00:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
+<time datetime="2014-09-30T20:50:52+08:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -97,11 +97,23 @@
 
 <h3>查看cpu主频</h3>
 
-<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor查看当前CPU管理策略      <br/>
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq当前CPU主频          <br/>
+通过echo命令可直接修改scaling_governor和scaling_max_freq。</p>
 
 <h3>查看进程内存使用</h3>
 
 <p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
+
+<h3>ip命令</h3>
+
+<pre><code>ip addr 查看ip地址
+ip link show 查看设备硬件信息
+ip link set wlp3s0 down 关闭wlp3s0设备
+ip route show 查看路由信息      
+ip address add 172.18.88.82/16 dev eth0 添加ip      
+ip address del 172.18.88.82/16 dev eth0 删除ip
+</code></pre>
 </div>
 
 
@@ -124,7 +136,7 @@
   
 
 
-<time datetime="2014-09-30T12:50:52+00:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
+<time datetime="2014-09-30T20:50:52+08:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
       
 
 <span class="categories">
@@ -148,6 +160,8 @@
         <a class="basic-alignment left" href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/" title="Previous Post: c解析命令行参数getopt_long">&laquo; c解析命令行参数getopt_long</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/10/14/octaveru-men/" title="Next Post: octave入门">octave入门 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -162,8 +176,9 @@
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
+<li class='category'><a href='/blog/categories/octave/'>octave (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (3)</a></li>
 
   </ul>
 </section><section>
@@ -171,23 +186,23 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/14/octaveru-men/">Octave入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
       </li>
     
   </ul>

@@ -5,14 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Linux多线程编程 - 张帅依的博客</title>
+  <title>Python Ctypes使用c库 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="linux多线程编程 pthread_create void *test_thread(void *arg) { int *num = (int *)arg; //可以得到参数
-} pthread_t thread_id;
-int testNum=1;
-pthread_create(&amp; &hellip;">
+  <meta name="description" content="我的例子 调用c++ c++编写的so库要加上extern &ldquo;C&#8221;，要不然找不到函数 传递字符串 使用c_char_p(b&#8221;xxxx&#8221;)传递字符串，如果直接用xxx的话，c层只能得到一个字符。 from ctypes import *
+rpng = &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +19,7 @@ pthread_create(&amp; &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/08/14/python-ctypesshi-yong-cku">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -68,7 +66,7 @@ pthread_create(&amp; &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Linux多线程编程</h1>
+      <h1 class="entry-title">Python Ctypes使用c库</h1>
     
     
       <p class="meta">
@@ -84,56 +82,32 @@ pthread_create(&amp; &hellip;">
   
 
 
-<time datetime="2014-08-05T17:28:29+00:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
+<time datetime="2014-08-14T01:15:28+08:00" pubdate data-updated="true">Aug 14<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
+<div class="entry-content"><p><a href="https://github.com/zhangshy/myTest/blob/master/python/cvsave2Png.py">我的例子</a></p>
 
-<h3>pthread_create</h3>
+<h3>调用c++</h3>
 
-<pre><code>void *test_thread(void *arg) {
-    int *num = (int *)arg;  //可以得到参数
-}
+<p>c++编写的so库要加上extern &ldquo;C&#8221;，要不然找不到函数</p>
 
-pthread_t thread_id;
-int testNum=1;
-pthread_create(&amp;thread_id, NULL, test_thread, (void *)&amp;testNum);
+<h3>传递字符串</h3>
+
+<p>使用c_char_p(b&#8221;xxxx&#8221;)传递字符串，如果直接用xxx的话，c层只能得到一个字符。</p>
+
+<pre><code>from ctypes import *
+rpng = cdll.LoadLibrary("/home/zsy/lqbz/java/librpng.so")
+rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvout.png"))
 </code></pre>
 
-<h3>pthread_detach与pthread_join</h3>
+<h3>python调用shell</h3>
 
-<p>调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞;这时可以在子线程中加入代码    <br/>
-pthread_detach(pthread_self())    <br/>
-或者父线程调用    <br/>
-pthread_detach(thread_id)（非阻塞，可立即返回）   <br/>
-这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源</p>
-
-<h3>pthread_cond_wait</h3>
-
-<p><a href="http://baike.baidu.com/view/5725833.htm?fr=aladdin">pthread_cond_wait</a>   <br/>
-条件变量是利用线程间共享的全局变量进行同步的一种机制，主要包括两个动作：一个线程等待&#8221;条件变量的条件成立&#8221;而挂起；另一个线程使&#8221;条件成立&#8221;（给出条件成立信号）。为了防止竞争，条件变量的使用总是和一个互斥锁结合在一起。</p>
-
-<pre><code>pthread_mutex_t mutex;
-pthread_cond_t cond;
-pthread_mutex_init(&amp;mutex, NULL);
-pthread_cond_init(&amp;cond, NULL);
-
-//等待
-pthread_mutex_lock(&amp;mutex);
-pthread_cond_wait(&amp;cond, &amp;mutex);
-pthread_mutex_unlock(&amp;mutex)
-//激活
-pthread_mutex_lock(&amp;mutex);
-pthread_cond_signal(&amp;cond);
-pthread_mutex_unlock(&amp;mutex);
-//注销
-pthread_mutex_destroy(&amp;mutex);
-pthread_cond_destroy(&amp;cond);
-</code></pre>
+<p><a href="https://github.com/zhangshy/myTest/blob/master/python/pushShell.py">我的例子</a>    <br/>
+    os.system(&ldquo;adb push libjni.so /system/lib&rdquo;)</p>
 </div>
 
 
@@ -156,12 +130,12 @@ pthread_cond_destroy(&amp;cond);
   
 
 
-<time datetime="2014-08-05T17:28:29+00:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
+<time datetime="2014-08-14T01:15:28+08:00" pubdate data-updated="true">Aug 14<sup>th</sup>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>linux</a>
+    <a class='category' href='/blog/categories/python/'>python</a>
   
 </span>
 
@@ -177,10 +151,10 @@ pthread_cond_destroy(&amp;cond);
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/08/04/huan-xing-buffer/" title="Previous Post: 环形buffer">&laquo; 环形buffer</a>
+        <a class="basic-alignment left" href="/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/" title="Previous Post: 加密模式和填充方式">&laquo; 加密模式和填充方式</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/08/06/android-binderbian-xie/" title="Next Post: android binder编写">android binder编写 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/09/12/ndkxiang-guan/" title="Next Post: ndk相关">ndk相关 &raquo;</a>
       
     </p>
   </footer>
@@ -196,8 +170,9 @@ pthread_cond_destroy(&amp;cond);
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
+<li class='category'><a href='/blog/categories/octave/'>octave (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (3)</a></li>
 
   </ul>
 </section><section>
@@ -205,23 +180,23 @@ pthread_cond_destroy(&amp;cond);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/14/octaveru-men/">Octave入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
       </li>
     
   </ul>

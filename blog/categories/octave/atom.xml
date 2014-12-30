@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Octave | 张帅依的博客]]></title>
+  <link href="http://zhangshy.github.io/blog/categories/octave/atom.xml" rel="self"/>
+  <link href="http://zhangshy.github.io/"/>
+  <updated>2014-12-30T22:42:48+08:00</updated>
+  <id>http://zhangshy.github.io/</id>
+  <author>
+    <name><![CDATA[张帅依]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octave入门]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/10/14/octaveru-men/"/>
+    <updated>2014-10-14T03:05:03+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/10/14/octaveru-men</id>
+    <content type="html"><![CDATA[<p>archlinux系统安装octave：sudo pacman -S octave      <br/>
+命令结尾有';&lsquo;不回显结果，没有则回显。</p>
+
+<h3>1 创建矩阵</h3>
+
+<p>输入A = [ 1, 1, 2; 3, 5, 8; 13, 21, 34 ]  <br/>
+    A =
+        1    1    2
+        3    5    8
+        13   21   34</p>
+
+<p>输入B = rand(3, 2)    <br/>
+    B =
+        0.19238   0.18948
+        0.31423   0.43650
+        0.26412   0.84209</p>
+
+<h3>2 运算</h3>
+
+<pre><code>2*A
+ans =
+    2    2    4
+    6   10   16
+    26   42   68
+A*B
+ans =
+    1.0349    2.3102
+    4.2613    9.4876
+    18.0799   40.2607
+A'*A
+ans =
+    179    289    468
+    289    467    756
+    468    756   1224
+</code></pre>
+
+<h3>3 解线性方程组</h3>
+
+<p>使用'\&lsquo;解线性方程组，Ax=b，x=A\b  <br/>
+    A = [ 2, 0; 0, 2 ];
+    b = [ 2; 1 ];
+    x = A \ b
+    x =
+        1.00000
+        0.50000</p>
+
+<h3>4 绘图</h3>
+
+<p>抛物线<br/>
+    x=-2;0.01;2;
+    y=x.*x;
+    plot(x,y)
+其中'.&lsquo;点乘指的是分别相乘。</p>
+]]></content>
+  </entry>
+  
+</feed>

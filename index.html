@@ -9,7 +9,10 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="关内核打印 内核打印在串口上输出时有时会影响系统响应速度，尤其是内核中断里的打印，如果中断中打印在串口上输出，有时会造成意想不到的错误 echo 0 > /proc/sys/kernel/printk 所有的内核打印都不在串口上输出，默认可使用4。 查看内核打印有两个方法dmesg或cat / &hellip;">
+  <meta name="description" content="以安装ue为例 解压deb：ar -x uex_4.2.0.11_amd64.deb
+解压data：tar xzvf data.tar.gz
+cd usr/bin下运行uex发现缺少libpn12.so.0。
+编译libpng12.so.0。下载libpng-1.2.52.tar.gz解压后./ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +71,195 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-30T22:27:12+08:00" pubdate data-updated="true">Dec 30<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>以安装ue为例</h2>
+
+<ol>
+<li>解压deb：ar -x uex_4.2.0.11_amd64.deb</li>
+<li>解压data：tar xzvf data.tar.gz</li>
+<li>cd usr/bin下运行uex发现缺少libpn12.so.0。</li>
+<li>编译libpng12.so.0。下载libpng-1.2.52.tar.gz解压后./configure &amp;&amp; make</li>
+<li>链接.libs/libpng12.so.0.52.0到/lib64下。</li>
+<li>也可以通过ldd uex检查一下动态库是否完整。我自己编译了libpng12后就可以运行了</li>
+<li>网上有人说删除自己用户目录下的.idm/uex/uex.conf就可以再试用30天，还没试过。</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-25T19:33:56+08:00" pubdate data-updated="true">Oct 25<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>常用命令</h2>
+
+<ol>
+<li>r 运行程序</li>
+<li>c 当中断后继续运行</li>
+<li>n 单步运行（跳过函数）</li>
+<li>s 单步运行（进入函数）</li>
+<li>q 退出gdb</li>
+<li>l 显示代码
+
+<h2>断点</h2></li>
+<li>函数中设置断点：b XXX.c: n  在XXX.c的第n行设置断点</li>
+<li>条件断点： b XXX.c :n if cmd 当cmd为true时在XXX.c的第n行停
+
+<h2>打印</h2></li>
+<li>p XX 打印XX的值</li>
+<li>打印数组 p *a@len 打印数组a中的前len个数值</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/14/octaveru-men/">Octave入门</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-14T03:05:03+08:00" pubdate data-updated="true">Oct 14<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>archlinux系统安装octave：sudo pacman -S octave      <br/>
+命令结尾有&#8217;;&lsquo;不回显结果，没有则回显。</p>
+
+<h3>1 创建矩阵</h3>
+
+<p>输入A = [ 1, 1, 2; 3, 5, 8; 13, 21, 34 ]  <br/>
+    A =
+        1    1    2
+        3    5    8
+        13   21   34</p>
+
+<p>输入B = rand(3, 2)    <br/>
+    B =
+        0.19238   0.18948
+        0.31423   0.43650
+        0.26412   0.84209</p>
+
+<h3>2 运算</h3>
+
+<pre><code>2*A
+ans =
+    2    2    4
+    6   10   16
+    26   42   68
+A*B
+ans =
+    1.0349    2.3102
+    4.2613    9.4876
+    18.0799   40.2607
+A'*A
+ans =
+    179    289    468
+    289    467    756
+    468    756   1224
+</code></pre>
+
+<h3>3 解线性方程组</h3>
+
+<p>使用&#8217;\&lsquo;解线性方程组，Ax=b，x=A\b  <br/>
+    A = [ 2, 0; 0, 2 ];
+    b = [ 2; 1 ];
+    x = A \ b
+    x =
+        1.00000
+        0.50000</p>
+
+<h3>4 绘图</h3>
+
+<p>抛物线<br/>
+    x=-2;0.01;2;
+    y=x.*x;
+    plot(x,y)
+其中&#8217;.&lsquo;点乘指的是分别相乘。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a></h1>
     
     
@@ -84,7 +276,7 @@
   
 
 
-<time datetime="2014-09-30T12:50:52+00:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
+<time datetime="2014-09-30T20:50:52+08:00" pubdate data-updated="true">Sep 30<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -100,11 +292,23 @@
 
 <h3>查看cpu主频</h3>
 
-<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor查看当前CPU管理策略      <br/>
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq当前CPU主频          <br/>
+通过echo命令可直接修改scaling_governor和scaling_max_freq。</p>
 
 <h3>查看进程内存使用</h3>
 
 <p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
+
+<h3>ip命令</h3>
+
+<pre><code>ip addr 查看ip地址
+ip link show 查看设备硬件信息
+ip link set wlp3s0 down 关闭wlp3s0设备
+ip route show 查看路由信息      
+ip address add 172.18.88.82/16 dev eth0 添加ip      
+ip address del 172.18.88.82/16 dev eth0 删除ip
+</code></pre>
 </div>
   
   
@@ -133,7 +337,7 @@
   
 
 
-<time datetime="2014-09-29T10:31:48+00:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
+<time datetime="2014-09-29T18:31:48+08:00" pubdate data-updated="true">Sep 29<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -160,7 +364,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/09/27/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a></h1>
     
     
       <p class="meta">
@@ -176,7 +380,7 @@
   
 
 
-<time datetime="2014-09-26T16:01:23+00:00" pubdate data-updated="true">Sep 26<sup>th</sup>, 2014</time>
+<time datetime="2014-09-27T00:01:23+08:00" pubdate data-updated="true">Sep 27<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -272,7 +476,7 @@ include $(BUILD_SHARED_LIBRARY)
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/09/19/nginx-xue-xi/">Nginx 学习</a></h1>
     
     
       <p class="meta">
@@ -288,7 +492,7 @@ include $(BUILD_SHARED_LIBRARY)
   
 
 
-<time datetime="2014-09-18T17:20:38+00:00" pubdate data-updated="true">Sep 18<sup>th</sup>, 2014</time>
+<time datetime="2014-09-19T01:20:38+08:00" pubdate data-updated="true">Sep 19<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -341,7 +545,7 @@ include $(BUILD_SHARED_LIBRARY)
   
 
 
-<time datetime="2014-09-12T15:52:50+00:00" pubdate data-updated="true">Sep 12<sup>th</sup>, 2014</time>
+<time datetime="2014-09-12T23:52:50+08:00" pubdate data-updated="true">Sep 12<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -380,7 +584,7 @@ include $(BUILD_SHARED_LIBRARY)
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/13/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/14/python-ctypesshi-yong-cku/">Python Ctypes使用c库</a></h1>
     
     
       <p class="meta">
@@ -396,7 +600,7 @@ include $(BUILD_SHARED_LIBRARY)
   
 
 
-<time datetime="2014-08-13T17:15:28+00:00" pubdate data-updated="true">Aug 13<sup>th</sup>, 2014</time>
+<time datetime="2014-08-14T01:15:28+08:00" pubdate data-updated="true">Aug 14<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -450,7 +654,7 @@ rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvou
   
 
 
-<time datetime="2014-08-09T14:30:00+00:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
+<time datetime="2014-08-09T22:30:00+08:00" pubdate data-updated="true">Aug 9<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -500,196 +704,6 @@ AES/PCBC/ISO10126Padding       32                         16
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/">DexClassLoader动态加载</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-08T11:40:07+00:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cnblogs.com/over140/archive/2011/11/23/2259367.html">Android动态加载jar/dex</a>      <br/>
-<a href="http://blog.csdn.net/jiangwei0910410003/article/details/17679823">Android中的动态加载机制</a>   <br/>
-<a href="https://github.com/zhangshy/myTest/tree/master/DexClassLoaderTest">示例代码</a></p>
-
-<h2>1. 准备dex文件</h2>
-
-<h3>1.1 编写</h3>
-
-<p>接口：</p>
-
-<pre><code>package com.dex.test;
-
-public interface IDextest {
-    public String getDexString();
-}
-</code></pre>
-
-<p>实现：</p>
-
-<pre><code>package com.dex.test;
-
-public class Dextest implements IDextest{
-    @Override
-    public String getDexString() {
-        return "here dex test!!";
-    }
-}
-</code></pre>
-
-<h3>1.2 导出jar包</h3>
-
-<p><img src="/images/cap_jar.jpg" alt="导出jar包" />     <br/>
-导出时不用选择接口文件。</p>
-
-<h3>1.3 使用dx转换</h3>
-
-<p>dx在sdk/build-tools/android-4.4.2/下，执行/opt/android/sdk/build-tools/android-4.4.2/dx &ndash;dex &ndash;output=test.jar dextest.jar</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/06/android-binderbian-xie/">Android Binder编写</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-06T11:35:45+00:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html">Android深入浅出之Binder机制</a>  <br/>
-<a href="https://github.com/zhangshy/myTest/tree/master/binder">我的例子</a></p>
-
-<pre><code>使用NDK编译多模块时编译顺序和要生成的文件的首字母有关？
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-05T17:28:29+00:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
-
-<h3>pthread_create</h3>
-
-<pre><code>void *test_thread(void *arg) {
-    int *num = (int *)arg;  //可以得到参数
-}
-
-pthread_t thread_id;
-int testNum=1;
-pthread_create(&amp;thread_id, NULL, test_thread, (void *)&amp;testNum);
-</code></pre>
-
-<h3>pthread_detach与pthread_join</h3>
-
-<p>调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞;这时可以在子线程中加入代码    <br/>
-pthread_detach(pthread_self())    <br/>
-或者父线程调用    <br/>
-pthread_detach(thread_id)（非阻塞，可立即返回）   <br/>
-这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源</p>
-
-<h3>pthread_cond_wait</h3>
-
-<p><a href="http://baike.baidu.com/view/5725833.htm?fr=aladdin">pthread_cond_wait</a>   <br/>
-条件变量是利用线程间共享的全局变量进行同步的一种机制，主要包括两个动作：一个线程等待&#8221;条件变量的条件成立&#8221;而挂起；另一个线程使&#8221;条件成立&#8221;（给出条件成立信号）。为了防止竞争，条件变量的使用总是和一个互斥锁结合在一起。</p>
-
-<pre><code>pthread_mutex_t mutex;
-pthread_cond_t cond;
-pthread_mutex_init(&amp;mutex, NULL);
-pthread_cond_init(&amp;cond, NULL);
-
-//等待
-pthread_mutex_lock(&amp;mutex);
-pthread_cond_wait(&amp;cond, &amp;mutex);
-pthread_mutex_unlock(&amp;mutex)
-//激活
-pthread_mutex_lock(&amp;mutex);
-pthread_cond_signal(&amp;cond);
-pthread_mutex_unlock(&amp;mutex);
-//注销
-pthread_mutex_destroy(&amp;mutex);
-pthread_cond_destroy(&amp;cond);
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -706,8 +720,9 @@ pthread_cond_destroy(&amp;cond);
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
+<li class='category'><a href='/blog/categories/octave/'>octave (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (3)</a></li>
 
   </ul>
 </section><section>
@@ -715,23 +730,23 @@ pthread_cond_destroy(&amp;cond);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/14/octaveru-men/">Octave入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
       </li>
     
   </ul>

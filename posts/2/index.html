@@ -9,7 +9,8 @@
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="示例代码 定义 #define BUFFER_SIZE 0xF typedef struct { uint32_t wptr; ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1] uint32_t rptr; ///&lt; buffer读取位置，索引范围：[0 &hellip;">
+  <meta name="description" content="Android动态加载jar/dex Android中的动态加载机制 示例代码 1. 准备dex文件 1.1 编写 接口： package com.dex.test; public interface IDextest { public String getDexString();
+} 实现： &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +69,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/08/04/huan-xing-buffer/">环形buffer</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/">DexClassLoader动态加载</a></h1>
     
     
       <p class="meta">
@@ -84,7 +85,197 @@
   
 
 
-<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+<time datetime="2014-08-08T19:40:07+08:00" pubdate data-updated="true">Aug 8<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.cnblogs.com/over140/archive/2011/11/23/2259367.html">Android动态加载jar/dex</a>      <br/>
+<a href="http://blog.csdn.net/jiangwei0910410003/article/details/17679823">Android中的动态加载机制</a>   <br/>
+<a href="https://github.com/zhangshy/myTest/tree/master/DexClassLoaderTest">示例代码</a></p>
+
+<h2>1. 准备dex文件</h2>
+
+<h3>1.1 编写</h3>
+
+<p>接口：</p>
+
+<pre><code>package com.dex.test;
+
+public interface IDextest {
+    public String getDexString();
+}
+</code></pre>
+
+<p>实现：</p>
+
+<pre><code>package com.dex.test;
+
+public class Dextest implements IDextest{
+    @Override
+    public String getDexString() {
+        return "here dex test!!";
+    }
+}
+</code></pre>
+
+<h3>1.2 导出jar包</h3>
+
+<p><img src="/images/cap_jar.jpg" alt="导出jar包" />     <br/>
+导出时不用选择接口文件。</p>
+
+<h3>1.3 使用dx转换</h3>
+
+<p>dx在sdk/build-tools/android-4.4.2/下，执行/opt/android/sdk/build-tools/android-4.4.2/dx &ndash;dex &ndash;output=test.jar dextest.jar</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/06/android-binderbian-xie/">Android Binder编写</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-06T19:35:45+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html">Android深入浅出之Binder机制</a>  <br/>
+<a href="https://github.com/zhangshy/myTest/tree/master/binder">我的例子</a></p>
+
+<pre><code>使用NDK编译多模块时编译顺序和要生成的文件的首字母有关？
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng/">Linux多线程编程</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-06T01:28:29+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
+
+<h3>pthread_create</h3>
+
+<pre><code>void *test_thread(void *arg) {
+    int *num = (int *)arg;  //可以得到参数
+}
+
+pthread_t thread_id;
+int testNum=1;
+pthread_create(&amp;thread_id, NULL, test_thread, (void *)&amp;testNum);
+</code></pre>
+
+<h3>pthread_detach与pthread_join</h3>
+
+<p>调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞;这时可以在子线程中加入代码    <br/>
+pthread_detach(pthread_self())    <br/>
+或者父线程调用    <br/>
+pthread_detach(thread_id)（非阻塞，可立即返回）   <br/>
+这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源</p>
+
+<h3>pthread_cond_wait</h3>
+
+<p><a href="http://baike.baidu.com/view/5725833.htm?fr=aladdin">pthread_cond_wait</a>   <br/>
+条件变量是利用线程间共享的全局变量进行同步的一种机制，主要包括两个动作：一个线程等待&#8221;条件变量的条件成立&#8221;而挂起；另一个线程使&#8221;条件成立&#8221;（给出条件成立信号）。为了防止竞争，条件变量的使用总是和一个互斥锁结合在一起。</p>
+
+<pre><code>pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_mutex_init(&amp;mutex, NULL);
+pthread_cond_init(&amp;cond, NULL);
+
+//等待
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_wait(&amp;cond, &amp;mutex);
+pthread_mutex_unlock(&amp;mutex)
+//激活
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_signal(&amp;cond);
+pthread_mutex_unlock(&amp;mutex);
+//注销
+pthread_mutex_destroy(&amp;mutex);
+pthread_cond_destroy(&amp;cond);
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/05/huan-xing-buffer/">环形buffer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-05T00:00:14+08:00" pubdate data-updated="true">Aug 5<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -165,7 +356,7 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   
 
 
-<time datetime="2014-07-29T09:36:08+00:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
+<time datetime="2014-07-29T17:36:08+08:00" pubdate data-updated="true">Jul 29<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -365,7 +556,7 @@ R1←[R0] R2←[R0＋4]</p>
   
 
 
-<time datetime="2014-07-28T10:33:35+00:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
+<time datetime="2014-07-28T18:33:35+08:00" pubdate data-updated="true">Jul 28<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -405,7 +596,7 @@ R1←[R0] R2←[R0＋4]</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/07/25/pythonwang-luo-bian-cheng/">Python网络编程</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/26/pythonwang-luo-bian-cheng/">Python网络编程</a></h1>
     
     
       <p class="meta">
@@ -421,7 +612,7 @@ R1←[R0] R2←[R0＋4]</p>
   
 
 
-<time datetime="2014-07-25T17:03:38+00:00" pubdate data-updated="true">Jul 25<sup>th</sup>, 2014</time>
+<time datetime="2014-07-26T01:03:38+08:00" pubdate data-updated="true">Jul 26<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -457,7 +648,7 @@ print(r.read().decode("UTF-8"))
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/07/24/pythonxue-xi/">Python学习</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/07/25/pythonxue-xi/">Python学习</a></h1>
     
     
       <p class="meta">
@@ -473,7 +664,7 @@ print(r.read().decode("UTF-8"))
   
 
 
-<time datetime="2014-07-24T16:15:52+00:00" pubdate data-updated="true">Jul 24<sup>th</sup>, 2014</time>
+<time datetime="2014-07-25T00:15:52+08:00" pubdate data-updated="true">Jul 25<sup>th</sup>, 2014</time>
         
       </p>
     
@@ -593,7 +784,7 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
   
 
 
-<time datetime="2014-07-22T09:08:51+00:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
+<time datetime="2014-07-22T17:08:51+08:00" pubdate data-updated="true">Jul 22<sup>nd</sup>, 2014</time>
         
       </p>
     
@@ -685,7 +876,7 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
   
 
 
-<time datetime="2014-07-21T11:48:05+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
+<time datetime="2014-07-21T19:48:05+08:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
         
       </p>
     
@@ -698,326 +889,6 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
 
 <pre><code>git branch --set-upstream master  origin/master
 </code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-21T10:30:30+00:00" pubdate data-updated="true">Jul 21<sup>st</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>VA_ARGS</h3>
-
-<p>可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号</p>
-
-<pre><code>#define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ##__VA_ARGS__)
-</code></pre>
-
-<h3>cpp引用c函数库</h3>
-
-<pre><code>#ifdef __cplusplus
-extern "C"{
-#endif
-/* c++引用C，将#include "x264.h"放到extern "C" 中 */
-#include "x264.h"
-#ifdef __cplusplus
-}
-#endif
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/14/android-jnibian-xie/">Android Jni编写</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-14T11:26:26+00:00" pubdate data-updated="true">Jul 14<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>java文件编写</h3>
-
-<pre><code>package com.example.jni
-
-public class Testjni {
-    public native int jniRead(byte[] data, int len);
-    public native int jniWrite(byte[] data, int len);
-    static {
-        System.loadLibrary("myJni");
-    }
-}
-</code></pre>
-
-<h3>jni文件编写</h3>
-
-<p>jni文件的函数名要和java中的方法名对应起来，在jni中申请的空间要注意释放。</p>
-
-<pre><code>#include &lt;jni.h&gt;
-#include &lt;android/log.h&gt;
-
-#define LOG_TAG "myJni.c"
-#define LOGI(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA__ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA__ARGS__)
-
-jint Java_com_example_jni_jniRead(JNIEnv *env, jobject thiz,
-    jbyteArray receiveBuf, jint slen) {
-    uint8_t p_recv_buf[256] = {0};
-    int len = slen;
-    len = read(fd, p_recv_buf, slen);
-    LOGI("rea len:%d\n", len);
-    (*env)-&gt;setByteArrayRegion(env, receiveBuf, 0, len,
-        (const jbyte*)p_recv_buf);
-    return len;
-}
-
-jint Java_com_example_jni_jniWrite(JNIEnv *env, jobject thiz,
-    jbyteArray sendBuf, jint len) {
-    //申请空间
-    jbyte *sendelems = (*env)-&gt;GetByteArrayElements(env, sendBuf, NULL);
-    ...//处理函数
-    //释放
-    (*env)-&gt;ReleaseByteArrayElements(env, sendBuf, sendelems, 0);
-    return 0;
-}
-</code></pre>
-
-<h3>Android.mk</h3>
-
-<pre><code>LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS)
-
-LOCAL_MODULE_TAGS := optional
-LOCAL_SRC_FILES:= \
-    myJni.c
-LOCAL_LDLIBS := -llog
-
-LOCAL_SHARED_LIBRARIES += libam_adp liblog libcutils
-LOCAL_C_INCLUDES += ../inc
-#编译生成libmyJni.so
-LOCAL_MODULE := libmyJni
-#编译动态库
-include $(BUILD_SHARED_LIBRARY)
-</code></pre>
-
-<p>执行mm编译。（菜鸟级别解释：:=是赋值的意思，+=是追加的意思，$是引用某变量的值）补充说明：BUILD_EXECUTABLE表示以一个可执行程序的方式进行编译，include $(BUILD_PACKAGE)则是编译出一个apk，include $(BUILD_STATIC_JAVA_LIBRARY)则是编译出jar包。</p>
-
-<h4>LOCAL_MODULE_TAGS说明</h4>
-
-<p>LOCAL_MODULE_TAGS ：=user eng tests optional  <br/>
-user: 指该模块只在user版本下才编译    <br/>
-eng: 指该模块只在eng版本下才编译      <br/>
-tests: 指该模块只在tests版本下才编译      <br/>
-optional:指该模块在所有版本下都编译   <br/>
-我一般都使用optional</p>
-
-<h2>我的例子</h2>
-
-<h3>javah生成h文件</h3>
-
-<p>在src目录下执行javah -jni com.example.jni.Getso后生成com_example_jni_Getso.h</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/09/linuxqu-dong/">Linux驱动</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-09T16:08:06+00:00" pubdate data-updated="true">Jul 9<sup>th</sup>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>交叉编译</h3>
-
-<p>编译ko文件</p>
-
-<pre><code>Makefile:
-PWD=$(shell pwd)
-KDIR=/xx/xx/linux-3.4
-
-obj-m+=scr.o
-scr-objs := file1.o file2.o test-scr.o
-
-build:
-    $(MAKE) -C $(KDIR) M=$(PWD)
-
-clean:
-    @rm -rf *.o *.ko *.cmd *.mod.c *.order *.symvers *.tmp_versions *~
-</code></pre>
-
-<p>执行编译：</p>
-
-<pre><code>make ARCH=arm CROSS_COMPILE=/xx/xx/arm-linux-gnueabi-
-</code></pre>
-
-<h3>创建设备</h3>
-
-<p>class_create和device_create函数，在/dev下创建设备节点</p>
-
-<pre><code>int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
-struct class* my_device_class = class_create(THIS_MODULE, "myDevice");
-//在/sys/class下创建了myDevice目录
-if (IS_ERR(my_device_class))
-    return -1;
-device_create(my_device_class, NULL, MKDEV(my_device_major, 0), NULL, "myDevice");
-//在/dev下创建myDevice设备
-</code></pre>
-
-<h3>自旋锁spinlock_t</h3>
-
-<p>spin_lock_irqsave会关闭中断</p>
-
-<pre><code>spinlock_t rx_slock;
-spin_lock_init(&amp;rx_slock);  //初始化
-/* 使用 */
-unsigned long flags;
-spin_lock_irqsave(&amp;rx_slock, flags);
-...
-//处理
-...
-spin_unlock_irqrestpre(&amp;rx_slock, flags);
-</code></pre>
-
-<h3>poll</h3>
-
-<h4>驱动poll_wait</h4>
-
-<pre><code>wait_queue_head_t rd_wq;
-init_waitqueue_head(&amp;rd_wq);
-
-unsigned int test_poll(struct file *filp, struct poll_table_struct *wait){
-    unsigned int ret = 0;
-    poll_wait(filp, &amp;rd_wq, wait);
-    ...//处理
-    if (hasData) ret |= POLLIN|POLLRDNORM;
-    return ret;
-}
-
-当收到数后：wake_up_interruptible(&amp;rd_wq);
-</code></pre>
-
-<h4>应用poll</h4>
-
-<pre><code>int fd = open("/dev/xxx", O_RDWR);
-uint32_t timeout = xxxxx;
-struct pollfd pfd;
-pfd.fd = fd;
-pfd.events = POLLIN;
-ret = poll(&amp;pfd, 1, timeout);
-if (ret!=1)
-    return -1;
-ret = read(fd, (void*)data, *size);
-</code></pre>
-
-<h3>workqueue工作队列在中断中使用</h3>
-
-<p>使用：在有大量的中断处理中，需要紧急处理的中断直接在中断处理函数中进行，可以延迟处理的中断放到了workqueue中做，（不知这样对不对，我看网上还有一种tasklet）。workqueue的使用：</p>
-
-<pre><code>struct work_struct device_work;
-struct workqueue_struct *device_wq;
-
-void device_work_func(struct work_struct *work) {
-    ...//处理中断的函数
-}
-//中断回调函数
-irqreturn_t device_irq_service(int irqno, void *dev_id) {
-    unsigned int temp;
-    unsinged long flags;
-    //加锁
-    spin_lock_irqsave(&amp;rx_slock, flags);
-    temp = my_get_device_interrupt_status();//一般都可以从寄存器中读到中断状态
-    if (temp&amp;MY_DEVICE_IMMEDIATE) { //需要立即处理的紧急中断
-        ...//中断处理
-    } else {
-        queue_work(device_wq, &amp;device_work);
-    }
-    spin_unlock_irqrestpre(&amp;rx_slock, flags);
-}
-
-//初始化
-device_wq = create_singlethread_workqueue("device_wq");//只创建一个内核线程
-INIT_WORK(&amp;device_work, device_work_func);
-request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断服务
-</code></pre>
-
-<p>补充：
-1. 中断处理中尽量不要加打印;
-2. 在硬中断处理函数device_irq_service中不能使用mutex_lock，如果必须加锁可使用自旋锁spinlock_t; 在软中断
-函数device_work_func中可以加mutex_lock</p>
 </div>
   
   
@@ -1043,8 +914,9 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
+<li class='category'><a href='/blog/categories/octave/'>octave (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (3)</a></li>
 
   </ul>
 </section><section>
@@ -1052,23 +924,23 @@ request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/14/octaveru-men/">Octave入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
       </li>
     
   </ul>

@@ -5,12 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Nginx 学习 - 张帅依的博客</title>
+  <title>Archlinux安装deb文件 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="配置 配置文件：/etc/nginx/nginx.conf，将 location /images/ { root /data;
-} 加入/etc/nginx/nginx.conf 启动 sudo systemctl start nginx 测试 将cap_jar.jpg复制到/data/ &hellip;">
+  <meta name="description" content="以安装ue为例 解压deb：ar -x uex_4.2.0.11_amd64.deb
+解压data：tar xzvf data.tar.gz
+cd usr/bin下运行uex发现缺少libpn12.so.0。
+编译libpng12.so.0。下载libpng-1.2.52.tar.gz解压后./ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/09/18/nginx-xue-xi">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/12/30/archlinuxan-zhuang-debwen-jian">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -66,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">Nginx 学习</h1>
+      <h1 class="entry-title">Archlinux安装deb文件</h1>
     
     
       <p class="meta">
@@ -82,31 +84,25 @@
   
 
 
-<time datetime="2014-09-18T17:20:38+00:00" pubdate data-updated="true">Sep 18<sup>th</sup>, 2014</time>
+<time datetime="2014-12-30T22:27:12+08:00" pubdate data-updated="true">Dec 30<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h4>配置</h4>
+<div class="entry-content"><h2>以安装ue为例</h2>
 
-<p>配置文件：/etc/nginx/nginx.conf，将</p>
+<ol>
+<li>解压deb：ar -x uex_4.2.0.11_amd64.deb</li>
+<li>解压data：tar xzvf data.tar.gz</li>
+<li>cd usr/bin下运行uex发现缺少libpn12.so.0。</li>
+<li>编译libpng12.so.0。下载libpng-1.2.52.tar.gz解压后./configure &amp;&amp; make</li>
+<li>链接.libs/libpng12.so.0.52.0到/lib64下。</li>
+<li>也可以通过ldd uex检查一下动态库是否完整。我自己编译了libpng12后就可以运行了</li>
+<li>网上有人说删除自己用户目录下的.idm/uex/uex.conf就可以再试用30天，还没试过。</li>
+</ol>
 
-<pre><code>location /images/ {
-        root   /data;
-}
-</code></pre>
-
-<p>加入/etc/nginx/nginx.conf</p>
-
-<h4>启动</h4>
-
-<p>sudo systemctl start nginx</p>
-
-<h4>测试</h4>
-
-<p>将cap_jar.jpg复制到/data/images/目录下，运行wget <a href="http://localhost/images/cap_jar.jpg">http://localhost/images/cap_jar.jpg</a> 可将文件下载下来</p>
 </div>
 
 
@@ -129,7 +125,7 @@
   
 
 
-<time datetime="2014-09-18T17:20:38+00:00" pubdate data-updated="true">Sep 18<sup>th</sup>, 2014</time>
+<time datetime="2014-12-30T22:27:12+08:00" pubdate data-updated="true">Dec 30<sup>th</sup>, 2014</time>
       
 
 
@@ -144,10 +140,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/12/ndkxiang-guan/" title="Previous Post: ndk相关">&laquo; ndk相关</a>
+        <a class="basic-alignment left" href="/blog/2014/10/25/gdbshi-yong/" title="Previous Post: gdb使用">&laquo; gdb使用</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/" title="Next Post: NDK编译zlib和libpng">NDK编译zlib和libpng &raquo;</a>
       
     </p>
   </footer>
@@ -163,8 +157,9 @@
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
+<li class='category'><a href='/blog/categories/octave/'>octave (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (3)</a></li>
 
   </ul>
 </section><section>
@@ -172,23 +167,23 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/14/octaveru-men/">Octave入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
       </li>
     
   </ul>

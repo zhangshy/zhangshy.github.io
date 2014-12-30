@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: C - 张帅依的博客</title>
+  <title>Python网络编程 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="Category: c">
+  <meta name="description" content="获取url数据 url = "http://www.youku.com/"
+req = urllib.request.Request(url)
+req.add_header('User-agent', 'Mozilla/5.0')
+r = urllib.request.urlopen(req) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/categories/c">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/07/26/pythonwang-luo-bian-cheng">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -61,49 +64,100 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: C</h1>
+    
+      <h1 class="entry-title">Python网络编程</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-26T01:03:38+08:00" pubdate data-updated="true">Jul 26<sup>th</sup>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h3>获取url数据</h3>
 
-  
-  <h2>2014</h2>
+<pre><code>url = "http://www.youku.com/"
+req = urllib.request.Request(url)
+req.add_header('User-agent', 'Mozilla/5.0')
+r = urllib.request.urlopen(req)
+print(r.read().decode("UTF-8"))
+</code></pre>
 
-<article>
-  
-<h1><a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a></h1>
-<time datetime="2014-09-29T18:31:48+08:00" pubdate><span class='month'>Sep</span> <span class='day'>29</span> <span class='year'>2014</span></time>
+<h3>保存图片</h3>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c/'>c</a></span>
-</footer>
+<pre><code>urllib.request.urlretrieve(url, fileName);  #将url内容存入文件
+</code></pre>
 
+<h3>分析html</h3>
 
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2014/07/21/cyu-yan-xue-xi/">C语言学习</a></h1>
-<time datetime="2014-07-21T18:30:30+08:00" pubdate><span class='month'>Jul</span> <span class='day'>21</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c/'>c</a></span>
-</footer>
-
-
-</article>
-
+<p>使用html.parser.HTMLParser分析html</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">张帅依</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-26T01:03:38+08:00" pubdate data-updated="true">Jul 26<sup>th</sup>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/25/pythonxue-xi/" title="Previous Post: python学习">&laquo; python学习</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/07/28/wang-luo-zhua-bao-wireshark/" title="Next Post: 网络抓包wireshark">网络抓包wireshark &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
 </div>

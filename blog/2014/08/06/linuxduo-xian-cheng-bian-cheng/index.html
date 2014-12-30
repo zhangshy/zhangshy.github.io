@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>环形buffer - 张帅依的博客</title>
+  <title>Linux多线程编程 - 张帅依的博客</title>
   <meta name="author" content="张帅依">
 
   
-  <meta name="description" content="示例代码 定义 #define BUFFER_SIZE 0xF typedef struct { uint32_t wptr; ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1] uint32_t rptr; ///&lt; buffer读取位置，索引范围：[0 &hellip;">
+  <meta name="description" content="linux多线程编程 pthread_create void *test_thread(void *arg) { int *num = (int *)arg; //可以得到参数
+} pthread_t thread_id;
+int testNum=1;
+pthread_create(&amp; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer">
+  <link rel="canonical" href="http://zhangshy.github.io/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="张帅依的博客" type="application/atom+xml">
@@ -65,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">环形buffer</h1>
+      <h1 class="entry-title">Linux多线程编程</h1>
     
     
       <p class="meta">
@@ -81,58 +84,55 @@
   
 
 
-<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+<time datetime="2014-08-06T01:28:29+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
+<div class="entry-content"><p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
 
-<h3>定义</h3>
+<h3>pthread_create</h3>
 
-<pre><code>#define BUFFER_SIZE 0xF 
-typedef struct {
-    uint32_t wptr;   ///&lt; buffer存储位置，索引范围：[0:2*BUFFER_SIZE+1]
-    uint32_t rptr;   ///&lt; buffer读取位置，索引范围：[0:2*BUFFER_SIZE+1]
-    uint8_t buffer[BUFFER_SIZE+1];  ///&lt; buffer大小为BUFFER_SIZE+1
-}ring_buffer_t; 
+<pre><code>void *test_thread(void *arg) {
+    int *num = (int *)arg;  //可以得到参数
+}
+
+pthread_t thread_id;
+int testNum=1;
+pthread_create(&amp;thread_id, NULL, test_thread, (void *)&amp;testNum);
 </code></pre>
 
-<h3>使用</h3>
+<h3>pthread_detach与pthread_join</h3>
 
-<p>若BUFFER_SIZE=3，wptr和rptr的索引为[0:7]  <br/>
-1. wptr=rptr时buffer为空      <br/>
-2. wptr和rptr之间的差值为BUFFER_SIZE+1即4时buffer为满     <br/>
-3. wptr和rptr的范围通过pbuf->wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1 确定，BUFFER_SIZE的取值应该是N个2进制1？？</p>
+<p>调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞;这时可以在子线程中加入代码    <br/>
+pthread_detach(pthread_self())    <br/>
+或者父线程调用    <br/>
+pthread_detach(thread_id)（非阻塞，可立即返回）   <br/>
+这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源</p>
 
-<pre><code>__inline uint32_t ring_buffer_is_empty(ring_buffer_t *pbuf) {
-    return (pbuf-&gt;wptr==pbuf-&gt;rptr);
-}
+<h3>pthread_cond_wait</h3>
 
-__inline uint32_t ring_buffer_is_full(ring_buffer_t *pbuf) {
-    return ((pbuf-&gt;wptr^pbuf-&gt;rptr)==(BUFFER_SIZE+1));
-}
+<p><a href="http://baike.baidu.com/view/5725833.htm?fr=aladdin">pthread_cond_wait</a>   <br/>
+条件变量是利用线程间共享的全局变量进行同步的一种机制，主要包括两个动作：一个线程等待&#8221;条件变量的条件成立&#8221;而挂起；另一个线程使&#8221;条件成立&#8221;（给出条件成立信号）。为了防止竞争，条件变量的使用总是和一个互斥锁结合在一起。</p>
 
-__inline void ring_buffer_flush(ring_buffer_t *pbuf) {
-    pbuf-&gt;wptr = pbuf-&gt;rptr = 0;
-}
+<pre><code>pthread_mutex_t mutex;
+pthread_cond_t cond;
+pthread_mutex_init(&amp;mutex, NULL);
+pthread_cond_init(&amp;cond, NULL);
 
-void fill_ring_buffer(ring_buffer_t *pbuf, uint8_t data) {
-    pbuf-&gt;buffer[pbuf-&gt;wptr&amp;BUFFER_SIZE] = data;
-    pbuf-&gt;wptr++;
-    pbuf-&gt;wptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
-}
-
-uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
-    uint8_t data;
-    data = pbuf-&gt;buffer[pbuf-&gt;rptr&amp;BUFFER_SIZE];
-    pbuf-&gt;rptr++;
-    pbuf-&gt;rptr &amp;= (BUFFER_SIZE&lt;&lt;1)|0x1;
-
-    return data;
-}
+//等待
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_wait(&amp;cond, &amp;mutex);
+pthread_mutex_unlock(&amp;mutex)
+//激活
+pthread_mutex_lock(&amp;mutex);
+pthread_cond_signal(&amp;cond);
+pthread_mutex_unlock(&amp;mutex);
+//注销
+pthread_mutex_destroy(&amp;mutex);
+pthread_cond_destroy(&amp;cond);
 </code></pre>
 </div>
 
@@ -156,7 +156,7 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   
 
 
-<time datetime="2014-08-04T16:00:14+00:00" pubdate data-updated="true">Aug 4<sup>th</sup>, 2014</time>
+<time datetime="2014-08-06T01:28:29+08:00" pubdate data-updated="true">Aug 6<sup>th</sup>, 2014</time>
       
 
 <span class="categories">
@@ -177,10 +177,10 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/07/29/objdumpxue-xi/" title="Previous Post: objdump学习">&laquo; objdump学习</a>
+        <a class="basic-alignment left" href="/blog/2014/08/05/huan-xing-buffer/" title="Previous Post: 环形buffer">&laquo; 环形buffer</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/" title="Next Post: linux多线程编程">linux多线程编程 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/08/06/android-binderbian-xie/" title="Next Post: android binder编写">android binder编写 &raquo;</a>
       
     </p>
   </footer>
@@ -196,8 +196,9 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
     <li class='category'><a href='/blog/categories/android/'>android (6)</a></li>
 <li class='category'><a href='/blog/categories/c/'>c (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (5)</a></li>
+<li class='category'><a href='/blog/categories/octave/'>octave (1)</a></li>
 <li class='category'><a href='/blog/categories/python/'>python (3)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (3)</a></li>
 
   </ul>
 </section><section>
@@ -205,23 +206,23 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/">Archlinux安装deb文件</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/gdbshi-yong/">Gdb使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/14/octaveru-men/">Octave入门</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/">Linux测试常用命令</a>
       </li>
     
       <li class="post">
         <a href="/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/">C解析命令行参数getopt_long</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/">NDK编译zlib和libpng</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/18/nginx-xue-xi/">Nginx 学习</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/12/ndkxiang-guan/">Ndk相关</a>
       </li>
     
   </ul>

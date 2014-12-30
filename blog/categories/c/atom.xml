@@ -4,7 +4,7 @@
   <title><![CDATA[Category: C | 张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/blog/categories/c/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-10-13T18:55:26+00:00</updated>
+  <updated>2014-12-30T22:42:48+08:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[C解析命令行参数getopt_long]]></title>
     <link href="http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/"/>
-    <updated>2014-09-29T10:31:48+00:00</updated>
+    <updated>2014-09-29T18:31:48+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long</id>
     <content type="html"><![CDATA[<p>getopt_long支持长选项的命令行参数解析，<a href="https://github.com/zhangshy/Image/blob/master/src/image.cpp">我的例子</a></p>
 
@@ -32,7 +32,7 @@
   <entry>
     <title type="html"><![CDATA[C语言学习]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi/"/>
-    <updated>2014-07-21T10:30:30+00:00</updated>
+    <updated>2014-07-21T18:30:30+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi</id>
     <content type="html"><![CDATA[<h3>VA_ARGS</h3>
 

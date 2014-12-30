@@ -4,7 +4,7 @@
   <title><![CDATA[张帅依的博客]]></title>
   <link href="http://zhangshy.github.io/atom.xml" rel="self"/>
   <link href="http://zhangshy.github.io/"/>
-  <updated>2014-10-13T18:55:26+00:00</updated>
+  <updated>2014-12-30T22:42:48+08:00</updated>
   <id>http://zhangshy.github.io/</id>
   <author>
     <name><![CDATA[张帅依]]></name>
@@ -14,9 +14,117 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Archlinux安装deb文件]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/12/30/archlinuxan-zhuang-debwen-jian/"/>
+    <updated>2014-12-30T22:27:12+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/12/30/archlinuxan-zhuang-debwen-jian</id>
+    <content type="html"><![CDATA[<h2>以安装ue为例</h2>
+
+<ol>
+<li>解压deb：ar -x uex_4.2.0.11_amd64.deb</li>
+<li>解压data：tar xzvf data.tar.gz</li>
+<li>cd usr/bin下运行uex发现缺少libpn12.so.0。</li>
+<li>编译libpng12.so.0。下载libpng-1.2.52.tar.gz解压后./configure &amp;&amp; make</li>
+<li>链接.libs/libpng12.so.0.52.0到/lib64下。</li>
+<li>也可以通过ldd uex检查一下动态库是否完整。我自己编译了libpng12后就可以运行了</li>
+<li>网上有人说删除自己用户目录下的.idm/uex/uex.conf就可以再试用30天，还没试过。</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Gdb使用]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/10/25/gdbshi-yong/"/>
+    <updated>2014-10-25T19:33:56+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/10/25/gdbshi-yong</id>
+    <content type="html"><![CDATA[<h2>常用命令</h2>
+
+<ol>
+<li>r 运行程序</li>
+<li>c 当中断后继续运行</li>
+<li>n 单步运行（跳过函数）</li>
+<li>s 单步运行（进入函数）</li>
+<li>q 退出gdb</li>
+<li>l 显示代码
+
+<h2>断点</h2></li>
+<li>函数中设置断点：b XXX.c: n  在XXX.c的第n行设置断点</li>
+<li>条件断点： b XXX.c :n if cmd 当cmd为true时在XXX.c的第n行停
+
+<h2>打印</h2></li>
+<li>p XX 打印XX的值</li>
+<li>打印数组 p *a@len 打印数组a中的前len个数值</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octave入门]]></title>
+    <link href="http://zhangshy.github.io/blog/2014/10/14/octaveru-men/"/>
+    <updated>2014-10-14T03:05:03+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/10/14/octaveru-men</id>
+    <content type="html"><![CDATA[<p>archlinux系统安装octave：sudo pacman -S octave      <br/>
+命令结尾有&#8217;;&lsquo;不回显结果，没有则回显。</p>
+
+<h3>1 创建矩阵</h3>
+
+<p>输入A = [ 1, 1, 2; 3, 5, 8; 13, 21, 34 ]  <br/>
+    A =
+        1    1    2
+        3    5    8
+        13   21   34</p>
+
+<p>输入B = rand(3, 2)    <br/>
+    B =
+        0.19238   0.18948
+        0.31423   0.43650
+        0.26412   0.84209</p>
+
+<h3>2 运算</h3>
+
+<pre><code>2*A
+ans =
+    2    2    4
+    6   10   16
+    26   42   68
+A*B
+ans =
+    1.0349    2.3102
+    4.2613    9.4876
+    18.0799   40.2607
+A'*A
+ans =
+    179    289    468
+    289    467    756
+    468    756   1224
+</code></pre>
+
+<h3>3 解线性方程组</h3>
+
+<p>使用&#8217;\&lsquo;解线性方程组，Ax=b，x=A\b  <br/>
+    A = [ 2, 0; 0, 2 ];
+    b = [ 2; 1 ];
+    x = A \ b
+    x =
+        1.00000
+        0.50000</p>
+
+<h3>4 绘图</h3>
+
+<p>抛物线<br/>
+    x=-2;0.01;2;
+    y=x.*x;
+    plot(x,y)
+其中&#8217;.&lsquo;点乘指的是分别相乘。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Linux测试常用命令]]></title>
     <link href="http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling/"/>
-    <updated>2014-09-30T12:50:52+00:00</updated>
+    <updated>2014-09-30T20:50:52+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/09/30/linuxce-shi-chang-yong-ming-ling</id>
     <content type="html"><![CDATA[<h3>关内核打印</h3>
 
@@ -27,18 +135,30 @@
 
 <h3>查看cpu主频</h3>
 
-<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq</p>
+<p>cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor查看当前CPU管理策略      <br/>
+cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq当前CPU主频          <br/>
+通过echo命令可直接修改scaling_governor和scaling_max_freq。</p>
 
 <h3>查看进程内存使用</h3>
 
 <p>cat /proc/[pid]/status其中VmRSS一项就是内存使用情况</p>
+
+<h3>ip命令</h3>
+
+<pre><code>ip addr 查看ip地址
+ip link show 查看设备硬件信息
+ip link set wlp3s0 down 关闭wlp3s0设备
+ip route show 查看路由信息      
+ip address add 172.18.88.82/16 dev eth0 添加ip      
+ip address del 172.18.88.82/16 dev eth0 删除ip
+</code></pre>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[C解析命令行参数getopt_long]]></title>
     <link href="http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long/"/>
-    <updated>2014-09-29T10:31:48+00:00</updated>
+    <updated>2014-09-29T18:31:48+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/09/29/cjie-xi-ming-ling-xing-can-shu-getopt-long</id>
     <content type="html"><![CDATA[<p>getopt_long支持长选项的命令行参数解析，<a href="https://github.com/zhangshy/Image/blob/master/src/image.cpp">我的例子</a></p>
 
@@ -53,9 +173,9 @@
   
   <entry>
     <title type="html"><![CDATA[NDK编译zlib和libpng]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/09/26/ndkbian-yi-zlibhe-libpng/"/>
-    <updated>2014-09-26T16:01:23+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/09/26/ndkbian-yi-zlibhe-libpng</id>
+    <link href="http://zhangshy.github.io/blog/2014/09/27/ndkbian-yi-zlibhe-libpng/"/>
+    <updated>2014-09-27T00:01:23+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/09/27/ndkbian-yi-zlibhe-libpng</id>
     <content type="html"><![CDATA[<p>下载zlib-1.2.8.tar.xz和libpng-1.6.13.tar.xz，解压tar -xJvf xx.tar.xz</p>
 
 <h3>编译zlib</h3>
@@ -138,9 +258,9 @@ include $(BUILD_SHARED_LIBRARY)
   
   <entry>
     <title type="html"><![CDATA[Nginx 学习]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/09/18/nginx-xue-xi/"/>
-    <updated>2014-09-18T17:20:38+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/09/18/nginx-xue-xi</id>
+    <link href="http://zhangshy.github.io/blog/2014/09/19/nginx-xue-xi/"/>
+    <updated>2014-09-19T01:20:38+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/09/19/nginx-xue-xi</id>
     <content type="html"><![CDATA[<h4>配置</h4>
 
 <p>配置文件：/etc/nginx/nginx.conf，将</p>
@@ -165,7 +285,7 @@ include $(BUILD_SHARED_LIBRARY)
   <entry>
     <title type="html"><![CDATA[Ndk相关]]></title>
     <link href="http://zhangshy.github.io/blog/2014/09/12/ndkxiang-guan/"/>
-    <updated>2014-09-12T15:52:50+00:00</updated>
+    <updated>2014-09-12T23:52:50+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/09/12/ndkxiang-guan</id>
     <content type="html"><![CDATA[<h3>头文件</h3>
 
@@ -192,9 +312,9 @@ include $(BUILD_SHARED_LIBRARY)
   
   <entry>
     <title type="html"><![CDATA[Python Ctypes使用c库]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku/"/>
-    <updated>2014-08-13T17:15:28+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/08/13/python-ctypesshi-yong-cku</id>
+    <link href="http://zhangshy.github.io/blog/2014/08/14/python-ctypesshi-yong-cku/"/>
+    <updated>2014-08-14T01:15:28+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/14/python-ctypesshi-yong-cku</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/python/cvsave2Png.py">我的例子</a></p>
 
 <h3>调用c++</h3>
@@ -220,7 +340,7 @@ rpng.savejar2png(c_char_p(b"testEn.jar"), c_char_p(b"test.png"), c_char_p(b"cvou
   <entry>
     <title type="html"><![CDATA[加密模式和填充方式]]></title>
     <link href="http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi/"/>
-    <updated>2014-08-09T14:30:00+00:00</updated>
+    <updated>2014-08-09T22:30:00+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/08/09/jia-mi-mo-shi-he-tian-chong-fang-shi</id>
     <content type="html"><![CDATA[<h3>模式介绍</h3>
 
@@ -264,7 +384,7 @@ AES/PCBC/ISO10126Padding       32                         16
   <entry>
     <title type="html"><![CDATA[DexClassLoader动态加载]]></title>
     <link href="http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai/"/>
-    <updated>2014-08-08T11:40:07+00:00</updated>
+    <updated>2014-08-08T19:40:07+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/08/08/dexclassloaderdong-tai-jia-zai</id>
     <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/over140/archive/2011/11/23/2259367.html">Android动态加载jar/dex</a>      <br/>
 <a href="http://blog.csdn.net/jiangwei0910410003/article/details/17679823">Android中的动态加载机制</a>   <br/>
@@ -309,7 +429,7 @@ public class Dextest implements IDextest{
   <entry>
     <title type="html"><![CDATA[Android Binder编写]]></title>
     <link href="http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie/"/>
-    <updated>2014-08-06T11:35:45+00:00</updated>
+    <updated>2014-08-06T19:35:45+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/08/06/android-binderbian-xie</id>
     <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/innost/archive/2011/01/09/1931456.html">Android深入浅出之Binder机制</a>  <br/>
 <a href="https://github.com/zhangshy/myTest/tree/master/binder">我的例子</a></p>
@@ -321,9 +441,9 @@ public class Dextest implements IDextest{
   
   <entry>
     <title type="html"><![CDATA[Linux多线程编程]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng/"/>
-    <updated>2014-08-05T17:28:29+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/08/05/linuxduo-xian-cheng-bian-cheng</id>
+    <link href="http://zhangshy.github.io/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng/"/>
+    <updated>2014-08-06T01:28:29+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/06/linuxduo-xian-cheng-bian-cheng</id>
     <content type="html"><![CDATA[<p><a href="http://www.cnblogs.com/BiffoLee/archive/2011/11/18/2254540.html">linux多线程编程</a></p>
 
 <h3>pthread_create</h3>
@@ -372,9 +492,9 @@ pthread_cond_destroy(&amp;cond);
   
   <entry>
     <title type="html"><![CDATA[环形buffer]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer/"/>
-    <updated>2014-08-04T16:00:14+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/08/04/huan-xing-buffer</id>
+    <link href="http://zhangshy.github.io/blog/2014/08/05/huan-xing-buffer/"/>
+    <updated>2014-08-05T00:00:14+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/08/05/huan-xing-buffer</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/zhangshy/myTest/blob/master/ringBuffer/ringBuffer.c">示例代码</a></p>
 
 <h3>定义</h3>
@@ -427,7 +547,7 @@ uint8_t dump_ring_buffer(ring_buffer_t *pbuf) {
   <entry>
     <title type="html"><![CDATA[Objdump学习]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/29/objdumpxue-xi/"/>
-    <updated>2014-07-29T09:36:08+00:00</updated>
+    <updated>2014-07-29T17:36:08+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/29/objdumpxue-xi</id>
     <content type="html"><![CDATA[<h2>1. 简单程序hello world</h2>
 
@@ -600,7 +720,7 @@ R1←[R0] R2←[R0＋4]</p>
   <entry>
     <title type="html"><![CDATA[网络抓包wireshark]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/28/wang-luo-zhua-bao-wireshark/"/>
-    <updated>2014-07-28T10:33:35+00:00</updated>
+    <updated>2014-07-28T18:33:35+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/28/wang-luo-zhua-bao-wireshark</id>
     <content type="html"><![CDATA[<h2>抓取youku</h2>
 
@@ -628,9 +748,9 @@ R1←[R0] R2←[R0＋4]</p>
   
   <entry>
     <title type="html"><![CDATA[Python网络编程]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/25/pythonwang-luo-bian-cheng/"/>
-    <updated>2014-07-25T17:03:38+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/25/pythonwang-luo-bian-cheng</id>
+    <link href="http://zhangshy.github.io/blog/2014/07/26/pythonwang-luo-bian-cheng/"/>
+    <updated>2014-07-26T01:03:38+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/26/pythonwang-luo-bian-cheng</id>
     <content type="html"><![CDATA[<h3>获取url数据</h3>
 
 <pre><code>url = "http://www.youku.com/"
@@ -653,9 +773,9 @@ print(r.read().decode("UTF-8"))
   
   <entry>
     <title type="html"><![CDATA[Python学习]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi/"/>
-    <updated>2014-07-24T16:15:52+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/24/pythonxue-xi</id>
+    <link href="http://zhangshy.github.io/blog/2014/07/25/pythonxue-xi/"/>
+    <updated>2014-07-25T00:15:52+08:00</updated>
+    <id>http://zhangshy.github.io/blog/2014/07/25/pythonxue-xi</id>
     <content type="html"><![CDATA[<h3>print</h3>
 
 <p>格式化输出，可以结合format格式化输出，end=&ldquo; &rdquo; 参数可以改变单次print的结束</p>
@@ -747,7 +867,7 @@ print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
   <entry>
     <title type="html"><![CDATA[Ts流]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/22/tsliu/"/>
-    <updated>2014-07-22T09:08:51+00:00</updated>
+    <updated>2014-07-22T17:08:51+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/22/tsliu</id>
     <content type="html"><![CDATA[<p><a href="http://blog.csdn.net/liuhongxiangm/article/details/8981032">TS详解</a></p>
 
@@ -812,7 +932,7 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
   <entry>
     <title type="html"><![CDATA[Git使用]]></title>
     <link href="http://zhangshy.github.io/blog/2014/07/21/gitshi-yong/"/>
-    <updated>2014-07-21T11:48:05+00:00</updated>
+    <updated>2014-07-21T19:48:05+08:00</updated>
     <id>http://zhangshy.github.io/blog/2014/07/21/gitshi-yong</id>
     <content type="html"><![CDATA[<h3>在git status时显示与origin/master的比较</h3>
 
@@ -820,245 +940,6 @@ NIT表PID：0x10,Table ID：0x40、0x41，描述了各个频点、符号率和�
 
 <pre><code>git branch --set-upstream master  origin/master
 </code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[C语言学习]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi/"/>
-    <updated>2014-07-21T10:30:30+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/21/cyu-yan-xue-xi</id>
-    <content type="html"><![CDATA[<h3>VA_ARGS</h3>
-
-<p>可变参数宏，如果可变参数被忽略或为空, ‘##’操作将使预处理器(preprocessor)去除掉它 前面的那个逗号</p>
-
-<pre><code>#define dePrintf(X,...) printf("[%s %s: %d]" X, __FILE__, __func__, __LINE__, ##__VA_ARGS__)
-</code></pre>
-
-<h3>cpp引用c函数库</h3>
-
-<pre><code>#ifdef __cplusplus
-extern "C"{
-#endif
-/* c++引用C，将#include "x264.h"放到extern "C" 中 */
-#include "x264.h"
-#ifdef __cplusplus
-}
-#endif
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Android Jni编写]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/14/android-jnibian-xie/"/>
-    <updated>2014-07-14T11:26:26+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/14/android-jnibian-xie</id>
-    <content type="html"><![CDATA[<h3>java文件编写</h3>
-
-<pre><code>package com.example.jni
-
-public class Testjni {
-    public native int jniRead(byte[] data, int len);
-    public native int jniWrite(byte[] data, int len);
-    static {
-        System.loadLibrary("myJni");
-    }
-}
-</code></pre>
-
-<h3>jni文件编写</h3>
-
-<p>jni文件的函数名要和java中的方法名对应起来，在jni中申请的空间要注意释放。</p>
-
-<pre><code>#include &lt;jni.h&gt;
-#include &lt;android/log.h&gt;
-
-#define LOG_TAG "myJni.c"
-#define LOGI(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA__ARGS__)
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA__ARGS__)
-
-jint Java_com_example_jni_jniRead(JNIEnv *env, jobject thiz,
-    jbyteArray receiveBuf, jint slen) {
-    uint8_t p_recv_buf[256] = {0};
-    int len = slen;
-    len = read(fd, p_recv_buf, slen);
-    LOGI("rea len:%d\n", len);
-    (*env)-&gt;setByteArrayRegion(env, receiveBuf, 0, len,
-        (const jbyte*)p_recv_buf);
-    return len;
-}
-
-jint Java_com_example_jni_jniWrite(JNIEnv *env, jobject thiz,
-    jbyteArray sendBuf, jint len) {
-    //申请空间
-    jbyte *sendelems = (*env)-&gt;GetByteArrayElements(env, sendBuf, NULL);
-    ...//处理函数
-    //释放
-    (*env)-&gt;ReleaseByteArrayElements(env, sendBuf, sendelems, 0);
-    return 0;
-}
-</code></pre>
-
-<h3>Android.mk</h3>
-
-<pre><code>LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS)
-
-LOCAL_MODULE_TAGS := optional
-LOCAL_SRC_FILES:= \
-    myJni.c
-LOCAL_LDLIBS := -llog
-
-LOCAL_SHARED_LIBRARIES += libam_adp liblog libcutils
-LOCAL_C_INCLUDES += ../inc
-#编译生成libmyJni.so
-LOCAL_MODULE := libmyJni
-#编译动态库
-include $(BUILD_SHARED_LIBRARY)
-</code></pre>
-
-<p>执行mm编译。（菜鸟级别解释：:=是赋值的意思，+=是追加的意思，$是引用某变量的值）补充说明：BUILD_EXECUTABLE表示以一个可执行程序的方式进行编译，include $(BUILD_PACKAGE)则是编译出一个apk，include $(BUILD_STATIC_JAVA_LIBRARY)则是编译出jar包。</p>
-
-<h4>LOCAL_MODULE_TAGS说明</h4>
-
-<p>LOCAL_MODULE_TAGS ：=user eng tests optional  <br/>
-user: 指该模块只在user版本下才编译    <br/>
-eng: 指该模块只在eng版本下才编译      <br/>
-tests: 指该模块只在tests版本下才编译      <br/>
-optional:指该模块在所有版本下都编译   <br/>
-我一般都使用optional</p>
-
-<h2>我的例子</h2>
-
-<h3>javah生成h文件</h3>
-
-<p>在src目录下执行javah -jni com.example.jni.Getso后生成com_example_jni_Getso.h</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Linux驱动]]></title>
-    <link href="http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong/"/>
-    <updated>2014-07-09T16:08:06+00:00</updated>
-    <id>http://zhangshy.github.io/blog/2014/07/09/linuxqu-dong</id>
-    <content type="html"><![CDATA[<h3>交叉编译</h3>
-
-<p>编译ko文件</p>
-
-<pre><code>Makefile:
-PWD=$(shell pwd)
-KDIR=/xx/xx/linux-3.4
-
-obj-m+=scr.o
-scr-objs := file1.o file2.o test-scr.o
-
-build:
-    $(MAKE) -C $(KDIR) M=$(PWD)
-
-clean:
-    @rm -rf *.o *.ko *.cmd *.mod.c *.order *.symvers *.tmp_versions *~
-</code></pre>
-
-<p>执行编译：</p>
-
-<pre><code>make ARCH=arm CROSS_COMPILE=/xx/xx/arm-linux-gnueabi-
-</code></pre>
-
-<h3>创建设备</h3>
-
-<p>class_create和device_create函数，在/dev下创建设备节点</p>
-
-<pre><code>int my_device_major = register_chrdev(0, "myDevice", &amp;my_device_fops);
-struct class* my_device_class = class_create(THIS_MODULE, "myDevice");
-//在/sys/class下创建了myDevice目录
-if (IS_ERR(my_device_class))
-    return -1;
-device_create(my_device_class, NULL, MKDEV(my_device_major, 0), NULL, "myDevice");
-//在/dev下创建myDevice设备
-</code></pre>
-
-<h3>自旋锁spinlock_t</h3>
-
-<p>spin_lock_irqsave会关闭中断</p>
-
-<pre><code>spinlock_t rx_slock;
-spin_lock_init(&amp;rx_slock);  //初始化
-/* 使用 */
-unsigned long flags;
-spin_lock_irqsave(&amp;rx_slock, flags);
-...
-//处理
-...
-spin_unlock_irqrestpre(&amp;rx_slock, flags);
-</code></pre>
-
-<h3>poll</h3>
-
-<h4>驱动poll_wait</h4>
-
-<pre><code>wait_queue_head_t rd_wq;
-init_waitqueue_head(&amp;rd_wq);
-
-unsigned int test_poll(struct file *filp, struct poll_table_struct *wait){
-    unsigned int ret = 0;
-    poll_wait(filp, &amp;rd_wq, wait);
-    ...//处理
-    if (hasData) ret |= POLLIN|POLLRDNORM;
-    return ret;
-}
-
-当收到数后：wake_up_interruptible(&amp;rd_wq);
-</code></pre>
-
-<h4>应用poll</h4>
-
-<pre><code>int fd = open("/dev/xxx", O_RDWR);
-uint32_t timeout = xxxxx;
-struct pollfd pfd;
-pfd.fd = fd;
-pfd.events = POLLIN;
-ret = poll(&amp;pfd, 1, timeout);
-if (ret!=1)
-    return -1;
-ret = read(fd, (void*)data, *size);
-</code></pre>
-
-<h3>workqueue工作队列在中断中使用</h3>
-
-<p>使用：在有大量的中断处理中，需要紧急处理的中断直接在中断处理函数中进行，可以延迟处理的中断放到了workqueue中做，（不知这样对不对，我看网上还有一种tasklet）。workqueue的使用：</p>
-
-<pre><code>struct work_struct device_work;
-struct workqueue_struct *device_wq;
-
-void device_work_func(struct work_struct *work) {
-    ...//处理中断的函数
-}
-//中断回调函数
-irqreturn_t device_irq_service(int irqno, void *dev_id) {
-    unsigned int temp;
-    unsinged long flags;
-    //加锁
-    spin_lock_irqsave(&amp;rx_slock, flags);
-    temp = my_get_device_interrupt_status();//一般都可以从寄存器中读到中断状态
-    if (temp&amp;MY_DEVICE_IMMEDIATE) { //需要立即处理的紧急中断
-        ...//中断处理
-    } else {
-        queue_work(device_wq, &amp;device_work);
-    }
-    spin_unlock_irqrestpre(&amp;rx_slock, flags);
-}
-
-//初始化
-device_wq = create_singlethread_workqueue("device_wq");//只创建一个内核线程
-INIT_WORK(&amp;device_work, device_work_func);
-request_irq(my_irq_no, device_irq_service, 0, "my_device", NULL);//注册中断服务
-</code></pre>
-
-<p>补充：
-1. 中断处理中尽量不要加打印;
-2. 在硬中断处理函数device_irq_service中不能使用mutex_lock，如果必须加锁可使用自旋锁spinlock_t; 在软中断
-函数device_work_func中可以加mutex_lock</p>
 ]]></content>
   </entry>
   
